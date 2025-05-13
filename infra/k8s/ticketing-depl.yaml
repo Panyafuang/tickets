@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ticketing-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ticketing
+  template:
+    metadata:
+      labels:
+        app: ticketing
+    spec:
+      containers:
+        - name: ticketing
+          image: thanadilok/ticketing
+          env:
+            - name: MONGO_URI
+              value: 'mongodb://ticketing-mongo-srv:27017/ticketing'
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ticketing-srv
+spec:
+  selector:
+    app: ticketing
+  ports:
+    - name: ticketing
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

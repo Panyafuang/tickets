@@ -1,0 +1,37 @@
+apiVersion: skaffold/v4beta3
+kind: Config
+manifests:
+  rawYaml:
+    - ./infra/k8s/*
+build:
+  local:
+    push: false # เพราะใช้กับ local cluster เช่น minikube หรือ docker desktop
+  artifacts:
+    - image: thanadilok/auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: thanadilok/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+        - src: 'src/**/*.ts'
+          dest: .
+        - src: 'src/**/*.html'
+          dest: .
+        - src: 'src/**/*.css'
+          dest: .
+    - image: thanadilok/ticketing
+      context: ticketing
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .

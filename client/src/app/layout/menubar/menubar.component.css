@@ -1,0 +1,19 @@
+.logo-container {
+  grid-area: logo-container;
+}
+.user-info {
+  grid-area: user-info;
+}
+.auth-btn {
+  grid-area: auth-btn;
+  display: flex;
+  justify-content: space-between;
+}
+
+.toolbar {
+  display: grid;
+  grid-column-gap: 1rem;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: "logo-container . .  user-info auth-btn";
+}

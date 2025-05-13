@@ -1,0 +1,33 @@
+<mat-toolbar class="toolbar">
+  <div class="logo-container">
+    <button
+      mat-icon-button
+      class="logo"
+      aria-label="Example icon-button with menu icon"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Tickets</span>
+  </div>
+  <button
+    *ngIf="currUser"
+    mat-icon-button
+    class="user-info favorite-icon"
+    aria-label="Example icon-button with heart icon"
+  >
+    <mat-icon>favorite</mat-icon>
+    <span>{{ currUser.email }}</span>
+  </button>
+  <div class="auth-btn">
+    <button *ngIf="currUser" mat-flat-button [routerLink]="['auth', 'signout']">
+      <span>{{ "sign out" | titlecase }}</span>
+    </button>
+    <button mat-flat-button *ngIf="!currUser" [routerLink]="['auth', 'signup']">
+      <span>{{ "sign up" | titlecase }}</span>
+    </button>
+    <button mat-flat-button *ngIf="!currUser" [routerLink]="['auth', 'signin']">
+      <span>{{ "sign in" | titlecase }}</span>
+    </button>
+  </div>
+</mat-toolbar>
+<router-outlet></router-outlet>

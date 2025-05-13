@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"           # ใช้ regex กับ path ได้
+spec:
+  ingressClassName: nginx                                   # ชี้ให้ใช้ ingress controller ที่ชื่อ nginx
+  rules:
+    - host: localhost                                       # host ที่ Ingress จะรับ traffic เข้า
+      http:
+        paths:
+          - path: /api/users/?(.*)                          # เส้นทาง API
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: auth-srv
+                port:
+                  number: 3000
+          - path: /api/tickets/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: ticketing-srv
+                port:
+                  number: 3000
+          - path: /                                         # เส้นทางหลักที่ไว้ให้ frontend
+            pathType: Prefix                                # ใช้ Prefix เพื่อรองรับทุก path ต่อท้าย
+            backend:
+              service:
+                name: client-srv
+                port:
+                  number: 80
