@@ -1,6 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express';
-import 'express-async-errors';
-import { json } from "body-parser";
+import 'express-async-errors'; // express-async-errors: ช่วยจัดการ error ใน async functions โดยไม่ต้องใช้ try/catch ทุกครั้ง
 import bodyParser from 'body-parser';
 import cookieSession from "cookie-session"; // handling all of our cookie related stuff.
 import cors from 'cors';
@@ -12,10 +11,35 @@ import { signupRouter } from "./routes/signup";
 import { errorHandler, NotFoundError } from "@xtptickets/common";
 
 const app = express();
+/**
+ * บอก Express ให้ "เชื่อ" ค่า IP ที่มาจาก reverse proxy (เช่น Heroku, nginx) (เช่นเมื่อ deploy บน Heroku, AWS)
+ * ถ้า ไม่ตั้ง trust proxy, Express จะ:
+ *  - ไม่รู้ว่า user ใช้ https หรือไม่ (มีผลกับ secure cookies)
+ *  - ไม่เห็น IP จริงของ user (req.ip จะเป็น IP ของ Ingress)
+ *  - อาจทำให้ cookieSession({ secure: true }) ไม่ทำงาน → cookie ไม่ set
+ */
 app.set('trust proxy', true);
-app.use(json());
-// app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+
+
+/** 
+ * ใช้ในลักษณะ Content-Type	application/json
+ * การใช้ bodyParser.json() ก็มีหลักการเดียวกัน (ควรใช้ express.json() แทนในเวอร์ชันใหม่) 
+ * */
+app.use(bodyParser.json());
+
+
+/**
+ * ใช้ในลักษณะ Content-Type	application/x-www-form-urlencoded
+ */
+// วิธีแนะนำ (Express 4.16+)
+// app.use(express.urlencoded({ extended: false }));
+
+// วิธีแบบเก่า (แต่ยังใช้ได้)
+// app.use(bodyParser.urlencoded({ extended: false }));
+
+
+
+
 
 // ─── Set CORS origin ─────────────────────────────────────────────────────────
 // app.use((req: Request, res: Response, next: NextFunction) => {
@@ -33,16 +57,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // });
 app.use(cors());
 
+
+/**
+ * ใช้ JWT (JSON Web Token) แทนการเก็บ session แบบดั้งเดิม
+ * - JWT เก็บใน cookie
+ * - ไม่ต้องใช้ signed: true เพราะ JWT มีการเซ็นอยู่แล้ว (jsonwebtoken.verify(...))
+ * - เป็นแนวทางที่ปลอดภัยและง่ายในการจัดการการเข้าสู่ระบบ (stateless authentication)
+ */
 app.use(cookieSession({
   /**
-   *  signed: false: หมายถึงไม่มีการเซ็นชื่อ (sign) cookie
-      ถ้าเป็น true จะใช้ secret key เพื่อเซ็นชื่อ cookie และป้องกันการแก้ไข
-      ที่ตั้งเป็น false แสดงว่าไม่จำเป็นต้องตรวจสอบความถูกต้องของ cookie
-
-      ที่ตั้งค่า signed: false เพราะใช้  jwt(jsonwebtoken) ซึ่งมีความปลอดภัยระดับหนึ่ง หากมีการแก้ไข้จะตรวจสอบได้
+   *  signed: false: หมายถึงไม่มีการเซ็นชื่อ (sign) cookie ถ้าเป็น true จะใช้ secret key เพื่อเซ็นชื่อ cookie และป้องกันการแก้ไข
+      ที่ตั้งเป็น false แสดงว่าไม่จำเป็นต้องตรวจสอบความถูกต้องของ cookie เพราะใช้ jwt(jsonwebtoken) ซึ่งมีความปลอดภัยระดับหนึ่ง หากมีการแก้ไข้จะตรวจสอบได้
    */
   signed: false,
-  secure: true // Do not try to manage any cookie if the user is connecting over an HTTP, จะทำให้ cookie ไม่ทำงานใน environment ที่ใช้ HTTP ดังนั้นใน development อาจต้องตั้งค่าเป็น false ชั่วคราว
+  secure: true // กำหนดให้ส่ง cookie ผ่าน HTTPS เท่านั้น (ใน development อาจต้องตั้งเป็น false ชั่วคราว) หมายความว่าใน development (localhost) จะ ไม่เห็น cookie ทำงานเลยถ้าใช้ HTTP ต้องตั้งเป็น false ชั่วคราวตอน dev
 }));
 
 app.use(currentUserRouter);
