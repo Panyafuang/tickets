@@ -10,6 +10,11 @@ const stan = nats.connect("ticketing", randomBytes(4).toString("hex"), {
 stan.on("connect", () => {
   console.log("Listener connected to NATS");
 
+  stan.on('close', () => {
+    console.log('Listener connected to NATS');
+    process.exit();
+  });
+
   /** Setting options */
   const options = stan.subscriptionOptions().setManualAckMode(true);
   /**
@@ -40,3 +45,10 @@ stan.on("connect", () => {
     msg.ack();
   });
 });
+
+
+/**
+ * Handlers to watch for any signle time that someone tries to close down this process. เช่น ctr+C หรือรัน rs
+ */
+process.on('SIGINT', () => stan.close());
+process.on('SIGTERM', () => stan.close());
