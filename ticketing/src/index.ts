@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { natsWrapper } from "./nats-wrapper"; // ที่ใช้ natsWrapper แบบ lowerCase เพราะว่าเรา import instance ไม่ใช่ class
 import { app } from './app';
 
 
@@ -12,8 +13,13 @@ const start = async () => {
     throw new Error('MONGO_URI must be definded');
   }
 
-  /** Connecting to MongoDB */
+
   try {
+    await natsWrapper.connect('ticketing', 'asdf', 'http://nats-srv:4222');
+    /**
+     * Connecting to MongoDB
+     * Mongoose internally keeps track of this connection and everything related to it.
+     */
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Connected to mongoDB');
   } catch (error) {
