@@ -28,6 +28,9 @@ router.post(
     });
     await ticket.save();
 
+    /**
+     * natsWrapper.client พาสไปยัง constructor ใน base คลาส Publisher ที่อยู่ใน @xtptickets/common 
+     */
     await new TicketCreatedPublisher(natsWrapper.client).publish({
       id: ticket.id,
       title: ticket.title,
