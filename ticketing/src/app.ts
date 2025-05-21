@@ -1,7 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
 import { json } from "body-parser";
-import bodyParser from 'body-parser';
 import cookieSession from "cookie-session"; // handling all of our cookie related stuff.
 import cors from 'cors';
 import { NotFoundError, currentUser, errorHandler } from '@xtptickets/common';
@@ -12,7 +11,7 @@ import { updateTicketRouter } from './routes/update';
 
 const app = express();
 app.set('trust proxy', true);
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(json());
 
 // ─── Set CORS origin ─────────────────────────────────────────────────────────
 // app.use((req: Request, res: Response, next: NextFunction) => {

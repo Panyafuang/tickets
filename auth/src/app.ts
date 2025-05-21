@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors'; // express-async-errors: ช่วยจัดการ error ใน async functions โดยไม่ต้องใช้ try/catch ทุกครั้ง
-import bodyParser from 'body-parser';
+import { json } from 'body-parser';
 import cookieSession from "cookie-session"; // handling all of our cookie related stuff.
 import cors from 'cors';
 
@@ -23,13 +23,13 @@ app.set('trust proxy', true);
 
 /** 
  * ใช้ในลักษณะ Content-Type	application/json
- * การใช้ bodyParser.json() ก็มีหลักการเดียวกัน (ควรใช้ express.json() แทนในเวอร์ชันใหม่) 
+ * การใช้ bodyParser.json() ก็มีหลักการเดียวกัน (ควรใช้ express.json() แทนในเวอร์ชันใหม่)
  * */
-app.use(bodyParser.json());
+app.use(json());
 
 
 /**
- * ใช้ในลักษณะ Content-Type	application/x-www-form-urlencoded
+ * ใช้ในลักษณะ Content-Type	application/x-www-form-urlencoded ใช้สำหรับ รับข้อมูลจากฟอร์ม HTML ที่ส่งแบบ application/x-www-form-urlencoded (ซึ่งเป็น default ของฟอร์ม <form> ปกติ)
  */
 // วิธีแนะนำ (Express 4.16+)
 // app.use(express.urlencoded({ extended: false }));

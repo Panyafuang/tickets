@@ -19,6 +19,13 @@ const start = async () => {
      * 'http://nats-srv:4222' → URL ของ NATS server: บอกว่าจะเชื่อมต่อกับ NATS server ที่รันอยู่ที่ nats-srv บน port 4222
      */
     await natsWrapper.connect("ticketing", "asdf", "http://nats-srv:4222");
+    natsWrapper.client.on('close', () => {
+      console.log('NATS connection closed!');
+      process.exit();
+    });
+    process.on('SIGINT', () => natsWrapper.client.close());
+    process.on('SIGTERM', () => natsWrapper.client.close());
+
     /**
      * Connecting to MongoDB
      * Mongoose internally keeps track of this connection and everything related to it.
