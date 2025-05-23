@@ -71,8 +71,8 @@ userSchema.statics.build = (attrs: IUserAttrs) => {
 }
 
 /**
-The UserDoc represents the type that is returned when using the model to create a single document or instance (e.g. when calling User.build).
-UserModel represents the type of the entire collection, or Model, that is returned when calling mongoose.model('User', userSchema).
+IUserDoc = represents the type that is returned when using the model to create a single document or instance (e.g. when calling User.build).
+IUserModel = represents the type of the entire collection, or Model, that is returned when calling mongoose.model('User', userSchema).
  */
 const User = mongoose.model<IUserDoc, IUserModel>('User', userSchema);
 
