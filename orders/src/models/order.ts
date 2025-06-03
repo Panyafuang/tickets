@@ -1,17 +1,20 @@
 import mongoose from "mongoose";
+import { OrderStatus } from '@xtptickets/common';
+import { ITicketDoc } from "./ticket";
+export { OrderStatus }
 
 interface IOrderAttrs {
   userId: string;
-  status: string;
+  status: OrderStatus;
   expiresAt: Date;
-  ticket: TicketDoc;
+  ticket: ITicketDoc;
 }
 
 interface IOrderDoc extends mongoose.Document {
   userId: string;
-  status: string;
+  status: OrderStatus;
   expiresAt: Date;
-  ticket: TicketDoc;
+  ticket: ITicketDoc;
 }
 
 interface IOrderModel extends mongoose.Model<IOrderDoc> {
@@ -25,7 +28,9 @@ const orderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        required: true
+        required: true,
+        enum: Object.values(OrderStatus),
+        default: OrderStatus.Created
     },
     expiresAt: {
         type: mongoose.Schema.Types.Date
@@ -43,11 +48,9 @@ const orderSchema = new mongoose.Schema({
     }
 });
 
-
 orderSchema.statics.build = (attrs: IOrderAttrs) => {
     return new Order(attrs);
 }
 
 const Order = mongoose.model<IOrderDoc, IOrderModel>('Order', orderSchema);
-
 export { Order };
