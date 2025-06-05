@@ -4,6 +4,8 @@ import { body } from "express-validator";
 import mongoose from "mongoose";
 import { Ticket } from "../models/ticket";
 import { Order } from "../models/order";
+import { OrderCreatedPublisher } from "../events/publishers/order-created-publisher";
+import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
 /**
@@ -43,8 +45,6 @@ router.post(
       throw new BadRequestError('Ticket is already reserved');
     }
 
-
-
     /** 3. Calculate an expiration date for this order. 
      * expiration.getSeconds() ได้ "วินาที" ของเวลาปัจจุบัน (เช่น 12 ถ้าเป็น 14:01:12) 
      * แล้วบวกด้วย EXPIRATION_WINDOW_SECONDS (900 วินาที) 
@@ -54,8 +54,6 @@ router.post(
     */
     const expiration = new Date();
     expiration.setSeconds(expiration.getSeconds() + EXPIRATION_WINDOW_SECONDS);
-
-
 
     /** 4. Build the order and save to DB. */
     const order = Order.build({
@@ -67,9 +65,16 @@ router.post(
     await order.save();
 
     /** 5. Publish an event an order was created. (Back to common model, and create event)  */
-    
-    
-    
+    new OrderCreatedPublisher(natsWrapper.client).publish({
+      id: order.id,
+      status: order.status,
+      userId: order.userId,
+      expiresAt: order.expiresAt.toISOString(),
+      ticket: {
+        id: ticket.id,
+        price: ticket.price
+      }
+    });
     
     res.status(201).send(order);
   }
