@@ -1,12 +1,22 @@
 import { ITicketCreatedEvent, Listener, Subjects } from "@xtptickets/common";
 import { Message } from "node-nats-streaming";
+import { queueGroupName } from "./queue-group-name";
+import { Ticket } from "../../models/ticket";
 
 
 export class TicketCreatedLister extends Listener<ITicketCreatedEvent> {
     subject: Subjects.TicketCreated = Subjects.TicketCreated;
-    queueGroupName: string = 'orders-service';
+    queueGroupName: string = queueGroupName;
 
-    onMessage(data: ITicketCreatedEvent['data'], msg: Message): void {
-        
+    async onMessage(data: ITicketCreatedEvent['data'], msg: Message) {
+        const { id, title, price } = data;
+        const ticket = Ticket.build({
+            id,
+            title,
+            price
+        });
+        await ticket.save();
+
+        msg.ack();
     }
 }
