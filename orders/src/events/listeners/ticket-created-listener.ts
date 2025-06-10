@@ -4,7 +4,7 @@ import { queueGroupName } from "./queue-group-name";
 import { Ticket } from "../../models/ticket";
 
 
-export class TicketCreatedLister extends Listener<ITicketCreatedEvent> {
+export class TicketCreatedListener extends Listener<ITicketCreatedEvent> {
     subject: Subjects.TicketCreated = Subjects.TicketCreated;
     queueGroupName: string = queueGroupName;
 
