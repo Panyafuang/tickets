@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { Order, OrderStatus } from "./order";
-import { updateIfCurrentPlugin } from "mongoose-update-if-current";
+// import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 interface ITicketAttrs {
     id: string;
@@ -42,16 +42,30 @@ const ticketSchema = new mongoose.Schema({
     }
 });
 
-
+/** ให้ใช้ field version แทน _v (ค่า default) สำหรับการเก็บเวอร์ชันของ document */
 ticketSchema.set('versionKey', 'version');
-ticketSchema.plugin(updateIfCurrentPlugin);
+// ticketSchema.plugin(updateIfCurrentPlugin);
+
+/** แบบไม่ใช้ mongoose-update-if-current ช่วยจัดการ version */
+ticketSchema.pre('save', function(done) {
+    this.$where = {
+        version: this.get('version') - 1
+    }
+    done();
+});
 
 
 ticketSchema.statics.build = (attrs: ITicketAttrs) => {
     return new Ticket({
         _id: attrs.id,
         title: attrs.title,
-        price: attrs.price
+        price: attrs.price,
+    });
+}
+ticketSchema.statics.findByEvent = (event: {id: string, version: number}) => {
+    return Ticket.findOne({
+        _id: event.id,
+        version: event.version - 1
     });
 }
 
