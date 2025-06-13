@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { OrderStatus } from '@xtptickets/common';
 import { ITicketDoc } from "./ticket";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 export { OrderStatus }
 
 interface IOrderAttrs {
@@ -48,6 +49,9 @@ const orderSchema = new mongoose.Schema({
         }
     }
 });
+
+orderSchema.set('versionKey', 'version');
+orderSchema.plugin(updateIfCurrentPlugin);
 
 orderSchema.statics.build = (attrs: IOrderAttrs) => {
     return new Order(attrs);

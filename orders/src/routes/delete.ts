@@ -6,6 +6,7 @@ import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
 
+/** Cancell order */
 router.delete("/api/orders/:orderId", async (req: Request, res: Response) => {
   const order = await Order.findById(req.params.orderId).populate('ticket');
 

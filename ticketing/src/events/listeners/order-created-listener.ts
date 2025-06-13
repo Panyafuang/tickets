@@ -1,0 +1,33 @@
+import {
+  Listener,
+  IOrderCreatedEvent,
+  Subjects
+} from "@xtptickets/common";
+import { queueGroupName } from "./queue-group-name";
+import { Message } from "node-nats-streaming";
+import { Ticket } from "../../model/ticket";
+
+export class OrderCreatedListener extends Listener<IOrderCreatedEvent> {
+  subject: Subjects.OrderCreated = Subjects.OrderCreated;
+  queueGroupName = queueGroupName;
+
+  async onMessage(data: IOrderCreatedEvent["data"], msg: Message) {
+    // 1. Find the ticket that the order is reserving
+    const ticket = await Ticket.findById(data.ticket.id);
+
+    if (!ticket) {
+        throw new Error('Ticket not found');
+    }
+
+    // 2. Mark the ticket as begin reserved by setting its orderId property
+    ticket.set({
+        orderId: data.id // data.id คือ orderId ที่มาจาก order-srv
+    });
+    await ticket.save();
+
+
+    // 3. Publish an event, that is going to alow our different replicated service or services that have replicated data to stay in sync
+
+    msg.ack();
+  }
+}
