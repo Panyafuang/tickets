@@ -6,6 +6,7 @@ import {
 import { queueGroupName } from "./queue-group-name";
 import { Message } from "node-nats-streaming";
 import { Ticket } from "../../model/ticket";
+import { TicketUpdatedPublisher } from "../publishers/ticket-updated-publisher";
 
 export class OrderCreatedListener extends Listener<IOrderCreatedEvent> {
   subject: Subjects.OrderCreated = Subjects.OrderCreated;
@@ -25,8 +26,16 @@ export class OrderCreatedListener extends Listener<IOrderCreatedEvent> {
     });
     await ticket.save();
 
-
-    // 3. Publish an event, that is going to alow our different replicated service or services that have replicated data to stay in sync
+    // 3. Publish an event, that is going to alow our different replicated service or services that have replicated data to stay in sync.
+    // this คือ client property on OrderCreatedListener
+    await new TicketUpdatedPublisher(this.client).publish({
+      id: ticket.id,
+      price: ticket.price,
+      title: ticket.title,
+      userId: ticket.userId,
+      orderId: ticket.orderId,
+      version: ticket.version
+    });
 
     msg.ack();
   }
