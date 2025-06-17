@@ -13,7 +13,7 @@ build:
         dockerfile: Dockerfile
       sync:
         manual:
-          - src: 'src/**/*.ts'
+          - src: "src/**/*.ts"
             dest: .
     - image: thanadilok/client
       context: client
@@ -21,19 +21,19 @@ build:
         dockerfile: Dockerfile
       sync:
         manual:
-        - src: 'src/**/*.ts'
-          dest: .
-        - src: 'src/**/*.html'
-          dest: .
-        - src: 'src/**/*.css'
-          dest: .
+          - src: "src/**/*.ts"
+            dest: .
+          - src: "src/**/*.html"
+            dest: .
+          - src: "src/**/*.css"
+            dest: .
     - image: thanadilok/ticketing
       context: ticketing
       docker:
         dockerfile: Dockerfile
       sync:
         manual:
-          - src: 'src/**/*.ts'
+          - src: "src/**/*.ts"
             dest: .
     - image: thanadilok/orders
       context: orders
@@ -41,5 +41,13 @@ build:
         dockerfile: Dockerfile
       sync:
         manual:
-          - src: 'src/**/*.ts'
+          - src: "src/**/*.ts"
+            dest: .
+    - image: thanadilok/expiration
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
             dest: .

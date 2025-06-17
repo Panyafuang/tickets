@@ -22,7 +22,7 @@ export class OrderCreatedListener extends Listener<IOrderCreatedEvent> {
 
     // 2. Mark the ticket as begin reserved by setting its orderId property
     ticket.set({
-        orderId: data.id // data.id คือ orderId ที่มาจาก order-srv
+        orderId: data.id // data.id คือ orderId ที่มาจาก order-srv (order:created)
     });
     await ticket.save();
 
