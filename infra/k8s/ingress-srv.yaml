@@ -10,6 +10,13 @@ spec:
     - host: localhost                                       # host ที่ Ingress จะรับ traffic เข้า
       http:
         paths:
+          - path: /api/payments/?(.*)                          # เส้นทาง API
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: payments-srv
+                port:
+                  number: 3000
           - path: /api/users/?(.*)                          # เส้นทาง API
             pathType: ImplementationSpecific
             backend:

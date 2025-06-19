@@ -4,6 +4,7 @@ import { json } from "body-parser";
 import cookieSession from "cookie-session"; // handling all of our cookie related stuff.
 import cors from 'cors';
 import { NotFoundError, currentUser, errorHandler } from '@xtptickets/common';
+import { createChargeRouter } from './routes/new';
 
 const app = express();
 app.set('trust proxy', true);
@@ -38,7 +39,7 @@ app.use(cookieSession({
   secure: true // Do not try to manage any cookie if the user is connecting over an HTTP, จะทำให้ cookie ไม่ทำงานใน environment ที่ใช้ HTTP ดังนั้นใน development อาจต้องตั้งค่าเป็น false ชั่วคราว
 }));
 app.use(currentUser);
-
+app.use(createChargeRouter);
 // path: /api/users/?(.*)
 app.all('*', async (req, res) => {
   throw new NotFoundError()
