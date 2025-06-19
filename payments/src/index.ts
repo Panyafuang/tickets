@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import { natsWrapper } from "./nats-wrapper"; // ที่ใช้ natsWrapper แบบ lowerCase เพราะว่าเรา import instance ไม่ใช่ class
 import { app } from "./app";
+import { OrderCreatedLister } from "./events/listeners/order-created-listener";
+import { OrderCancelledListener } from "./events/listeners/order-cancelled-listener";
 
 const start = async () => {
   /** Check env JWT_KEY */
@@ -43,6 +45,8 @@ const start = async () => {
     /**
      * Listening for incomming Events
      */
+    new OrderCreatedLister(natsWrapper.client).listen();
+    new OrderCancelledListener(natsWrapper.client).listen();
 
     /**
      * Connecting to MongoDB
