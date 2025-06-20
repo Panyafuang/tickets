@@ -1,36 +1,46 @@
-import { BadRequestError, NotAuthorizedError, OrderStatus, requireAuth, validateRequest } from '@xtptickets/common';
+import {
+  BadRequestError,
+  NotAuthorizedError,
+  NotFoundError,
+  OrderStatus,
+  requireAuth,
+  validateRequest,
+} from "@xtptickets/common";
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
-import { Order } from '../models/order';
+import { Order } from "../models/order";
 
 const router = express.Router();
 
+router.post(
+  "/api/payments",
+  requireAuth,
+  [
+    body("token")
+    .not()
+    .isEmpty(), 
+    body("orderId")
+    .not()
+    .isEmpty()
+ ],
+  validateRequest,
+  async (req: Request, res: Response) => {
+    const { token, orderId } = req.body;
+    const order = await Order.findById(orderId);
 
-router.post('/api/payments',
-    requireAuth,
-    [
-        body('token').not().isEmpty(),
-        body('orderId').not().isEmpty()
-    ],
-    validateRequest,
-    async (req: Request, res: Response) => {
-        const { token, orderId } = req.body;
-        const order = await Order.findById(orderId);
-
-        if (!order) {
-            throw new Error('Order not found');
-        }
-        if (order.userId !== req.currentUser?.id) {
-            throw new NotAuthorizedError();
-        }
-        if (order.status === OrderStatus.Cancelled) {
-            throw new BadRequestError('Cannot pay for an cancelled order'); // order expired
-        }
-
-        
-
-        res.send({ success: true});
+    if (!order) {
+      throw new NotFoundError();
     }
+    // เช็คว่า order ที่จะชำระเงินเป็นของ user ที่ login อยู่ใช่ไหม
+    if (order.userId !== req.currentUser?.id) {
+      throw new NotAuthorizedError();
+    }
+    if (order.status === OrderStatus.Cancelled) {
+      throw new BadRequestError("Cannot pay for an cancelled order"); // order expired
+    }
+
+    res.send({ success: true });
+  }
 );
 
 export { router as createChargeRouter };
