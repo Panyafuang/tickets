@@ -15,6 +15,7 @@ import { OrderStatus } from "@xtptickets/common";
  * 
  */
 import { stripe } from "../../stripe";
+import { Payment } from "../../models/payment";
 // jest.mock('../../stripe'); // เป็นคำสั่งของ Jest ที่สั่งให้ "mock" โมดูล ../../stripe
 
 
@@ -102,7 +103,19 @@ it('returns a 201 with valid inputs', async () => {
     const stripeCharge = stripeCharges.data.find((charge) => {
       return charge.amount === price * 100;
     });
-    console.log("🚀 ~ stripeCharge ~ stripeCharge:", stripeCharge)
-
+    
+    /**
+     * toBeDefined = ค่าต้องไม่ใช่ undefined
+     * ที่เลือกใช้ toBeDefined เพราะ stripeCharge จะ return ค่าไม่ Stripe.Charge ก็ undefined
+     * */ 
     expect(stripeCharge).toBeDefined();
+
+    const payment = await Payment.findOne({
+      orderId: order.id,
+      stripeId: stripeCharge!.id
+    });
+    /**
+     * ที่เลือกใช้ not.toBeNull เพราะ payment จะ return ค่าไม่ IPaymentDoc ก็ NULL เลขใช้ toBeDefined ไม่ได้
+     */
+    expect(payment).not.toBeNull();
 });
