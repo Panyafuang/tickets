@@ -15,6 +15,8 @@ import { LoggingInterceptor } from './loader/interceptor.service';
 import { SigninComponent } from './auth/signin/signin.component';
 import { MenubarComponent } from './layout/menubar/menubar.component';
 import { SignoutComponent } from './auth/signout/signout.component';
+import { TicketComponent } from './ticket/ticket.component';
+import { NewComponent } from './ticket/new/new.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { SignoutComponent } from './auth/signout/signout.component';
     PageNotFoundComponent,
     SigninComponent,
     MenubarComponent,
-    SignoutComponent
+    SignoutComponent,
+    TicketComponent,
+    NewComponent
   ],
   imports: [
     BrowserModule,

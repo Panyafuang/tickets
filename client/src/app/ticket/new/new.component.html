@@ -1,0 +1,15 @@
+<h3>Create a Ticket</h3>
+
+<form [formGroup]="newTicketForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Price</mat-label>
+        <input matInput formControlName="price" />
+    </mat-form-field>
+    <button mat-raised-button type="submit" color="primary" [disabled]="!newTicketForm.valid">
+        SUBMIT
+    </button>
+</form>
