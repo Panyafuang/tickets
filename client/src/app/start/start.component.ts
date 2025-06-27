@@ -33,7 +33,6 @@ export class StartComponent implements OnInit, OnDestroy {
       origin: ['', Validators.required],
       destination: ['', Validators.required],
       travelDate: [new Date(), Validators.required], // Default to today
-      passengers: [1, [Validators.required, Validators.min(1)]] // Default to 1 passenger
     });
   }
 
