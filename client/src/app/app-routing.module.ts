@@ -12,7 +12,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { SigninComponent } from './auth/signin/signin.component';
 import { SignoutComponent } from './auth/signout/signout.component';
 import { AuthService } from './services/auth.service';
-import { NewComponent } from './ticket/new/new.component';
+import { TicketFormComponent } from './ticket/ticket-form/ticket-form.component';
 
 const getCurrUserResolver: ResolveFn<any> = (
   route: ActivatedRouteSnapshot,
@@ -26,7 +26,7 @@ const routes: Routes = [
   { path: 'auth/signup', component: SignupComponent },
   { path: 'auth/signin', component: SigninComponent },
   { path: 'auth/signout', component: SignoutComponent },
-  { path: 'ticket/new', component: NewComponent }, 
+  { path: 'ticket/new', component: TicketFormComponent }, 
   {
     path: 'start',
     component: StartComponent,

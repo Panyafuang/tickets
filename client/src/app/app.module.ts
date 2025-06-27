@@ -16,7 +16,7 @@ import { SigninComponent } from './auth/signin/signin.component';
 import { MenubarComponent } from './layout/menubar/menubar.component';
 import { SignoutComponent } from './auth/signout/signout.component';
 import { TicketComponent } from './ticket/ticket.component';
-import { NewComponent } from './ticket/new/new.component';
+import { TicketFormComponent } from './ticket/ticket-form/ticket-form.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { NewComponent } from './ticket/new/new.component';
     MenubarComponent,
     SignoutComponent,
     TicketComponent,
-    NewComponent
+    TicketFormComponent
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,112 @@
 <h3 *ngIf="currUser; else other_content">You are signed in</h3>
 
-<ng-template #other_content><h3>You are NOT signed in</h3></ng-template>
+<ng-template #other_content>
+  <h3>You are NOT signed in</h3>
+</ng-template>
+<div class="home-container">
+  <div class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">เช็คโปรโมชั่นและจองตั๋วรถทัวร์ราคาถูก กับ Bus Ticket Express</h1>
+      <p class="hero-subtitle">ค้นหาเส้นทางที่คุณต้องการ และออกเดินทางไปกับเรา</p>
+
+      <mat-card class="search-card">
+        <mat-card-content>
+          <form [formGroup]="searchForm" (ngSubmit)="onSearchSubmit()" class="search-form-layout">
+            <mat-form-field appearance="outline" class="search-field">
+              <mat-label>ต้นทาง</mat-label>
+              <input matInput placeholder="เลือกต้นทาง" formControlName="origin">
+              <mat-icon matSuffix>place</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="search-field">
+              <mat-label>ปลายทาง</mat-label>
+              <input matInput placeholder="เลือกปลายทาง" formControlName="destination">
+              <mat-icon matSuffix>place</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="search-field">
+              <mat-label>วันที่เดินทาง</mat-label>
+              <input matInput [matDatepicker]="picker" placeholder="เลือกวันที่" formControlName="travelDate">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="search-field passengers-field">
+              <mat-label>ผู้โดยสาร</mat-label>
+              <input matInput type="number" placeholder="จำนวน" formControlName="passengers" min="1" value="1">
+              <mat-icon matSuffix>person</mat-icon>
+            </mat-form-field>
+            <button mat-flat-button color="accent" type="submit" class="search-button">
+              <mat-icon>search</mat-icon> ค้นหาตั๋ว
+            </button>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="metrics-section content-width">
+    <div class="metric-item">
+      <mat-icon class="metric-icon">directions_bus</mat-icon>
+      <div class="metric-value">15,000+</div>
+      <div class="metric-label">เส้นทาง</div>
+    </div>
+    <div class="metric-item">
+      <mat-icon class="metric-icon">calendar_today</mat-icon>
+      <div class="metric-value">12,000+</div>
+      <div class="metric-label">เที่ยวต่อวัน</div>
+    </div>
+    <div class="metric-item">
+      <mat-icon class="metric-icon">people</mat-icon>
+      <div class="metric-value">150,000+</div>
+      <div class="metric-label">ผู้ใช้บริการประจำ</div>
+    </div>
+    <div class="metric-item">
+      <mat-icon class="metric-icon">star</mat-icon>
+      <div class="metric-value">4.8/5</div>
+      <div class="metric-label">คะแนนรีวิวเฉลี่ย</div>
+    </div>
+  </div>
+
+  <div class="news-promotion-section content-width">
+    <div class="section-header">
+      <h2>ข่าวสาร / โปรโมชั่น</h2>
+      <a [routerLink]="['/news']">ดูทั้งหมด <mat-icon>arrow_forward</mat-icon></a>
+    </div>
+    <div class="promo-cards-container">
+      <mat-card class="promo-card">
+        <img mat-card-image src="promo-bus1.jpg" alt="Promo 1">
+        <mat-card-content>
+          <h3 class="promo-title">โปรโมชั่น: ลด 10% ทุกเส้นทาง!</h3>
+          <p class="promo-description">เดินทางสบาย กระเป๋าไม่ฉีก ตลอดเดือนนี้</p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-button color="primary">อ่านต่อ</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="promo-card">
+        <img mat-card-image src="promo-bus2.jpg" alt="Promo 2">
+        <mat-card-content>
+          <h3 class="promo-title">เส้นทางใหม่: เชียงใหม่ - ภูเก็ต!</h3>
+          <p class="promo-description">เปิดตัวเส้นทางยอดนิยม บินตรงสบาย.</p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-button color="primary">อ่านต่อ</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="promo-card">
+        <img mat-card-image src="promo-bus3.jpg" alt="Promo 3">
+        <mat-card-content>
+          <h3 class="promo-title">เที่ยวสงกรานต์กับเรา!</h3>
+          <p class="promo-description">จองล่วงหน้า รับส่วนลดพิเศษสำหรับเทศกาล</p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-button color="primary">อ่านต่อ</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

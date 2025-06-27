@@ -1,30 +1,62 @@
-<h3>Sign Up</h3>
-<form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-  <div>
+<div class="auth-page-container">
+  <mat-card class="auth-card">
+    <mat-card-header>
+      <mat-card-title class="auth-title">Create Your Account</mat-card-title>
+      <mat-card-subtitle class="auth-subtitle">Join us to book your next bus trip!</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <mat-error *ngIf="getGeneralBackendErrors().length > 0" class="global-error-message">
+          <p *ngFor="let err of getGeneralBackendErrors()">{{ err.message }}</p>
+        </mat-error>
 
-    <mat-form-field>
-      <mat-label>Email</mat-label>
-      <input matInput placeholder="Email" formControlName="email">
-    </mat-form-field>
-  </div>
-  <div>
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email Address</mat-label>
+            <input matInput placeholder="yourname@example.com" formControlName="email" required email>
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="signupForm.get('email')?.hasError('required') && signupForm.get('email')?.touched">
+              Email is required.
+            </mat-error>
+            <mat-error *ngIf="signupForm.get('email')?.hasError('email') && signupForm.get('email')?.touched">
+              Please enter a valid email address.
+            </mat-error>
+            <mat-error *ngIf="getBackendErrorForField('email')">
+              {{ getBackendErrorForField('email') }}
+            </mat-error>
+            <mat-hint>We'll send booking confirmations here.</mat-hint>
+          </mat-form-field>
+        </div>
 
-    <mat-form-field>
-      <mat-label>Password</mat-label>
-      <input matInput type="password" placeholder="Password" formControlName="password">
-    </mat-form-field>
-  </div>
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required minlength="6">
+            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="signupForm.get('password')?.hasError('required') && signupForm.get('password')?.touched">
+              Password is required.
+            </mat-error>
+            <mat-error *ngIf="signupForm.get('password')?.hasError('minlength') && signupForm.get('password')?.touched">
+              Password must be at least 6 characters.
+            </mat-error>
+            <mat-error *ngIf="getBackendErrorForField('password')">
+              {{ getBackendErrorForField('password') }}
+            </mat-error>
+            <mat-hint>Minimum 6 characters.</mat-hint>
+          </mat-form-field>
+        </div>
 
-  <section>
-    <div class="example-button-row">
-      <button type="submit" [disabled]="signupForm.invalid" mat-raised-button>sign up</button>
-    </div>
-  </section>
-</form>
-<div *ngIf="errorMsg?.length">
-  <ul>
-    <li *ngFor="let err of errorMsg; index as i;">
-      <span>{{ err.message }}</span>
-    </li>
-  </ul>
+        <mat-card-actions class="form-actions">
+          <button mat-raised-button color="primary" type="submit" [disabled]="signupForm.invalid">
+            <mat-icon>person_add</mat-icon> Sign Up
+          </button>
+        </mat-card-actions>
+      </form>
+    </mat-card-content>
+    <mat-card-footer class="auth-footer">
+      Already have an account? <a [routerLink]="['/auth', 'signin']">Sign In here.</a>
+    </mat-card-footer>
+  </mat-card>
 </div>

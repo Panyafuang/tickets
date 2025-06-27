@@ -1,0 +1,120 @@
+/* ใช้ CSS เดียวกับ signup.component.css เนื่องจากโครงสร้างฟอร์มคล้ายกันมาก */
+/* คุณสามารถรวม CSS สำหรับ auth-card, auth-page-container, form-row, full-width, auth-title, auth-subtitle, form-actions, auth-footer ไว้ในไฟล์ CSS เดียวกันได้ (เช่น auth-common.css) แล้ว import เข้ามาในแต่ละ component */
+
+.auth-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 64px); /* Full viewport height minus toolbar height */
+  background-color: #f5f5f5; /* Light background for the page */
+  padding: 20px;
+}
+
+.auth-card {
+  max-width: 450px;
+  width: 100%;
+  padding: 30px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+}
+
+mat-card-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.auth-title {
+  font-size: 2.2em;
+  font-weight: 700;
+  color: #3f51b5;
+  margin-bottom: 5px;
+}
+
+.auth-subtitle {
+  color: #666;
+  font-size: 1em;
+}
+
+.global-error-message {
+  color: #f44336;
+  background-color: #ffebee;
+  border: 1px solid #ef9a9a;
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.global-error-message p {
+    margin: 0;
+    padding: 2px 0;
+}
+
+.form-row {
+  margin-bottom: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.text-right {
+  text-align: right;
+  margin-top: -10px; /* Pull it closer to the password field */
+  margin-bottom: 10px;
+}
+
+.forgot-password-link {
+  color: #3f51b5;
+  text-decoration: none;
+  font-size: 0.95em;
+  font-weight: 500;
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  padding-top: 25px;
+}
+
+button[type="submit"] {
+  min-width: 180px;
+  padding: 12px 25px;
+  font-size: 1.2em;
+  font-weight: 600;
+  border-radius: 25px;
+}
+
+.auth-footer {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 0.95em;
+  color: #555;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.auth-footer a {
+  color: #3f51b5;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Snackbar Styling (เหมือนเดิม) */
+.success-snackbar {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.error-snackbar {
+  background-color: #f44336;
+  color: white;
+}

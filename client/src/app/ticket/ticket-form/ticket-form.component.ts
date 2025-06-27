@@ -2,24 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-new',
-  templateUrl: './new.component.html',
-  styleUrl: './new.component.css'
+  selector: 'app-ticket-form',
+  templateUrl: './ticket-form.component.html',
+  styleUrl: './ticket-form.component.css'
 })
-export class NewComponent implements OnInit {
-  newTicketForm!: FormGroup;
+export class TicketFormComponent implements OnInit {
+  ticketForm!: FormGroup;
 
   constructor() {}
 
-
   ngOnInit(): void {
-    this.newTicketForm = new FormGroup({
+    this.ticketForm = new FormGroup({
       title: new FormControl('', Validators.required),
       price: new FormControl('', Validators.required)
     });
   }
 
-  onSubmit() {
-
+  onSubmit(): void {
+    console.log(this.ticketForm.value);
   }
+
 }
