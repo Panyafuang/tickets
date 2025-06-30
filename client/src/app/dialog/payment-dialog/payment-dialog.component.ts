@@ -159,12 +159,11 @@ export class PaymentDialogComponent
 
     try {
       // 1. Create Stripe Token from Card Element (ส่งเฉพาะ name)
-      // const { token, error } = await this.stripeService
       const stripResponse = await this.stripeService
         .createStripeToken(this.cardElement, name)
         .toPromise();
       const { token, error } = stripResponse!;
-      
+
       if (error) {
         console.error('Error creating token:', error);
         this.cardErrors = error.message || 'Failed to create payment token.';
