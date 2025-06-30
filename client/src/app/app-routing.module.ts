@@ -12,7 +12,11 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { SigninComponent } from './auth/signin/signin.component';
 import { SignoutComponent } from './auth/signout/signout.component';
 import { AuthService } from './services/auth.service';
-import { TicketFormComponent } from './ticket/ticket-form/ticket-form.component';
+import { TicketComponent } from './ticket/ticket.component';
+import { TicketDetailComponent } from './ticket/ticket-detail/ticket-detail.component';
+import { TicketService } from './services/ticket.service';
+import { OrderComponent } from './order/order/order.component';
+import { OrderDetailComponent } from './order/order-detail/order-detail.component';
 
 const getCurrUserResolver: ResolveFn<any> = (
   route: ActivatedRouteSnapshot,
@@ -21,12 +25,36 @@ const getCurrUserResolver: ResolveFn<any> = (
   return inject(AuthService).getUserDetail();
 };
 
+const getTicketByIdResolver: ResolveFn<any> = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+  return inject(TicketService).getTicketById(route.params['id']);
+}
+
 const routes: Routes = [
   { path: '', redirectTo: '/start', pathMatch: 'full' },
   { path: 'auth/signup', component: SignupComponent },
   { path: 'auth/signin', component: SigninComponent },
   { path: 'auth/signout', component: SignoutComponent },
-  { path: 'ticket/new', component: TicketFormComponent }, 
+  {
+    path: 'tickets',
+    component: TicketComponent,
+  },
+  {
+    path: 'tickets/:id',
+    component: TicketDetailComponent,
+    // resolve: {
+    //   ticket: getTicketByIdResolver
+    // }
+  },
+  {
+    path: 'orders',
+    component: OrderComponent,
+    children: [
+      {
+        path: ':id',
+        component: OrderDetailComponent
+      }
+    ]
+  },
   {
     path: 'start',
     component: StartComponent,
@@ -41,4 +69,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

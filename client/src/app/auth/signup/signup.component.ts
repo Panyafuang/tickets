@@ -3,11 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar'; // เพิ่ม MatSnackBar
+import { IBackEndError } from '../../models/backend-error.model';
 
-interface IAuthError {
-  field?: string; // field may be optional if it's a general error
-  message: string;
-}
 
 @Component({
   selector: 'app-signup',
@@ -16,7 +13,7 @@ interface IAuthError {
 })
 export class SignupComponent implements OnInit {
   signupForm!: FormGroup; // ใช้ ! เพื่อบอกว่ามันจะถูก initialize ใน ngOnInit
-  backendErrors: IAuthError[] = []; // เปลี่ยนชื่อจาก errorMsg เพื่อความชัดเจนว่ามาจาก backend
+  backendErrors: IBackEndError[] = []; // เปลี่ยนชื่อจาก errorMsg เพื่อความชัดเจนว่ามาจาก backend
   hidePassword = true; // สำหรับปุ่มแสดง/ซ่อนรหัสผ่าน
 
   constructor(
@@ -40,7 +37,7 @@ export class SignupComponent implements OnInit {
   }
 
   // Helper method to get general backend errors (not tied to a specific field)
-  getGeneralBackendErrors(): IAuthError[] {
+  getGeneralBackendErrors(): IBackEndError[] {
     return this.backendErrors.filter(err => !err.field);
   }
 
@@ -73,15 +70,15 @@ export class SignupComponent implements OnInit {
               this.backendErrors = [{ message: 'An unexpected error occurred. Please try again.' }];
             }
 
-            // แสดง error ผ่าน snackbar สำหรับ error ทั่วไป
+            // แสดง error ผ่าน snackbar สำหรับ error ทั่วไป --> // กรณี backend ส่ง error เป็น message เดี่ยวๆ ไม่ใช่ array
             if (this.backendErrors.length > 0) {
-                const generalErrors = this.getGeneralBackendErrors();
-                if (generalErrors.length > 0) {
-                    this.snackBar.open(generalErrors[0].message, 'Close', {
-                        duration: 5000,
-                        panelClass: ['error-snackbar']
-                    });
-                }
+              const generalErrors = this.getGeneralBackendErrors();
+              if (generalErrors.length > 0) {
+                this.snackBar.open(generalErrors[0].message, 'Close', {
+                  duration: 5000,
+                  panelClass: ['error-snackbar']
+                });
+              }
             }
           },
         });

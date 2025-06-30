@@ -1,0 +1,127 @@
+/* Styling for the dialog card */
+.payment-dialog-card {
+  padding: 20px;
+  width: 100%;
+  /* max-width: 450px; /* Constrain width for dialog */
+}
+
+mat-card-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+mat-card-title {
+  font-size: 1.8em;
+  font-weight: 600;
+  color: #3f51b5;
+}
+
+mat-card-subtitle {
+  font-size: 0.9em;
+  color: #777;
+}
+
+.form-row {
+  margin-bottom: 15px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.card-element-label {
+    display: block;
+    font-size: 0.8em;
+    color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 8px;
+}
+
+.stripe-card-element {
+  /* border: 1px solid rgba(0, 0, 0, 0.38);
+  border-radius: 4px;
+  padding: 18.5px 14px;
+  box-sizing: border-box;
+  background-color: white;
+  min-height: 56px;
+  display: flex;
+  align-items: center; */
+
+
+  /* ลบ border, padding, min-height ที่เคยลองใส่ไปก่อนหน้านี้ออกให้หมด */
+  /* หรือถ้าคุณต้องการ border ให้ใส่เฉพาะ border-color ใน style ของ create() หรือใช้ global input border */
+  
+  /* ให้ Stripe Element จัดการขนาดภายใน iframe ของมันเอง */
+  /* สิ่งที่ควรเหลือไว้ */
+  width: 100%; /* สำคัญมาก เพื่อให้มันขยายเต็มความกว้าง */
+  box-sizing: border-box; /* สำคัญมาก เพื่อให้ padding/border ไม่เกินขนาดที่กำหนด */
+  background-color: white; /* พื้นหลัง */
+  
+  /* เพิ่ม border เหมือน input ทั่วไป ถ้าต้องการ */
+  border: 1px solid rgba(0, 0, 0, 0.38); /* สีขอบเหมือน Material Input ปกติ */
+  border-radius: 4px; /* ขอบโค้ง */
+
+  /* อาจจะต้องเพิ่ม padding ภายนอก iframe ถ้าช่องดูกว้างไป */
+  padding: 10px 14px; /* ลองเพิ่ม padding เล็กน้อยเพื่อให้มีพื้นที่รอบๆ iframe */
+
+
+
+
+  /* ลบ border, padding, min-height ที่อาจไปขัดแย้งกับ Stripe */
+  /* ให้ Stripe จัดการการแสดงผลภายในเอง */
+  /* คุณอาจจะต้องลองลบหรือคอมเมนต์บรรทัดเหล่านี้และดูผลลัพธ์ */
+  /*
+  border: 1px solid rgba(0, 0, 0, 0.38);
+  border-radius: 4px;
+  padding: 18.5px 14px;
+  min-height: 56px;
+  */
+  
+  /* สิ่งที่ควรมี: */
+  /* width: 100%; */
+  /* box-sizing: border-box; */ /* สำคัญเพื่อให้ padding/border ไม่เกินขนาดที่กำหนด */
+  /* display: flex; */ /* อาจจะไม่จำเป็นหรือไม่ควรมี ถ้าไปรบกวน iframe */
+  /* align-items: center; */ /* อาจจะไม่จำเป็นหรือไม่ควรมี ถ้าไปรบกวน iframe */
+
+}
+
+.stripe-card-element.StripeElement--focus {
+    border-color: #3f51b5;
+    box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.2);
+}
+
+.stripe-card-element.StripeElement--invalid {
+    border-color: #f44336;
+}
+
+.payment-dialog-actions {
+  display: flex;
+  justify-content: flex-end; /* Buttons to the right */
+  gap: 10px; /* Spacing between buttons */
+  padding-top: 20px;
+}
+
+button[type="submit"] {
+  min-width: 120px;
+  padding: 10px 20px;
+  font-size: 1.1em;
+  font-weight: 600;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button[type="submit"] mat-icon,
+button[type="submit"] mat-spinner {
+  margin-right: 8px;
+}
+
+mat-spinner {
+    stroke: white; /* Make spinner white on primary button */
+}
+
+/* Common snackbar styles (if not already global) */
+.success-snackbar { background-color: #4CAF50; color: white; }
+.error-snackbar { background-color: #f44336; color: white; }
+.warning-snackbar { background-color: #ff9800; color: white; }
+.info-snackbar { background-color: #2196f3; color: white; }

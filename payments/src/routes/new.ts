@@ -46,7 +46,14 @@ router.post(
     const charge = await stripe.charges.create({
       currency: 'thb',
       amount: order.price * 100,
-      source: token
+      source: token,
+      // คุณสามารถเพิ่มข้อมูล metadata ได้ที่นี่หากต้องการ
+      metadata: {
+        orderId: order.id,
+        userEmail: req.currentUser.email,
+        userId: req.currentUser?.id
+      },
+      description: `Payment for Order ${order.id}`
     });
     const payment = Payment.build({
       orderId,
