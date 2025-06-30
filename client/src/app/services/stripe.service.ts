@@ -45,7 +45,7 @@ export class StripeService {
    * @returns 
    */
   // createStripeToken(cardElement: StripeCardElement, cardHolderName: string, cardHolderEmail: string): Observable<{ token?: Token, error?: StripeError }> {
-  createStripeToken(cardElement: StripeCardElement, cardHolderName: string): Observable<any> {
+  createStripeToken(cardElement: StripeCardElement, cardHolderName: string): Observable<{ token?: Token, error?: StripeError }> {
     return from(this.getStripe().then(stripe => {
       if (!stripe) {
         throw new Error('Stripe.js not loaded.');

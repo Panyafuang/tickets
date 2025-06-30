@@ -1,15 +1,30 @@
 <mat-card class="payment-dialog-card">
   <mat-card-header>
     <mat-card-title>Complete Your Payment</mat-card-title>
-    <mat-card-subtitle>Order ID: {{ orderId }} | Total: {{ orderPrice | currency:'THB':'symbol':'1.2-2' }}</mat-card-subtitle>
+    <mat-card-subtitle
+      >Order ID: {{ orderId }} | Total:
+      {{
+        orderPrice | currency : "THB" : "symbol" : "1.2-2"
+      }}</mat-card-subtitle
+    >
   </mat-card-header>
   <mat-card-content>
     <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
       <div class="form-row">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Cardholder Name</mat-label>
-          <input matInput formControlName="name" required placeholder="John Doe">
-          <mat-error *ngIf="paymentForm.get('name')?.hasError('required') && paymentForm.get('name')?.touched">
+          <input
+            matInput
+            formControlName="name"
+            required
+            placeholder="John Doe"
+          />
+          <mat-error
+            *ngIf="
+              paymentForm.get('name')?.hasError('required') &&
+              paymentForm.get('name')?.touched
+            "
+          >
             Name is required.
           </mat-error>
         </mat-form-field>
@@ -18,11 +33,27 @@
       <div class="form-row">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Email</mat-label>
-          <input matInput formControlName="email" required type="email" placeholder="john.doe@example.com">
-          <mat-error *ngIf="paymentForm.get('email')?.hasError('required') && paymentForm.get('email')?.touched">
+          <input
+            matInput
+            formControlName="email"
+            required
+            type="email"
+            placeholder="john.doe@example.com"
+          />
+          <mat-error
+            *ngIf="
+              paymentForm.get('email')?.hasError('required') &&
+              paymentForm.get('email')?.touched
+            "
+          >
             Email is required.
           </mat-error>
-          <mat-error *ngIf="paymentForm.get('email')?.hasError('email') && paymentForm.get('email')?.touched">
+          <mat-error
+            *ngIf="
+              paymentForm.get('email')?.hasError('email') &&
+              paymentForm.get('email')?.touched
+            "
+          >
             Please enter a valid email address.
           </mat-error>
         </mat-form-field>
@@ -38,11 +69,27 @@
       </div>
 
       <mat-card-actions class="payment-dialog-actions">
-        <button mat-button (click)="onCancel()" type="button" [disabled]="loading">Cancel</button>
-        <button mat-raised-button color="primary" type="submit" [disabled]="paymentForm.invalid || !cardElement || loading">
+        <button
+          mat-button
+          (click)="onCancel()"
+          type="button"
+          [disabled]="loading"
+        >
+          Cancel
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="paymentForm.invalid || !cardElement || loading"
+        >
           <mat-icon *ngIf="!loading">payment</mat-icon>
           <mat-spinner *ngIf="loading" [diameter]="24"></mat-spinner>
-          {{ loading ? 'Processing...' : 'Pay ' + (orderPrice | currency:'THB':'symbol':'1.2-2') }}
+          {{
+            loading
+              ? "Processing..."
+              : "Pay " + (orderPrice | currency : "THB" : "symbol" : "1.2-2")
+          }}
         </button>
       </mat-card-actions>
     </form>
