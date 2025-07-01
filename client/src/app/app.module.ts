@@ -19,9 +19,12 @@ import { TicketComponent } from './ticket/ticket.component';
 import { TicketFormComponent } from './ticket/ticket-form/ticket-form.component';
 import { TicketListComponent } from './ticket/ticket-list/ticket-list.component';
 import { TicketDetailComponent } from './ticket/ticket-detail/ticket-detail.component';
-import { OrderComponent } from './order/order/order.component';
+import { OrderComponent } from './order/order.component';
 import { OrderDetailComponent } from './order/order-detail/order-detail.component';
 import { PaymentDialogComponent } from './dialog/payment-dialog/payment-dialog.component';
+import { PaymentFormComponent } from './payment/payment-form/payment-form.component';
+import { OrderListComponent } from './order/order-list/order-list.component';
+import { SecondsToMmssPipe } from './pipe/seconds-to-mmss.pipe';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,10 @@ import { PaymentDialogComponent } from './dialog/payment-dialog/payment-dialog.c
     TicketDetailComponent,
     OrderComponent,
     OrderDetailComponent,
-    PaymentDialogComponent
+    PaymentDialogComponent,
+    PaymentFormComponent,
+    OrderListComponent,
+    SecondsToMmssPipe
   ],
   imports: [
     BrowserModule,

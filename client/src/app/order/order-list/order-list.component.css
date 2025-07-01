@@ -1,0 +1,40 @@
+.order-list-card {
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    grid-area: order-list-card;
+    align-self: stretch;
+    margin: 50px;
+}
+
+.order-list__container {
+    color: rgb(103, 115, 131);
+    border-radius: 12px 12px 4px 4px;
+    background-color: rgb(245, 247, 248);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border: none;
+    scroll-margin-top: 10px;
+}
+
+.order-item {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin-bottom: 8px;
+    font-weight: 400;
+    line-height: 20px;
+    -webkit-box-align: center;
+    --webkit-font-smoothing: antialiased;
+    --moz-osx-font-smoothing: grayscale;
+    padding: 1rem;
+    border-bottom: none;
+    border: 1px solid rgb(223, 227, 229);
+    border-radius: 12px;
+}
+
+.order-item h6 {
+    font-size: 16px;
+    color: rgb(9, 18, 24);
+}

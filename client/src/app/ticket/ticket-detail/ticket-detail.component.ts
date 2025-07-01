@@ -43,12 +43,10 @@ export class TicketDetailComponent implements OnInit {
   onPurchase(ticketId: string) {
     this._orderService.orderByTicketId(ticketId).subscribe({
       next: (order) => {
-        console.log("🚀 ~ TicketDetailComponent ~ this._orderService.orderByTicketId ~ order:", order);
-
-        this.snackBar.open('Your order has been placed successfully. Please complete the payment within 1 minute.', 'Close', {
-          duration: 3000,
-          panelClass: ['success-snackbar']
-        });
+        // this.snackBar.open('Your order has been placed successfully. Please complete the payment within 1 minute.', 'Close', {
+        //   duration: 3000,
+        //   panelClass: ['success-snackbar']
+        // });
 
         // Redirect to orderDetail
         this.router.navigate([`/orders/${order.id}`]);

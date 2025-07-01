@@ -12,17 +12,20 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-order-detail',
   templateUrl: './order-detail.component.html',
-  styleUrl: './order-detail.component.css'
+  styleUrl: './order-detail.component.css',
 })
 export class OrderDetailComponent implements OnInit, OnDestroy {
   orderId!: string;
   order!: IOrder;
   msTimeLeft: number = 0;
-  
-  currUser!: IUser | null;
-  currUserSup!: Subscription;
+
+  currUser!: IUser | null; // เก็บข้อมูล user ที่ login
+  currUserSup!: Subscription; // สำหรับ unsubscribe
 
   private intervalId: any;
+  showPaymentForm: boolean = false; // <<< เพิ่มตัวแปรควบคุมการแสดงฟอร์ม
+
+  ORDER_CREATED = 'created';
 
   constructor(
     private route: ActivatedRoute,
@@ -30,10 +33,12 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
     private _authService: AuthService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.currUserSup = this._authService.userUpdated.subscribe(user => this.currUser = user);
+    this.currUserSup = this._authService
+      .getUserUpdatedLister()
+      .subscribe((user) => (this.currUser = user));
 
     this.route.params.subscribe((params: Params) => {
       this.orderId = params['id'];
@@ -44,15 +49,20 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
 
           const expires = new Date(this.order.expiresAt);
           if (!isNaN(expires.getTime())) {
-            this.intervalId = setInterval(() => this.findTimeLeft(expires), 1000);
+            this.intervalId = setInterval(
+              () => this.findTimeLeft(expires),
+              1000
+            );
           } else {
             this.msTimeLeft = 0;
           }
-
-        }, error: (err) => {
-          console.error("Failed to get order detail:", err);
-          this.snackBar.open('Failed to load order details.', 'Close', { panelClass: ['error-snackbar'] });
-        }
+        },
+        error: (err) => {
+          console.error('Failed to get order detail:', err);
+          this.snackBar.open('Failed to load order details.', 'Close', {
+            panelClass: ['error-snackbar'],
+          });
+        },
       });
     });
   }
@@ -64,13 +74,20 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
     // หยุด interval ด้วยตัวเองด้วย ถ้าเวลาหมด
     if (diff <= 0 && this.intervalId) {
       this.msTimeLeft = 0; // ตั้งค่าเป็น 0 เพื่อแสดงว่าหมดอายุ
-      this.snackBar.open('Order has expired!', 'Close', { duration: 5000, panelClass: ['warning-snackbar'] });
+      this.snackBar.open('Order has expired!', 'Close', {
+        duration: 5000,
+        panelClass: ['warning-snackbar'],
+      });
       clearInterval(this.intervalId);
     }
   }
 
   onRedirectToCheckOut(): void {
-    if (this.order && this.order.status !== 'cancelled' && this.msTimeLeft > 0) {
+    if (
+      this.order &&
+      this.order.status !== 'cancelled' &&
+      this.msTimeLeft > 0
+    ) {
       // เปิด MatDialog และส่งข้อมูล orderId กับ price ไปให้ PaymentDialogComponent
       const dialogRef = this.dialog.open(PaymentDialogComponent, {
         width: '500px', // กำหนดความกว้างของ Dialog
@@ -78,33 +95,94 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
         data: {
           orderId: this.order.id,
           price: this.order.ticket.price, // ส่ง price ไปด้วย
-          email: this.currUser?.email
-        }
+          email: this.currUser?.email,
+        },
       });
 
-      dialogRef.afterClosed().subscribe(result => {
+      dialogRef.afterClosed().subscribe((result) => {
         // result จะเป็น true ถ้าชำระเงินสำเร็จ, false ถ้าถูกยกเลิก/ล้มเหลว
         if (result === true) {
-          this.snackBar.open('Payment process completed.', 'Close', { duration: 3000, panelClass: ['success-snackbar'] });
-          // อาจจะต้องการโหลด order ใหม่ หรือ redirect ไปยังหน้าสรุป
-          this._orderService.getOrderDetailById(this.orderId).subscribe(updatedOrder => {
-            this.order = updatedOrder; // อัปเดตสถานะ Order
-            // ตรวจสอบว่า order.status เปลี่ยนเป็น 'complete' หรือไม่
+          this.snackBar.open('Payment process completed.', 'Close', {
+            duration: 3000,
+            panelClass: ['success-snackbar'],
           });
+          // อาจจะต้องการโหลด order ใหม่ หรือ redirect ไปยังหน้าสรุป
+          this._orderService
+            .getOrderDetailById(this.orderId)
+            .subscribe((updatedOrder) => {
+              this.order = updatedOrder; // อัปเดตสถานะ Order
+              // ตรวจสอบว่า order.status เปลี่ยนเป็น 'complete' หรือไม่
+            });
         } else {
-          this.snackBar.open('Payment process cancelled or failed.', 'Close', { duration: 3000, panelClass: ['info-snackbar'] });
+          this.snackBar.open('Payment process cancelled or failed.', 'Close', {
+            duration: 3000,
+            panelClass: ['info-snackbar'],
+          });
         }
       });
     } else {
-      this.snackBar.open('Cannot proceed with payment. Order expired or cancelled.', 'Close', { panelClass: ['warning-snackbar'] });
+      this.snackBar.open(
+        'Cannot proceed with payment. Order expired or cancelled.',
+        'Close',
+        { panelClass: ['warning-snackbar'] }
+      );
     }
   }
 
+  onPayNow(): void {
+    if (
+      this.order &&
+      this.order.status === this.ORDER_CREATED &&
+      this.msTimeLeft > 0
+    ) {
+      this.showPaymentForm = true; // <<< แสดงฟอร์มชำระเงิน
+    } else {
+      this.snackBar.open(
+        'Cannot proceed with payment. Order expired or cancelled.',
+        'Close',
+        { panelClass: ['warning-snackbar'] }
+      );
+    }
+  }
+
+  // Handle event เมื่อ PaymentFormComponent ทำงานเสร็จ
+  onPaymentCompleted(success: boolean): void {
+    this.showPaymentForm = false; // ซ่อนฟอร์มเมื่อเสร็จสิ้น
+
+    if (success) {
+      this.snackBar.open('Payment process completed.', 'Close', {
+        duration: 3000,
+        panelClass: ['success-snackbar'],
+      });
+      // โหลด Order ใหม่เพื่ออัปเดตสถานะ
+      this._orderService
+        .getOrderDetailById(this.orderId)
+        .subscribe((updatedOrder) => {
+          this.order = updatedOrder;
+        });
+    } else {
+      this.snackBar.open('Payment process failed.', 'Close', {
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+      });
+    }
+  }
+
+  // Handle event เมื่อผู้ใช้กด Cancel ใน PaymentFormComponent
+  onPaymentCancelled(): void {
+    this.showPaymentForm = false; // ซ่อนฟอร์มเมื่อยกเลิก
+    this.snackBar.open('Payment process cancelled.', 'Close', {
+      duration: 3000,
+      panelClass: ['info-snackbar'],
+    });
+  }
+
   ngOnDestroy(): void {
-    this.currUserSup.unsubscribe();
+    if (this.currUserSup) {
+      this.currUserSup.unsubscribe(); // Unsubscribe เพื่อป้องกัน Memory Leak
+    }
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
   }
-
 }
