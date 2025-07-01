@@ -15,6 +15,13 @@ import { LoggingInterceptor } from './loader/interceptor.service';
 import { SigninComponent } from './auth/signin/signin.component';
 import { MenubarComponent } from './layout/menubar/menubar.component';
 import { SignoutComponent } from './auth/signout/signout.component';
+import { TicketComponent } from './ticket/ticket.component';
+import { TicketFormComponent } from './ticket/ticket-form/ticket-form.component';
+import { TicketListComponent } from './ticket/ticket-list/ticket-list.component';
+import { TicketDetailComponent } from './ticket/ticket-detail/ticket-detail.component';
+import { OrderComponent } from './order/order/order.component';
+import { OrderDetailComponent } from './order/order-detail/order-detail.component';
+import { PaymentDialogComponent } from './dialog/payment-dialog/payment-dialog.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +31,14 @@ import { SignoutComponent } from './auth/signout/signout.component';
     PageNotFoundComponent,
     SigninComponent,
     MenubarComponent,
-    SignoutComponent
+    SignoutComponent,
+    TicketComponent,
+    TicketFormComponent,
+    TicketListComponent,
+    TicketDetailComponent,
+    OrderComponent,
+    OrderDetailComponent,
+    PaymentDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -18,9 +18,14 @@ export class ExpirationCompleteListener extends Listener<IExpirationCompleteEven
             throw new Error('Order not found');
         }
 
+        /** Check do not try to cancel an order that has been paid */
+        if (order.status === OrderStatus.Complete) {
+            return msg.ack();
+        }
+
         order.set({
             status: OrderStatus.Cancelled,
-            // ticket: null --> ไม่ต้องกำนหดเป็น null เพราะถ้าอนาคตอยากดูว่า tickets อะไรที่ user cancelled ก็สามารถกลับมาดูได้ อีกอย่างเรามี method ที่ชื่อ isReserved ใน orders/src/models/ticket.ts ไว้เช็คอยู่แล้ว
+            // ticket: null --> ไม่ต้องกำหนดเป็น null เพราะถ้าอนาคตอยากดูว่า tickets อะไรที่ user cancelled ก็สามารถกลับมาดูได้ อีกอย่างเรามี method ที่ชื่อ isReserved ใน orders/src/models/ticket.ts ไว้เช็คอยู่แล้ว
         });
         await order.save();
 

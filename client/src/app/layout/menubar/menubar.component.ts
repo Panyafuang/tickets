@@ -6,19 +6,15 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-menubar',
   templateUrl: './menubar.component.html',
-  styleUrl: './menubar.component.css'
+  styleUrls: ['./menubar.component.css'], // Use styleUrls
 })
 export class MenubarComponent implements OnInit, OnDestroy {
   currUser: IUser | undefined | null;
   currUserSup!: Subscription;
 
-  constructor(private _authService: AuthService) {
-
-  }
-
+  constructor(private _authService: AuthService) { }
 
   ngOnInit(): void {
-    // this._authService.getUserDetail();
     this.currUserSup = this._authService.userUpdated.subscribe(data => {
       this.currUser = data;
     });
@@ -26,5 +22,10 @@ export class MenubarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.currUserSup.unsubscribe();
+  }
+
+  toggleSidebar() {
+    // Implement your sidebar toggle logic here (e.g., using MatSidenav)
+    console.log('Toggle sidebar clicked!');
   }
 }

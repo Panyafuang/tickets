@@ -57,6 +57,7 @@ infra/k8s/*.secret.yaml
 # Jest or other test runners cache
 **/test-results/
 **/.jest/
+**/src/test/setEnvVars.ts
 
 # System-specific
 Thumbs.db

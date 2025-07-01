@@ -12,7 +12,7 @@ const router = express.Router();
  * 15 * 60 คือ 900 วินาที = 15 นาที
  * นี่คือ "ช่วงเวลา (window of time)" ที่กำหนดให้หมดอายุภายหลัง 15 นาที
  */
-const EXPIRATION_WINDOW_SECONDS = 1 * 60;
+const EXPIRATION_WINDOW_SECONDS = 15 * 60;
 
 router.post(
   "/api/orders/",

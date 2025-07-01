@@ -1,0 +1,58 @@
+.ticket-form-card {
+  /* max-width: 500px; */
+  /* margin: 50px auto; */
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  grid-area: ticket-form-card;
+  align-self: stretch;
+}
+
+mat-card-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+mat-card-title {
+  font-size: 2em;
+  /* ทำให้ชื่อฟอร์มใหญ่ขึ้น */
+  font-weight: 500;
+  color: #3f51b5;
+  /* สีเดียวกับ primary theme color */
+}
+
+.form-row {
+  margin-bottom: 15px;
+  /* ระยะห่างระหว่างฟิลด์ */
+}
+
+.full-width {
+  width: 100%;
+  /* ทำให้ input field เต็มความกว้างของ card */
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  /* ชิดขวา */
+  padding-top: 20px;
+}
+
+button[type="submit"] {
+  min-width: 150px;
+  /* กำหนดความกว้างขั้นต่ำของปุ่ม */
+  padding: 10px 20px;
+  font-size: 1.1em;
+}
+
+/* Optional: Custom Snackbar Styling */
+.success-snackbar {
+  background-color: #4CAF50;
+  /* Green */
+  color: white;
+}
+
+.error-snackbar {
+  background-color: #f44336;
+  /* Red */
+  color: white;
+}

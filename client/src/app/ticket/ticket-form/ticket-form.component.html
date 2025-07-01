@@ -1,0 +1,52 @@
+<div id="ticket-form">
+
+
+  <mat-card class="ticket-form-card">
+    <mat-card-header>
+      <mat-card-title>Create a Ticket</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Ticket Title</mat-label>
+            <input matInput placeholder="e.g., Concert Ticket, Movie Pass" formControlName="title" required>
+            <mat-error *ngIf="ticketForm.get('title')?.hasError('required') && ticketForm.get('title')?.touched">
+              Title is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="ticketForm.get('title')?.hasError('minlength') && ticketForm.get('title')?.touched">
+              Title must be at least 3 characters
+            </mat-error>
+            <mat-hint>Enter a clear and descriptive title for the ticket.</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Price</mat-label>
+            <input matInput type="number" placeholder="e.g., 100.00" formControlName="price" required min="0.01"
+              step="0.01">
+            <mat-icon matSuffix>attach_money</mat-icon> <mat-error
+              *ngIf="ticketForm.get('price')?.hasError('required') && ticketForm.get('price')?.touched">
+              Price is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="ticketForm.get('price')?.hasError('min') && ticketForm.get('price')?.touched">
+              Price must be greater than 0
+            </mat-error>
+            <mat-error *ngIf="ticketForm.get('price')?.hasError('pattern') && ticketForm.get('price')?.touched">
+              Please enter a valid price (e.g., 100.00)
+            </mat-error>
+            <mat-hint>Enter the price in your local currency.</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <mat-card-actions class="form-actions">
+          <!-- <button mat-raised-button color="primary" type="submit" [disabled]="ticketForm.invalid"> -->
+          <button mat-raised-button color="primary" type="submit">
+            <mat-icon>add_circle_outline</mat-icon> Create Ticket
+          </button>
+        </mat-card-actions>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

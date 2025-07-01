@@ -1,0 +1,14 @@
+<mat-card class="example-card" appearance="outlined" *ngIf="ticket">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{ ticket.title }}</mat-card-title>
+  </mat-card-header>
+  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+  <mat-card-content>
+    <p>Price: {{ ticket.price }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button (click)="onPurchase(ticket.id)">ซื้อ</button>
+  </mat-card-actions>
+</mat-card>
+

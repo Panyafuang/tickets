@@ -28,6 +28,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   exports: [
@@ -59,7 +60,8 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatChipsModule,
     MatTooltipModule,
     MatExpansionModule,
-    MatStepperModule
+    MatStepperModule,
+    MatSnackBarModule
   ],
 })
 export class MaterialModule { }
