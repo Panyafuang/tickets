@@ -1,17 +1,61 @@
-  <mat-card class="ticket-list-card">
+<!-- <mat-card class="ticket-list-card">
     <mat-card-header>
       <mat-card-title>Tickets</mat-card-title>
     </mat-card-header>
     <mat-card-content>
         <ng-container *ngIf="tickets.length > 0">
             <ul *ngFor="let ticket of tickets" class="ticket-list__container">
+              <ng-container *ngIf="!ticket?.orderId; else ticket_reserved_content">
+                <li class="ticket-item">
+                    <h6>Title: {{ ticket.title }}</h6>
+                    <p>Price: {{ ticket.price }} บาท</p> -->
+<!-- <button mat-button (click)="onViewTicketDetail(ticket.id)">ดูรายละเอียด</button> -->
+<!-- <a [routerLink]="['/tickets', ticket.id]">ดูรายละเอียด</a>
+                </li>
+              </ng-container>
+              <ng-template #ticket_reserved_content>
                 <li class="ticket-item">
                     <h6>Title: {{ ticket.title }}</h6>
                     <p>Price: {{ ticket.price }} บาท</p>
-                    <!-- <button mat-button (click)="onViewTicketDetail(ticket.id)">ดูรายละเอียด</button> -->
-                    <a [routerLink]="['/tickets', ticket.id]">ดูรายละเอียด</a>
+                    <a [routerLink]="['/tickets', ticket.id]" disabled="disabled">ดูรายละเอียด</a>
                 </li>
+              </ng-template>
             </ul>
         </ng-container>
     </mat-card-content>
-  </mat-card>
+  </mat-card> -->
+
+<mat-card class="ticket-list-card">
+  <mat-card-header>
+    <mat-card-title>Tickets</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <ng-container *ngIf="tickets.length > 0; else noTickets">
+      <ul class="ticket-list__container">
+        <li
+          *ngFor="let ticket of tickets"
+          class="ticket-item"
+          [ngClass]="{ 'ticket-reserved': ticket?.orderId }"
+        >
+          <h6>Title: {{ ticket.title }}</h6>
+          <p>Price: {{ ticket.price }} บาท</p>
+
+          <ng-container *ngIf="!ticket?.orderId">
+            <a
+              [routerLink]="['/tickets', ticket.id]"
+              mat-raised-button
+              color="primary"
+              >ดูรายละเอียด</a
+            >
+          </ng-container>
+          <ng-container *ngIf="ticket?.orderId">
+            <span class="reserved-text">ถูกจองแล้ว</span>
+          </ng-container>
+        </li>
+      </ul>
+    </ng-container>
+    <ng-template #noTickets>
+      <p class="no-tickets-message">No tickets available at the moment.</p>
+    </ng-template>
+  </mat-card-content>
+</mat-card>

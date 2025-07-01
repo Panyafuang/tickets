@@ -15,8 +15,9 @@ import { AuthService } from './services/auth.service';
 import { TicketComponent } from './ticket/ticket.component';
 import { TicketDetailComponent } from './ticket/ticket-detail/ticket-detail.component';
 import { TicketService } from './services/ticket.service';
-import { OrderComponent } from './order/order/order.component';
+import { OrderComponent } from './order/order.component';
 import { OrderDetailComponent } from './order/order-detail/order-detail.component';
+import { OrderListComponent } from './order/order-list/order-list.component';
 
 const getCurrUserResolver: ResolveFn<any> = (
   route: ActivatedRouteSnapshot,
@@ -25,9 +26,12 @@ const getCurrUserResolver: ResolveFn<any> = (
   return inject(AuthService).getUserDetail();
 };
 
-const getTicketByIdResolver: ResolveFn<any> = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+const getTicketByIdResolver: ResolveFn<any> = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+) => {
   return inject(TicketService).getTicketById(route.params['id']);
-}
+};
 
 const routes: Routes = [
   { path: '', redirectTo: '/start', pathMatch: 'full' },
@@ -46,14 +50,18 @@ const routes: Routes = [
     // }
   },
   {
+    path: 'orders/list',
+    component: OrderListComponent,
+  },
+  {
     path: 'orders',
     component: OrderComponent,
     children: [
       {
         path: ':id',
-        component: OrderDetailComponent
-      }
-    ]
+        component: OrderDetailComponent,
+      },
+    ],
   },
   {
     path: 'start',
@@ -69,4 +77,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { loadStripe, Stripe, StripeElements, StripeCardElement, Token, StripeError } from '@stripe/stripe-js';
+import { loadStripe, Stripe, StripeCardElement, Token, StripeError } from '@stripe/stripe-js';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable, from } from 'rxjs'; // เพิ่ม from สำหรับ convert Promise เป็น Observable
@@ -16,7 +16,6 @@ export class StripeService {
   }
 
   private async loadStripeInstance(): Promise<Stripe | null> {
-    // return (window as any).Stripe(environment.stripePublicKey);
     if (!this.stripeInstance) {
       try {
         this.stripeInstance = await loadStripe(environment.stripePublicKey);
@@ -45,14 +44,16 @@ export class StripeService {
    * @returns 
    */
   // createStripeToken(cardElement: StripeCardElement, cardHolderName: string, cardHolderEmail: string): Observable<{ token?: Token, error?: StripeError }> {
-  createStripeToken(cardElement: StripeCardElement, cardHolderName: string): Observable<{ token?: Token, error?: StripeError }> {
+  createStripeToken(cardElement: StripeCardElement, cardHolderName: string): Observable<{ token?: Token, error?: StripeError } | any> {
     return from(this.getStripe().then(stripe => {
       if (!stripe) {
         throw new Error('Stripe.js not loaded.');
       }
-      return stripe.createToken(cardElement, {
+
+      const token = stripe.createToken(cardElement, {
         name: cardHolderName // ส่งเฉพาะชื่อ
       });
+      return token;
     }));
   }
 

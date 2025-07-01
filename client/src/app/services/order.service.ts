@@ -14,6 +14,10 @@ export class OrderService {
   }
 
   getOrderDetailById(orderId: string) {
-    return this.http.get<any>(`/api/orders/${orderId}`);
+    return this.http.get<IOrder>(`/api/orders/${orderId}`);
+  }
+
+  getOrders() {
+    return this.http.get<any>(`/api/orders`);
   }
 }

@@ -1,0 +1,15 @@
+<mat-card class="order-list-card">
+  <mat-card-header>
+    <mat-card-title>Orders</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <ng-container *ngIf="orders.length > 0">
+      <ul *ngFor="let order of orders" class="order-list__container">
+          <li class="order-item">
+            <h6>Title: {{ order.ticket.title }}</h6>
+            <p>Status: {{ order.status }} </p>
+          </li>
+      </ul>
+    </ng-container>
+  </mat-card-content>
+</mat-card>

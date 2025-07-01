@@ -4,4 +4,5 @@ export interface ITicket {
     userId: string;
     version: number;
     id: string;
+    orderId?: string;
 }

@@ -16,19 +16,32 @@
     <mat-card-content>
       <p><strong>Title:</strong> {{ order.ticket.title }}</p>
       <p><strong>Price:</strong> {{ order.ticket.price | currency:'THB':'symbol':'1.2-2' }}</p>
-      <p><strong>Status:</strong> <span [ngClass]="{'status-pending': order.status === 'created', 'status-complete': order.status === 'complete', 'status-cancelled': order.status === 'cancelled'}">{{ order.status | titlecase }}</span></p>
+      <p><strong>Status:</strong> <span [ngClass]="{'status-pending': order.status === 'created', 'status-complete': order.status === 'complete', 'status-cancelled': order.status === 'cancelled'}"> {{ order.status | titlecase }}</span></p>
 
-      <div *ngIf="msTimeLeft > 0 && order.status === 'created'; else expired_content" class="payment-timer">
-        <h5>Time left to pay: <span class="time-left-value">{{ msTimeLeft }}</span> seconds</h5>
-        <button mat-raised-button color="primary" (click)="onRedirectToCheckOut()">
-          <mat-icon>payment</mat-icon> Pay Now
-        </button>
-      </div>
-      <ng-template #expired_content>
-        <!-- <h5 class="expired-message">Order Expired or Cancelled</h5> -->
-        <p *ngIf="order.status === 'complete'" class="complete-message">This order has been paid.</p>
-        <p *ngIf="order.status === 'cancelled'" class="cancelled-message">This order has been cancelled.</p>
+      <ng-container *ngIf="!showPaymentForm; else paymentFormSection">
+        <div *ngIf="msTimeLeft > 0 && order.status === 'created'; else expired_content" class="payment-timer">
+          <h5>Time left to pay: <span class="time-left-value">{{ msTimeLeft | secondsToMmss }}</span> seconds</h5>
+          <button mat-raised-button color="primary" (click)="onPayNow()">
+            <mat-icon>payment</mat-icon> Pay Now
+          </button>
+        </div>
+        <ng-template #expired_content>
+          <h5 *ngIf="order.status !== 'complete'" class="expired-message">Order Expired or Cancelled</h5>
+        </ng-template>
+          <p *ngIf="order.status === 'complete'" class="complete-message">This order has been paid.</p>
+          <p *ngIf="order.status === 'cancelled'" class="cancelled-message">This order has been cancelled.</p>
+        
+      </ng-container>
+
+      <ng-template #paymentFormSection>
+        <app-payment-form
+          [orderId]="order.id"
+          [orderPrice]="order.ticket.price"
+          (paymentCompleted)="onPaymentCompleted($event)"
+          (paymentCancelled)="onPaymentCancelled()">
+        </app-payment-form>
       </ng-template>
+
     </mat-card-content>
   </mat-card>
 </div>
