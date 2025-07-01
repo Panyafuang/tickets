@@ -221,9 +221,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy, AfterViewInit {
         this.snackBar.open('Payment successful! Your order has been confirmed.', 'Close', { panelClass: ['success-snackbar'] });
         this.paymentCompleted.emit(true); // <<< แจ้ง Parent Component ว่าชำระเงินสำเร็จ (true)
 
-        this.router.navigate([`orders`, `list`], {
-          relativeTo: this.route
-        });
+        this.router.navigate([`orders`, `list`]);
       } else {
         throw new Error('Backend did not return a successful payment ID.'); // Backend ส่งค่าไม่ถูกต้อง
       }
