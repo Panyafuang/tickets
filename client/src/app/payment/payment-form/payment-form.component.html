@@ -28,19 +28,34 @@
       </mat-form-field>
     </div>
 
-    <div class="form-row">
+    <div class="form-row payment-method-selection">
+      <mat-label class="card-element-label">Select Payment Method</mat-label>
+      <mat-radio-group formControlName="paymentMethod" aria-label="Select a payment method">
+        <mat-radio-button value="card">Credit / Debit Card</mat-radio-button>
+        <mat-radio-button value="promptpay" style="margin-left: 20px;">PromptPay</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="form-row" *ngIf="paymentForm.get('paymentMethod')?.value === 'card'">
       <mat-label class="card-element-label">Card Details</mat-label>
       <div #cardElement class="stripe-card-element">
-      </div>
+        </div>
       <mat-error *ngIf="cardErrors">{{ cardErrors }}</mat-error>
     </div>
 
+    <div class="promptpay-qr-container" *ngIf="showQrCode && qrCodeUrl">
+      <p class="qr-instruction">Scan this QR Code with your banking app to pay:</p>
+      <img [src]="qrCodeUrl" alt="PromptPay QR Code" class="promptpay-qr-image">
+      <p class="qr-status">Status: {{ paymentIntentStatus | titlecase }}</p>
+      <p class="qr-info">Do not close this window until payment is complete.</p>
+      </div>
+
     <div class="payment-actions">
       <button mat-button (click)="onCancel()" type="button" [disabled]="loading">Cancel</button>
-      <button mat-raised-button color="primary" type="submit" [disabled]="paymentForm.invalid || !cardElement || loading">
-        <mat-icon *ngIf="!loading">payment</mat-icon>
+      <button mat-raised-button color="primary" type="submit" [disabled]="paymentForm.invalid || loading || (paymentForm.get('paymentMethod')?.value === 'card' && !cardElement)">
+        <mat-icon *ngIf="!loading && !showQrCode">payment</mat-icon>
         <mat-spinner *ngIf="loading" [diameter]="24"></mat-spinner>
-        {{ loading ? 'Processing...' : 'Pay ' + (orderPrice | currency:'THB':'symbol':'1.2-2') }}
+        {{ loading ? 'Processing...' : (showQrCode ? 'Waiting for Payment...' : 'Pay ' + (orderPrice | currency:'THB':'symbol':'1.2-2')) }}
       </button>
     </div>
   </form>

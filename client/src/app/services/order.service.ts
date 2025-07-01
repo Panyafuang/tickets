@@ -14,14 +14,10 @@ export class OrderService {
   }
 
   getOrderDetailById(orderId: string) {
-<<<<<<< HEAD
-    return this.http.get<any>(`/api/orders/${orderId}`);
-=======
     return this.http.get<IOrder>(`/api/orders/${orderId}`);
   }
 
   getOrders() {
     return this.http.get<any>(`/api/orders`);
->>>>>>> credit-card-payments-not-dialog
   }
 }

@@ -85,6 +85,125 @@ mat-spinner {
     stroke: white;
 }
 
+
+/* QR Code Container Styling */
+.promptpay-qr-container {
+  text-align: center;
+  padding: 20px;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  margin-top: 20px;
+  background-color: #e8f5e9; /* Light green background */
+}
+
+.promptpay-qr-container .qr-instruction {
+  font-size: 1.1em;
+  color: #4CAF50; /* Green color for instruction */
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.promptpay-qr-image {
+  max-width: 250px; /* Max width for QR code image */
+  height: auto;
+  border: 2px solid #4CAF50; /* Green border around QR */
+  border-radius: 5px;
+  padding: 5px;
+  background-color: white;
+  display: block; /* Center the image */
+  margin: 0 auto 15px auto; /* Center with margin below */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.promptpay-qr-container .qr-status {
+  font-weight: bold;
+  color: #FFC107; /* Orange for pending status */
+  margin-bottom: 10px;
+  font-size: 1.0em;
+}
+
+.promptpay-qr-container .qr-info {
+  font-size: 0.85em;
+  color: #777;
+  font-style: italic;
+}
+
+
+/* Payment Actions (buttons) */
+.payment-actions {
+  display: flex;
+  justify-content: flex-end; /* จัดปุ่มไปทางขวา */
+  gap: 10px; /* ระยะห่างระหว่างปุ่ม */
+  margin-top: 30px;
+}
+
+/* เพิ่มสไตล์สำหรับปุ่ม Pay */
+.payment-actions button[type="submit"] {
+  min-width: 120px;
+  padding: 10px 20px;
+  font-size: 1.1em;
+  font-weight: 600;
+  border-radius: 25px;
+  display: flex; /* ใช้ flexbox เพื่อจัดเรียง icon/spinner/text */
+  align-items: center; /* จัดกึ่งกลางแนวตั้ง */
+  justify-content: center; /* จัดกึ่งกลางแนวนอน */
+  gap: 8px; /* เพิ่มช่องว่างระหว่าง icon/spinner กับข้อความ */
+  transition: all 0.2s ease-in-out; /* เพิ่ม transition เพื่อให้ดู smooth */
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+.payment-actions button[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.payment-actions button[type="submit"] mat-icon {
+  margin-right: 0; /* ลบ margin-right เดิมออก เพราะใช้ gap แทน */
+  font-size: 20px; /* ปรับขนาด icon ให้เหมาะสม */
+  width: 20px; /* กำหนดความกว้างและความสูงให้คงที่ */
+  height: 20px;
+}
+
+.payment-actions button[type="submit"] mat-spinner {
+  /* ปรับให้ spinner อยู่ตรงกลางและมีขนาดที่เหมาะสม */
+  margin-right: 0; /* ลบ margin-right เดิมออก เพราะใช้ gap แทน */
+  margin-left: 0; /* ลบ margin-left เดิมออก */
+  vertical-align: middle; /* ช่วยให้จัดแนวในปุ่มได้ดีขึ้น */
+  flex-shrink: 0; /* ป้องกัน spinner หดตัว */
+}
+
+/* ทำให้ spinner และ icon มีขนาดคงที่ เพื่อไม่ให้ปุ่มขยับ */
+.payment-actions button[type="submit"] mat-icon,
+.payment-actions button[type="submit"] mat-spinner {
+  min-width: 24px; /* กำหนดความกว้างขั้นต่ำเท่ากับ diameter ของ spinner */
+  min-height: 24px; /* กำหนดความสูงขั้นต่ำเท่ากับ diameter ของ spinner */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* Styling for snackbar messages (optional, if you want custom styles) */
+.success-snackbar {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+
+.error-snackbar {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+
+.info-snackbar {
+  background-color: #2196F3; /* Blue */
+  color: white;
+}
+
+.warning-snackbar {
+  background-color: #FFC107; /* Orange */
+  color: black;
+}
+
 /* Snackbar styles (หากยังไม่มีใน global CSS) */
 .success-snackbar { background-color: #4CAF50; color: white; }
 .error-snackbar { background-color: #f44336; color: white; }
