@@ -18,6 +18,7 @@ import { TicketService } from './services/ticket.service';
 import { OrderComponent } from './order/order.component';
 import { OrderDetailComponent } from './order/order-detail/order-detail.component';
 import { OrderListComponent } from './order/order-list/order-list.component';
+import { PaymentStatusComponent } from './payment/payment-status/payment-status.component';
 
 const getCurrUserResolver: ResolveFn<any> = (
   route: ActivatedRouteSnapshot,
@@ -45,9 +46,6 @@ const routes: Routes = [
   {
     path: 'tickets/:id',
     component: TicketDetailComponent,
-    // resolve: {
-    //   ticket: getTicketByIdResolver
-    // }
   },
   {
     path: 'orders/list',
@@ -63,6 +61,8 @@ const routes: Routes = [
       },
     ],
   },
+  { path: 'payment-status/:clientSecret', component: PaymentStatusComponent },
+  // { path: 'payment-status', component: PaymentStatusComponent },
   {
     path: 'start',
     component: StartComponent,

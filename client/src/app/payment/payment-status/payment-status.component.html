@@ -1,0 +1,31 @@
+<div class="payment-status-container">
+  <mat-spinner *ngIf="isLoading" [diameter]="50"></mat-spinner>
+
+  <div *ngIf="!isLoading" class="status-content">
+    <div *ngIf="isSuccess" class="status-icon success-icon">
+      <mat-icon>check_circle</mat-icon>
+    </div>
+    <div *ngIf="isFailed" class="status-icon error-icon">
+      <mat-icon>error</mat-icon>
+    </div>
+    <div *ngIf="!isSuccess && !isFailed" class="status-icon info-icon">
+      <mat-icon>info</mat-icon>
+    </div>
+
+    <h2 class="status-message" [class.success]="isSuccess" [class.error]="isFailed">
+      {{ statusMessage }}
+    </h2>
+
+    <div *ngIf="paymentIntent" class="payment-details">
+      <p><strong>Payment ID:</strong> {{ paymentIntent.id }}</p>
+      <p><strong>Amount:</strong> {{ paymentIntent.amount / 100 | currency:'THB':'symbol':'1.2-2' }}</p>
+      <p><strong>Currency:</strong> {{ paymentIntent.currency | uppercase }}</p>
+      <p><strong>Status:</strong> {{ paymentIntent.status | titlecase }}</p>
+      </div>
+
+    <div class="status-actions">
+      <button mat-raised-button color="primary" (click)="goToHome()">Go to Home</button>
+      <button mat-button (click)="goToOrderHistory()">View Order History</button>
+    </div>
+  </div>
+</div>

@@ -25,6 +25,8 @@ import { PaymentDialogComponent } from './dialog/payment-dialog/payment-dialog.c
 import { PaymentFormComponent } from './payment/payment-form/payment-form.component';
 import { OrderListComponent } from './order/order-list/order-list.component';
 import { SecondsToMmssPipe } from './pipe/seconds-to-mmss.pipe';
+import { PaymentStatusComponent } from './payment/payment-status/payment-status.component';
+import { provideToastr } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,8 @@ import { SecondsToMmssPipe } from './pipe/seconds-to-mmss.pipe';
     PaymentDialogComponent,
     PaymentFormComponent,
     OrderListComponent,
-    SecondsToMmssPipe
+    SecondsToMmssPipe,
+    PaymentStatusComponent
   ],
   imports: [
     BrowserModule,
@@ -55,6 +58,7 @@ import { SecondsToMmssPipe } from './pipe/seconds-to-mmss.pipe';
   ],
   providers: [
     provideAnimations(),
+    provideToastr(),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoggingInterceptor,

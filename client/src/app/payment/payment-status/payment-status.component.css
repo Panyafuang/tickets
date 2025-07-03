@@ -1,0 +1,87 @@
+/* client/src/app/payment-status/payment-status.component.css */
+.payment-status-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  background-color: #f0f2f5;
+  padding: 20px;
+  text-align: center;
+}
+
+.status-content {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+
+.status-icon mat-icon {
+  font-size: 80px;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 15px;
+}
+
+.success-icon mat-icon {
+  color: #4CAF50; /* Green */
+}
+
+.error-icon mat-icon {
+  color: #F44336; /* Red */
+}
+
+.info-icon mat-icon {
+  color: #2196F3; /* Blue */
+}
+
+.status-message {
+  font-size: 1.8em;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.status-message.success {
+  color: #4CAF50;
+}
+
+.status-message.error {
+  color: #F44336;
+}
+
+.payment-details {
+  border-top: 1px solid #eee;
+  padding-top: 25px;
+  text-align: left;
+  width: 100%;
+  font-size: 0.95em;
+  color: #555;
+}
+
+.payment-details p {
+  margin-bottom: 8px;
+}
+
+.payment-details strong {
+  color: #333;
+}
+
+.status-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.status-actions button {
+  padding: 10px 25px;
+  font-size: 1.05em;
+  border-radius: 8px;
+}
