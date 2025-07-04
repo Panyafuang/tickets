@@ -95,8 +95,8 @@ export class StripeService {
               email: email
             }
           },
-          // *** เพิ่ม return_url ตรงนี้ ***
-          // นี่ควรเป็น URL ของหน้าเพจในแอปพลิเคชัน Angular ของคุณที่แสดงผลลัพธ์การชำระเงิน
+
+          // URL ของหน้าเพจในแอปพลิเคชัน Angular ของคุณที่แสดงผลลัพธ์การชำระเงิน
           // ตัวอย่างเช่น หน้า Order Success หรือ Payment Status
           return_url: window.location.origin + '/payment-status/' + clientSecret // หรือ URL ที่เหมาะสมกับแอปของคุณ
         } as any // ยังคง as any ไว้ เพราะเราเปลี่ยนโครงสร้างภายใน confirmParams.payment_method_data

@@ -62,7 +62,6 @@ const routes: Routes = [
     ],
   },
   { path: 'payment-status/:clientSecret', component: PaymentStatusComponent },
-  // { path: 'payment-status', component: PaymentStatusComponent },
   {
     path: 'start',
     component: StartComponent,
