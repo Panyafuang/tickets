@@ -13,16 +13,22 @@
         <div class="form-row">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Email Address</mat-label>
-            <input matInput placeholder="yourname@example.com" formControlName="email" required email>
+            <input matInput placeholder="yourname@example.com" formControlName="email" required email />
             <mat-icon matSuffix>email</mat-icon>
-            <mat-error *ngIf="signupForm.get('email')?.hasError('required') && signupForm.get('email')?.touched">
+            <mat-error *ngIf="
+                signupForm.get('email')?.hasError('required') &&
+                signupForm.get('email')?.touched
+              ">
               Email is required.
             </mat-error>
-            <mat-error *ngIf="signupForm.get('email')?.hasError('email') && signupForm.get('email')?.touched">
+            <mat-error *ngIf="
+                signupForm.get('email')?.hasError('email') &&
+                signupForm.get('email')?.touched
+              ">
               Please enter a valid email address.
             </mat-error>
             <mat-error *ngIf="getBackendErrorForField('email')">
-              {{ getBackendErrorForField('email') }}
+              {{ getBackendErrorForField("email") }}
             </mat-error>
             <mat-hint>We'll send booking confirmations here.</mat-hint>
           </mat-form-field>
@@ -31,20 +37,107 @@
         <div class="form-row">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Password</mat-label>
-            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required minlength="6">
-            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
-              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required
+              minlength="6" />
+            <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hidePassword">
+              <mat-icon>{{
+                hidePassword ? "visibility_off" : "visibility"
+                }}</mat-icon>
             </button>
-            <mat-error *ngIf="signupForm.get('password')?.hasError('required') && signupForm.get('password')?.touched">
+            <mat-error *ngIf="
+                signupForm.get('password')?.hasError('required') &&
+                signupForm.get('password')?.touched
+              ">
               Password is required.
             </mat-error>
-            <mat-error *ngIf="signupForm.get('password')?.hasError('minlength') && signupForm.get('password')?.touched">
+            <mat-error *ngIf="
+                signupForm.get('password')?.hasError('minlength') &&
+                signupForm.get('password')?.touched
+              ">
               Password must be at least 6 characters.
             </mat-error>
             <mat-error *ngIf="getBackendErrorForField('password')">
-              {{ getBackendErrorForField('password') }}
+              {{ getBackendErrorForField("password") }}
             </mat-error>
             <mat-hint>Minimum 6 characters.</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Firstname</mat-label>
+            <input matInput formControlName="firstname" required />
+            <mat-error *ngIf="
+                signupForm.get('firstname')?.hasError('required') &&
+                signupForm.get('firstname')?.touched
+              ">
+              Firstname is required.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Lastname</mat-label>
+            <input matInput formControlName="lastname" required />
+            <mat-error *ngIf="
+                signupForm.get('lastname')?.hasError('required') &&
+                signupForm.get('lastname')?.touched
+              ">
+              Lastname is required.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Sex</mat-label>
+            <mat-select formControlName="sex" required>
+              <mat-option value="male">Male</mat-option>
+              <mat-option value="female">Female</mat-option>
+              <mat-option value="other">Other</mat-option>
+            </mat-select>
+            <mat-error *ngIf="
+                signupForm.get('sex')?.hasError('required') &&
+                signupForm.get('sex')?.touched
+              ">
+              Sex is required.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Tel</mat-label>
+            <input matInput formControlName="tel" required />
+            <mat-error *ngIf="
+                signupForm.get('tel')?.hasError('required') &&
+                signupForm.get('tel')?.touched
+              ">
+              Telephone is required.
+            </mat-error>
+            <mat-error *ngIf="
+                signupForm.get('tel')?.hasError('minlength') &&
+                signupForm.get('tel')?.touched
+              ">
+              Telephone must be at least 9 digits.
+            </mat-error>
+            <mat-error *ngIf="
+                signupForm.get('tel')?.hasError('maxlength') &&
+                signupForm.get('tel')?.touched
+              ">
+              Telephone cannot exceed 10 digits.
+            </mat-error>
+            <mat-error *ngIf="
+                signupForm.get('tel')?.hasError('pattern') &&
+                signupForm.get('tel')?.touched
+              ">
+              Please enter a valid telephone number (digits only).
+            </mat-error>
+            <mat-error *ngIf="getBackendErrorForField('tel')">
+              {{ getBackendErrorForField("tel") }}
+            </mat-error>
           </mat-form-field>
         </div>
 
@@ -56,7 +149,8 @@
       </form>
     </mat-card-content>
     <mat-card-footer class="auth-footer">
-      Already have an account? <a [routerLink]="['/auth', 'signin']">Sign In here.</a>
+      Already have an account?
+      <a [routerLink]="['/auth', 'signin']">Sign In here.</a>
     </mat-card-footer>
   </mat-card>
 </div>

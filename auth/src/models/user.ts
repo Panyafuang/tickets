@@ -5,6 +5,11 @@ import { Password } from "../services/password";
 interface IUserAttrs {
     email: string;
     password: string;
+    firstname: string;
+    lastname: string;
+    tel: string;
+    sex: 'male' | 'female' | 'other';
+    role: 'user' | 'admin';
 }
 
 // An interface that describes the properties, that a User Model has, Tell TS a build function available on this User model.
@@ -16,6 +21,10 @@ interface IUserModel extends mongoose.Model<IUserDoc> {
 interface IUserDoc extends mongoose.Document {
     email: string;
     password: string;
+    fullname: string;
+    tel: string;
+    sex: 'male' | 'female' | 'other';
+    role: 'user' | 'admin';
 }
 
 
@@ -23,11 +32,35 @@ const userSchema = new mongoose.Schema(
     {
         email: {
             type: String,
-            required: true
+            required: true,
+            unique: true
         },
         password: {
             type: String,
             required: true
+        },
+        firstname: {
+            type: String,
+            required: true
+        },
+        lastname: {
+            type: String,
+            required: true
+        },
+        tel: {
+            type: String,
+            required: true
+        },
+        sex: {
+            type: String,
+            required: true,
+            enum: ['male', 'female', 'other']
+        },
+        role: {
+            type: String,
+            required: true,
+            enum: ['user', 'admin'],
+            default: 'user'
         }
     }, {
     toJSON: {

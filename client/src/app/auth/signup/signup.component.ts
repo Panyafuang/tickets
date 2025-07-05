@@ -25,8 +25,12 @@ export class SignupComponent implements OnInit {
 
   ngOnInit() {
     this.signupForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]], // เพิ่ม Frontend Validators
-      password: ['', [Validators.required, Validators.minLength(6)]], // เพิ่ม Frontend Validators
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      firstname: ['', [Validators.required]],
+      lastname: ['', [Validators.required]],
+      sex: ['', [Validators.required]],
+      tel: ['', [Validators.required, Validators.pattern(/^[0-9]{9,10}$/)]] // สำหรับเบอร์โทรศัพท์ 9-10 หลัก
     });
   }
 
@@ -42,14 +46,18 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log('onsubmit...')
+
     this.backendErrors = []; // Clear previous backend errors on new submission
 
     // Mark all form fields as touched to display frontend validation errors
     this.signupForm.markAllAsTouched();
 
     if (this.signupForm.valid) {
+      const { email, password, firstname, lastname, sex, tel } = this.signupForm.value;
+
       this._authService
-        .signup(this.signupForm.value.email, this.signupForm.value.password)
+        .signup(email, password, firstname, lastname, sex, tel)
         .subscribe({
           next: (data) => {
             console.log('Signup successful:', data);
