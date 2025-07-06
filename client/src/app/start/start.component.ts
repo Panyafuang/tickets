@@ -4,7 +4,6 @@ import { IUser } from '../models/user.model';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 
 
 @Component({
@@ -20,7 +19,6 @@ export class StartComponent implements OnInit, OnDestroy {
   constructor(
     private _authService: AuthService,
     private fb: FormBuilder,
-    private router: Router,
     private snackBar: MatSnackBar
   ) {}
 

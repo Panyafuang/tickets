@@ -8,7 +8,7 @@
 }
 
 .auth-card {
-  max-width: 450px; /* Slightly wider for better form appearance */
+  max-width: 800px; /* Slightly wider for better form appearance */
   width: 100%;
   padding: 30px; /* More padding inside card */
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* More prominent shadow */
@@ -60,6 +60,7 @@ mat-card-header {
   display: flex;
   justify-content: center; /* Center the submit button */
   padding-top: 25px;
+  grid-area: btn-submit;
 }
 
 button[type="submit"] {
@@ -98,4 +99,37 @@ button[type="submit"] {
 .error-snackbar {
   background-color: #f44336; /* Red */
   color: white;
+}
+
+
+.email__container {
+  grid-area: email;
+}
+.password__container {
+  grid-area: password;
+}
+.firstname__container {
+  grid-area: firstname;
+}
+.lastname__container {
+  grid-area: lastname;
+}
+.sex__container {
+  grid-area: sex;
+}
+.tel__container {
+  grid-area: tel;
+}
+
+.signupForm__container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  grid-gap: 10px;
+  grid-template-areas: 
+  "email email email email"
+  "password password password password"
+  "firstname firstname lastname lastname"
+  "sex tel tel tel"
+  ". . . btn-submit";
 }

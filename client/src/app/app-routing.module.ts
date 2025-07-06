@@ -66,7 +66,7 @@ const routes: Routes = [
     path: 'start',
     component: StartComponent,
     resolve: {
-      getCurrUserResolver,
+      currentUser: getCurrUserResolver,
     },
   },
   { path: '**', component: PageNotFoundComponent },

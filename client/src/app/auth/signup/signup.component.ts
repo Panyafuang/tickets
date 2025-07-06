@@ -46,8 +46,6 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('onsubmit...')
-
     this.backendErrors = []; // Clear previous backend errors on new submission
 
     // Mark all form fields as touched to display frontend validation errors
