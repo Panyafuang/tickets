@@ -59,3 +59,11 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
+    - image: thanadilok/bus
+      context: bus
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
