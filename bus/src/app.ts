@@ -5,6 +5,10 @@ import cookieSession from "cookie-session"; // handling all of our cookie relate
 import cors from 'cors';
 import { NotFoundError, currentUser, errorHandler } from '@xtptickets/common';
 
+import { createRouteRouter } from './routes/create-route';
+import { listRoutesRouter } from './routes/list-routes';
+import { showRouteRouter } from './routes/show-route';
+
 const app = express();
 app.set('trust proxy', true);
 app.use(json());
@@ -38,6 +42,12 @@ app.use(cookieSession({
   secure: true // Do not try to manage any cookie if the user is connecting over an HTTP, จะทำให้ cookie ไม่ทำงานใน environment ที่ใช้ HTTP ดังนั้นใน development อาจต้องตั้งค่าเป็น false ชั่วคราว
 }));
 app.use(currentUser);
+
+
+// --- ใช้ Routers สำหรับ Route ---
+app.use(showRouteRouter);
+app.use(listRoutesRouter);
+app.use(createRouteRouter);
 
 // path: /api/users/?(.*)
 app.all('*', async (req, res) => {

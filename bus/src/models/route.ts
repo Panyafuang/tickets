@@ -1,15 +1,21 @@
 import mongoose from "mongoose";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 // Interface สำหรับ Attributes ที่ใช้ในการสร้าง Route
 interface IRouteAttr {
   origin: string; // จุดต้นทาง เช่น "กรุงเทพ (หมอชิต)"
   destination: string; // จุดปลายทาง เช่น "ศรีราชา"
+  distanceKm?: number;
+  durationHours?: number;
 }
 
 // Interface สำหรับ Document ที่จะได้จาก MongoDB (รวมถึง _id, createdAt, updatedAt)
 interface IRouteDoc extends mongoose.Document {
   origin: string;
   destination: string;
+  distanceKm?: number;
+  durationHours?: number;
+  version: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -31,6 +37,16 @@ const routeSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    distanceKm: {
+      type: Number,
+      required: false,
+      min: 0
+    },
+    durationHours: {
+      type: Number,
+      required: false,
+      min: 0
+    }
   },
   {
     timestamps: true, // เพิ่ม createdAt และ updatedAt โดยอัตโนมัติ
@@ -43,6 +59,9 @@ const routeSchema = new mongoose.Schema(
     },
   }
 );
+
+routeSchema.set('versionKey', 'version');
+routeSchema.plugin(updateIfCurrentPlugin);
 
 // สร้าง Static method สำหรับการสร้าง Document
 routeSchema.statics.build = (attrs: IRouteAttr) => {
