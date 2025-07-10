@@ -51,7 +51,7 @@ const routeSchema = new mongoose.Schema(
   {
     timestamps: true, // เพิ่ม createdAt และ updatedAt โดยอัตโนมัติ
     toJSON: {
-      transform(doc, ret) {
+      transform(doc, ret: any) {
         ret.id = ret._id; // เปลี่ยน _id เป็น id สำหรับ Frontend
         delete ret._id;
         delete ret.__v; // ลบ __v field

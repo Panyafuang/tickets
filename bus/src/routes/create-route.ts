@@ -1,4 +1,4 @@
-import { requireAuth, validateRequest } from "@xtptickets/common";
+import { requireAdmin, requireAuth, validateRequest } from "@xtptickets/common";
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import { Route } from "../models/route";
@@ -8,6 +8,7 @@ const router = express.Router();
 router.post(
   "/api/bus/routes",
   requireAuth,
+  requireAdmin,
   [
     body("origin").not().isEmpty().withMessage("Origin is required"),
     body("destination").not().isEmpty().withMessage("Destination is required"),

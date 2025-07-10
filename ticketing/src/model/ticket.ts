@@ -57,7 +57,7 @@ const ticketSchema = new mongoose.Schema(
         - ลบ _id ออก เพื่อให้ JSON ที่ frontend รับไปดูสะอาดขึ้น
      */
     toJSON: {
-      transform(doc, ret) {
+      transform(doc, ret: any) {
         ret.id = ret._id;
         delete ret._id;
       },

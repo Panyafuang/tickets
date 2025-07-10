@@ -28,11 +28,15 @@ router.post('/api/users/signin', [
     }
 
 
+    console.log('existingUser -> ', existingUser);
+
+
     /** User is now considered to be logged in. Send them a JWT in a cookie */
     const userJwt = jwt.sign({
       // payload
       id: existingUser.id,
-      email: existingUser.email
+      email: existingUser.email,
+      role: existingUser.role
     },
       // secret key
       process.env.JWT_KEY!

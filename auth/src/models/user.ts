@@ -79,7 +79,7 @@ const userSchema = new mongoose.Schema(
          * @param doc 
          * @param ret the thing tha's going to eventually be turned into JSON.
          */
-        transform(doc, ret) {
+        transform(doc, ret: any) {
             ret.id = ret._id;
             delete ret._id;
             delete ret.password;

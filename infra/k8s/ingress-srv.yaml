@@ -38,6 +38,13 @@ spec:
                 name: orders-srv
                 port:
                   number: 3000
+          - path: /api/bus/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: bus-srv
+                port:
+                  number: 3000
           - path: /                                         # เส้นทางหลักที่ไว้ให้ frontend
             pathType: Prefix                                # ใช้ Prefix เพื่อรองรับทุก path ต่อท้าย
             backend:
