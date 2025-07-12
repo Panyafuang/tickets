@@ -1,3 +1,16 @@
+# infra/k8s/auth-mongo-depl.yaml
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: auth-mongo-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -12,9 +25,16 @@ spec:
       labels:
         app: auth-mongo
     spec:
+      volumes:
+        - name: auth-mongo-storage
+          persistentVolumeClaim:
+            claimName: auth-mongo-pvc
       containers:
         - name: auth-mongo
           image: mongo
+          volumeMounts:
+            - name: auth-mongo-storage
+              mountPath: /data/db
 ---
 apiVersion: v1
 kind: Service

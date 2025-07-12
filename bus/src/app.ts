@@ -5,9 +5,11 @@ import cookieSession from "cookie-session"; // handling all of our cookie relate
 import cors from 'cors';
 import { NotFoundError, currentUser, errorHandler } from '@xtptickets/common';
 
-import { createRouteRouter } from './routes/create-route';
+import { newRouteRouter } from './routes/route-new';
 import { listRoutesRouter } from './routes/list-routes';
 import { showRouteRouter } from './routes/show-route';
+import { deleteRouteRouter } from './routes/delete-route';
+import { updateRouteRouter } from './routes/update-route';
 
 const app = express();
 app.set('trust proxy', true);
@@ -47,7 +49,9 @@ app.use(currentUser);
 // --- ใช้ Routers สำหรับ Route ---
 app.use(showRouteRouter);
 app.use(listRoutesRouter);
-app.use(createRouteRouter);
+app.use(newRouteRouter);
+app.use(updateRouteRouter);
+app.use(deleteRouteRouter);
 
 // path: /api/users/?(.*)
 app.all('*', async (req, res) => {

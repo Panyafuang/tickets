@@ -1,3 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bus-mongo-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -12,9 +23,16 @@ spec:
       labels:
         app: bus-mongo
     spec:
+      volumes: 
+        - name: bus-mongo-storage
+          persistentVolumeClaim: 
+            claimName: bus-mongo-pvc
       containers:
         - name: bus-mongo
           image: mongo
+          volumeMounts:
+            - name: bus-mongo-storage
+              mountPath: /data/db
 ---
 apiVersion: v1
 kind: Service

@@ -23,8 +23,7 @@ export class StartComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // this._authService.getUserDetail();
-    this.currUserSub = this._authService.userUpdated.subscribe(data => {
+    this.currUserSub = this._authService.currentUser$.subscribe(data => {
       this.currUser = data;
     });
     this.searchForm = this.fb.group({

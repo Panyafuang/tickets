@@ -59,7 +59,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    this.currUserSub = this._authService.userUpdated.subscribe((user) => {
+    this.currUserSub = this._authService.currentUser$.subscribe((user) => {
       this.currUser = user;
     });
     this.paymentForm = this.fb.group({
