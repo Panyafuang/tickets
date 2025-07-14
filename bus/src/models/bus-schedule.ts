@@ -27,7 +27,7 @@ interface IBusScheduleAttrs {
 // Interface สำหรับ Document ที่จะได้จาก MongoDB
 interface IBusScheduleDoc extends mongoose.Document {
   routeId: mongoose.Types.ObjectId; // อ้างอิงไปยัง Route Model
-  busId: string; // ID ของรถบัส (อาจจะอ้างอิง Bus Model จริงๆ ในอนาคต)
+  busId: string; // ID ของรถบัส (อาจจะอ้างอิง Bus Model จริงๆ ในอนาคต) อาจจะเป็นหมายเลขทะเบียนรถ, รหัสภายในของบริษัท, หรืออะไรก็ได้ที่เราตกลงกันไว้
   departureTime: Date; // เวลาออกเดินทาง
   arrivalTime: Date; // เวลาถึงที่หมาย
   price: number; // ราคาต่อที่นั่งสำหรับตารางเดินรถนี้
@@ -102,7 +102,7 @@ const busScheduleSchema = new mongoose.Schema({
 }, {
   timestamps: true,
   toJSON: {
-    transform(doc, ret) {
+    transform(doc, ret: any) {
       ret.id = ret._id;
       delete ret._id;
       delete ret.__v;

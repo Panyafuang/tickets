@@ -15,7 +15,7 @@ export class MenubarComponent implements OnInit, OnDestroy {
   constructor(private _authService: AuthService) { }
 
   ngOnInit(): void {
-    this.currUserSup = this._authService.userUpdated.subscribe(data => {
+    this.currUserSup = this._authService.currentUser$.subscribe(data => {
       this.currUser = data;
     });
   }

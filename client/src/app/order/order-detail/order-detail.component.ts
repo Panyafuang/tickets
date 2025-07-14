@@ -36,9 +36,7 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.currUserSup = this._authService
-      .getUserUpdatedLister()
-      .subscribe((user) => (this.currUser = user));
+    this.currUserSup = this._authService.currentUser$.subscribe((user) => (this.currUser = user));
 
     this.route.params.subscribe((params: Params) => {
       this.orderId = params['id'];

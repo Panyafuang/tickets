@@ -19,6 +19,7 @@ import { OrderComponent } from './order/order.component';
 import { OrderDetailComponent } from './order/order-detail/order-detail.component';
 import { OrderListComponent } from './order/order-list/order-list.component';
 import { PaymentStatusComponent } from './payment/payment-status/payment-status.component';
+import { AdminGuard } from './guards/admin.guard';
 
 const getCurrUserResolver: ResolveFn<any> = (
   route: ActivatedRouteSnapshot,
@@ -69,6 +70,12 @@ const routes: Routes = [
       currentUser: getCurrUserResolver,
     },
   },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminModule),
+    canActivate: [AdminGuard],
+  },
   { path: '**', component: PageNotFoundComponent },
 ];
 
@@ -76,4 +83,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
