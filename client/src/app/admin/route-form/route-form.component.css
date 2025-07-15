@@ -1,0 +1,28 @@
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.route-card {
+  max-width: 500px;
+  width: 100%;
+}
+
+.route-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px; /* เพิ่มช่องว่างระหว่างปุ่ม */
+  padding: 16px 0;
+}

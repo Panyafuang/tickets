@@ -11,11 +11,12 @@ import { BusSchedule } from "../models/bus-schedule";
 const router = express.Router();
 
 router.delete(
-  "/api/bus/routers/:id",
+  "/api/bus/routes/:id",
   requireAuth,
   requireAdmin,
   async (req: Request, res: Response) => {
     const existingRoute = await Route.findById(req.params.id);
+    console.log('existingRoute -> ', existingRoute);
     if (!existingRoute) {
       throw new NotFoundError();
     }

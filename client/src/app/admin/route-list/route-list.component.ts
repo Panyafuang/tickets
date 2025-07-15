@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RoutsService } from '../../services/routs.service';
+import { RouteService } from '../../services/routs.service';
 import { Observable } from 'rxjs';
 import { IRoute } from '../../models/route.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -11,10 +11,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class RouteListComponent implements OnInit {
   routes$!: Observable<IRoute[]>;
-  displayedColumns: string[] = ['origin', 'destination', 'actions'];
+  displayedColumns: string[] = ['origin', 'destination', 'distanceKm', 'durationHours', 'actions'];
   errMsgBackEnd: string | null = '';
 
-  constructor(private _routeService: RoutsService, private snackBar: MatSnackBar) { }
+  constructor(private _routeService: RouteService, private snackBar: MatSnackBar) { }
 
 
   ngOnInit(): void {

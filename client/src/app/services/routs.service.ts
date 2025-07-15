@@ -6,7 +6,7 @@ import { IRoute } from '../models/route.model';
 @Injectable({
   providedIn: 'root'
 })
-export class RoutsService {
+export class RouteService {
   private apiUrl = `/api/bus/routes`;
 
   constructor(private http: HttpClient) { }
