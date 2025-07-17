@@ -16,7 +16,7 @@ router.post(
     body("routeId").not().isEmpty().withMessage("Route ID is required"),
     body('busId').not().isEmpty().withMessage('Bus ID is required'),
     body("departureTime")
-      .isISO8601()
+      .isISO8601() //  นำข้อมูลนั้นมาตรวจ ถ้าข้อมูลที่ได้ไม่ใช่ String ที่อยู่ในรูปแบบมาตรฐาน ISO 8601 ให้ถือว่าข้อมูลนั้นไม่ถูกต้อง (Invalid)
       .withMessage("Departure time must be a valid date"),
     body("arrivalTime")
       .isISO8601()

@@ -10,6 +10,10 @@ import { listRoutesRouter } from './routes/list-routes';
 import { showRouteRouter } from './routes/show-route';
 import { deleteRouteRouter } from './routes/delete-route';
 import { updateRouteRouter } from './routes/update-route';
+import { showBusScheduleRouter } from './routes/show-schedule';
+import { createBusScheduleRouter } from './routes/schedules-new';
+import { updateBusScheduleRouter } from './routes/schedules-update';
+import { listBusSchedulesRouter } from './routes/list-schedule';
 
 const app = express();
 app.set('trust proxy', true);
@@ -52,6 +56,12 @@ app.use(listRoutesRouter);
 app.use(newRouteRouter);
 app.use(updateRouteRouter);
 app.use(deleteRouteRouter);
+
+// -- ใช้  Routers สำหรับ Schedule --
+app.use(showBusScheduleRouter);
+app.use(createBusScheduleRouter);
+app.use(updateBusScheduleRouter);
+app.use(listBusSchedulesRouter);
 
 // path: /api/users/?(.*)
 app.all('*', async (req, res) => {
