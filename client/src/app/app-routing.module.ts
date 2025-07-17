@@ -20,6 +20,7 @@ import { OrderDetailComponent } from './order/order-detail/order-detail.componen
 import { OrderListComponent } from './order/order-list/order-list.component';
 import { PaymentStatusComponent } from './payment/payment-status/payment-status.component';
 import { AdminGuard } from './guards/admin.guard';
+import { BusComponent } from './bus/bus.component';
 
 const getCurrUserResolver: ResolveFn<any> = (
   route: ActivatedRouteSnapshot,
@@ -63,6 +64,7 @@ const routes: Routes = [
     ],
   },
   { path: 'payment-status/:clientSecret', component: PaymentStatusComponent },
+  { path: 'schedules', component: BusComponent },
   {
     path: 'start',
     component: StartComponent,

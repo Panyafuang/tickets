@@ -1,17 +1,12 @@
-import {
-  NotFoundError,
-  requireAdmin,
-  requireAuth,
-  validateRequest,
-} from "@xtptickets/common";
+import { requireAdmin, requireAuth, validateRequest } from "@xtptickets/common";
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
-import { Route } from "../models/route";
+import { Route } from "../../models/route";
 
 const router = express.Router();
 
-router.put(
-  "/api/bus/routes/:id",
+router.post(
+  "/api/bus/routes",
   requireAuth,
   requireAdmin,
   [
@@ -20,24 +15,19 @@ router.put(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const route = await Route.findById(req.params.id);
-
-    if (!route) {
-      throw new NotFoundError();
-    }
-
     const { origin, destination, distanceKm, durationHours } = req.body;
-    route.set({
-      origin,
-      destination,
-      distanceKm,
-      durationHours,
+
+    const route = Route.build({
+        origin,
+        destination,
+        distanceKm,
+        durationHours,
     });
     await route.save();
 
-    res.send(route)
+    res.status(201).send(route);
   }
 );
 
 
-export { router as updateRouteRouter }
+export { router as newRouteRouter };

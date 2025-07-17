@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
-import { Route } from '../models/route';
 import { NotFoundError } from '@xtptickets/common';
+import { Route } from '../../models/route';
 
 
 const router = express.Router();

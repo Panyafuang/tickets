@@ -27,6 +27,8 @@ import { OrderListComponent } from './order/order-list/order-list.component';
 import { SecondsToMmssPipe } from './pipe/seconds-to-mmss.pipe';
 import { PaymentStatusComponent } from './payment/payment-status/payment-status.component';
 import { provideToastr } from 'ngx-toastr';
+import { BusComponent } from './bus/bus.component';
+import { SeatSelectionComponent } from './bus/seat-selection/seat-selection.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import { provideToastr } from 'ngx-toastr';
     PaymentFormComponent,
     OrderListComponent,
     SecondsToMmssPipe,
-    PaymentStatusComponent
+    PaymentStatusComponent,
+    BusComponent,
+    SeatSelectionComponent
   ],
   imports: [
     BrowserModule,

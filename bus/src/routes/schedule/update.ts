@@ -6,9 +6,9 @@ import {
 } from "@xtptickets/common";
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
-import { BusSchedule } from "../models/bus-schedule";
-import { BusScheduleUpatedPublisher } from "../events/publishers/bus-schedule-updated-publisher";
-import { natsWrapper } from "../nats-wrapper";
+import { BusSchedule } from "../../models/bus-schedule";
+import { BusScheduleUpatedPublisher } from "../../events/publishers/bus-schedule-updated-publisher";
+import { natsWrapper } from "../../nats-wrapper";
 
 const router = express.Router();
 
@@ -65,6 +65,7 @@ router.put(
         routeId: schedule.routeId.toString(),
         departureTime: schedule.departureTime.toISOString(),
         price: schedule.price,
+        isCancelled: schedule.isCancelled
     });
     res.send(schedule);
   }

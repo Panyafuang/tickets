@@ -4,16 +4,16 @@ import { json } from "body-parser";
 import cookieSession from "cookie-session"; // handling all of our cookie related stuff.
 import cors from 'cors';
 import { NotFoundError, currentUser, errorHandler } from '@xtptickets/common';
-
-import { newRouteRouter } from './routes/route-new';
-import { listRoutesRouter } from './routes/list-routes';
-import { showRouteRouter } from './routes/show-route';
-import { deleteRouteRouter } from './routes/delete-route';
-import { updateRouteRouter } from './routes/update-route';
-import { showBusScheduleRouter } from './routes/show-schedule';
-import { createBusScheduleRouter } from './routes/schedules-new';
-import { updateBusScheduleRouter } from './routes/schedules-update';
-import { listBusSchedulesRouter } from './routes/list-schedule';
+import { listRoutesRouter } from './routes/route';
+import { deleteRouteRouter } from './routes/route/delete';
+import { newRouteRouter } from './routes/route/new';
+import { showRouteRouter } from './routes/route/show';
+import { updateRouteRouter } from './routes/route/update';
+import { listBusSchedulesRouter } from './routes/schedule';
+import { createBusScheduleRouter } from './routes/schedule/new';
+import { showBusScheduleRouter } from './routes/schedule/show';
+import { updateBusScheduleRouter } from './routes/schedule/update';
+import { cancelBusScheduleRouter } from './routes/schedule/delete';
 
 const app = express();
 app.set('trust proxy', true);
@@ -62,6 +62,7 @@ app.use(showBusScheduleRouter);
 app.use(createBusScheduleRouter);
 app.use(updateBusScheduleRouter);
 app.use(listBusSchedulesRouter);
+app.use(cancelBusScheduleRouter);
 
 // path: /api/users/?(.*)
 app.all('*', async (req, res) => {

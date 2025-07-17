@@ -5,8 +5,8 @@ import {
   requireAuth,
 } from "@xtptickets/common";
 import express, { Request, Response } from "express";
-import { Route } from "../models/route";
-import { BusSchedule } from "../models/bus-schedule";
+import { BusSchedule } from "../../models/bus-schedule";
+import { Route } from "../../models/route";
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ router.delete(
   requireAdmin,
   async (req: Request, res: Response) => {
     const existingRoute = await Route.findById(req.params.id);
-    console.log('existingRoute -> ', existingRoute);
+    
     if (!existingRoute) {
       throw new NotFoundError();
     }

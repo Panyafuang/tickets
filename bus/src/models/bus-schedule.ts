@@ -34,6 +34,7 @@ interface IBusScheduleDoc extends mongoose.Document {
   totalSeats: number; // จำนวนที่นั่งทั้งหมด
   availableSeats: number; // จำนวนที่นั่งที่ยังว่างอยู่
   seatLayout: ISeatLayoutItem[]; // ผังที่นั่งพร้อมสถานะ
+  isCancelled: boolean;
   version: number;
   createdAt: Date;
   updatedAt: Date;
@@ -98,7 +99,13 @@ const busScheduleSchema = new mongoose.Schema({
       lockedByTicketId: { type: mongoose.Schema.Types.ObjectId, ref: "Ticket" },
       lockedAt: { type: Date }
     }
-  ]
+  ],
+    isCancelled: {
+      type: Boolean,
+      required: true,
+      default: false
+    }
+  
 }, {
   timestamps: true,
   toJSON: {

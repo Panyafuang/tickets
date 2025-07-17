@@ -1,10 +1,10 @@
 import { NotFoundError, requireAdmin, requireAuth, validateRequest } from "@xtptickets/common";
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
-import { Route } from "../models/route";
-import { BusSchedule } from "../models/bus-schedule";
-import { BusScheduleCreatedPublisher } from "../events/publishers/bus-schedule-created-publisher";
-import { natsWrapper } from "../nats-wrapper";
+import { BusSchedule } from "../../models/bus-schedule";
+import { Route } from "../../models/route";
+import { BusScheduleCreatedPublisher } from "../../events/publishers/bus-schedule-created-publisher";
+import { natsWrapper } from "../../nats-wrapper";
 
 const router = express.Router();
 

@@ -1,9 +1,8 @@
 import { validateRequest } from "@xtptickets/common";
 import express, { Request, Response } from "express";
 import { query } from "express-validator";
-import { Route } from "../models/route";
-import { BusSchedule } from "../models/bus-schedule";
-
+import { Route } from "../../models/route";
+import { BusSchedule } from "../../models/bus-schedule";
 const router = express.Router();
 
 router.get(
@@ -42,7 +41,8 @@ router.get(
         departureTime: { // เวลาออกเดินทาง
             $gte: startOfDay,
             $lte: endOfDay
-        }
+        },
+        isCancelled: false
     });
 
     res.send(schedules);

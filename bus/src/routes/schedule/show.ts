@@ -1,6 +1,6 @@
 import { NotFoundError } from '@xtptickets/common';
 import express, { Request, Response } from 'express';
-import { BusSchedule } from '../models/bus-schedule';
+import { BusSchedule } from '../../models/bus-schedule';
 
 const router = express.Router();
 
