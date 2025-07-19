@@ -19,6 +19,11 @@ router.get(
   async (req: Request, res: Response) => {
     const { origin, destination, date } = req.query;
 
+    console.log('origin: ', origin);
+    console.log('destination: ', destination);
+    console.log('date: ', date);
+
+
     // 1. ค้นหา Route ID ที่ตรงกับ origin และ destination
     const route = await Route.findOne({
         origin: origin,
@@ -46,7 +51,6 @@ router.get(
     });
 
     res.send(schedules);
-
   }
 );
 

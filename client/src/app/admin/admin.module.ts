@@ -10,7 +10,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ScheduleListComponent } from './schedule-list/schedule-list.component';
 import { ScheduleFormComponent } from './schedule-form/schedule-form.component';
 
-
 @NgModule({
   declarations: [
     AdminComponent,

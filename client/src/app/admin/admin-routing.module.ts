@@ -29,15 +29,15 @@ const routes: Routes = [
     component: RouteFormComponent,
   },
   {
-    path: 'schedule',
+    path: 'schedules',
     component: ScheduleListComponent,
   },
   {
-    path: 'schedule/new',
+    path: 'schedules/new',
     component: ScheduleFormComponent,
   },
   {
-    path: 'schedule/edit/:id',
+    path: 'schedules/edit/:id',
     component: ScheduleFormComponent,
   },
   { path: '', component: AdminComponent },
