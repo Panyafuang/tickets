@@ -7,13 +7,17 @@ import { RouteListComponent } from './route-list/route-list.component';
 import { RouteFormComponent } from './route-form/route-form.component';
 import { MaterialModule } from '../../material-module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ScheduleListComponent } from './schedule-list/schedule-list.component';
+import { ScheduleFormComponent } from './schedule-form/schedule-form.component';
 
 
 @NgModule({
   declarations: [
     AdminComponent,
     RouteListComponent,
-    RouteFormComponent
+    RouteFormComponent,
+    ScheduleListComponent,
+    ScheduleFormComponent
   ],
   imports: [
     CommonModule,

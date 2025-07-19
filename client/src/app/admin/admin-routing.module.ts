@@ -3,34 +3,48 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { RouteListComponent } from './route-list/route-list.component';
 import { RouteFormComponent } from './route-form/route-form.component';
+import { ScheduleListComponent } from './schedule-list/schedule-list.component';
+import { ScheduleFormComponent } from './schedule-form/schedule-form.component';
 
 const routes: Routes = [
   {
     // ถ้าเข้ามาที่ /admin จะให้ redirect ไปที่ /admin/routes
     path: '',
     redirectTo: 'routes',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     // Route สำหรับ /admin/routes
     path: 'routes',
-    component: RouteListComponent
+    component: RouteListComponent,
   },
   {
     // Route สำหรับ /admin/routes/new
     path: 'routes/new',
-    component: RouteFormComponent
+    component: RouteFormComponent,
   },
   {
     // Route สำหรับ /admin/routes/edit/id
     path: 'route/edit/:id',
-    component: RouteFormComponent
+    component: RouteFormComponent,
   },
-  { path: '', component: AdminComponent }
+  {
+    path: 'schedule',
+    component: ScheduleListComponent,
+  },
+  {
+    path: 'schedule/new',
+    component: ScheduleFormComponent,
+  },
+  {
+    path: 'schedule/edit/:id',
+    component: ScheduleFormComponent,
+  },
+  { path: '', component: AdminComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AdminRoutingModule { }
+export class AdminRoutingModule {}

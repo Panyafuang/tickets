@@ -4,22 +4,21 @@
       <form class="search-form" [formGroup]="searchForm" (ngSubmit)="onSearch()">
         <mat-form-field appearance="outline">
           <mat-label>จังหวัดต้นทาง</mat-label>
-          <!-- <input matInput formControlName="origin"> -->
-           <mat-select formControlName="origin">
+          <mat-select formControlName="origin">
             <mat-option *ngFor="let origin of uniqueOrigins" [value]="origin">
-                {{ origin }}
+              {{ origin }}
             </mat-option>
-           </mat-select>
+          </mat-select>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>จุดหมายปลายทาง</mat-label>
-          <!-- <input matInput formControlName="destination"> -->
-           <mat-select formControlName="destination">
-            <mat-option *ngFor="let destination of uniqueDestinations" [value]="destination">
-                {{ destination }}
+          <!-- แก้ไขให้ใช้ filteredDestinations -->
+          <mat-select formControlName="destination">
+            <mat-option *ngFor="let destination of filteredDestinations" [value]="destination">
+              {{ destination }}
             </mat-option>
-           </mat-select>
+          </mat-select>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -35,54 +34,50 @@
   </mat-card>
 
   <div class="results-container">
-
+    <!-- ส่วนแสดงตารางเที่ยวรถ (เหมือนเดิม) -->
     <ng-container *ngIf="!selectedSchedule">
       <div class="mat-elevation-z8" *ngIf="schedules$ | async as schedules">
         <table mat-table [dataSource]="schedules" *ngIf="schedules.length > 0; else noResults">
-          
+          <!-- ... (ส่วนของ table เหมือนเดิมทั้งหมด) ... -->
           <ng-container matColumnDef="time">
             <th mat-header-cell *matHeaderCellDef> รอบเวลาเดินทาง </th>
             <td mat-cell *matCellDef="let schedule"> {{ schedule.departureTime | date:'HH:mm' }} </td>
           </ng-container>
-          
           <ng-container matColumnDef="busType">
             <th mat-header-cell *matHeaderCellDef> ประเภทรถ </th>
-            <td mat-cell *matCellDef="let schedule"> ป.1 </td> </ng-container>
-
+            <td mat-cell *matCellDef="let schedule"> ป.1 </td>
+          </ng-container>
           <ng-container matColumnDef="price">
             <th mat-header-cell *matHeaderCellDef> ราคา </th>
             <td mat-cell *matCellDef="let schedule"> {{ schedule.price | number:'1.2-2' }} </td>
           </ng-container>
-
           <ng-container matColumnDef="seatsAvailable">
             <th mat-header-cell *matHeaderCellDef> จำนวนที่นั่ง </th>
             <td mat-cell *matCellDef="let schedule"> {{ schedule.availableSeats }}/{{ schedule.totalSeats }} </td>
           </ng-container>
-
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> เลือกรายการ </th>
             <td mat-cell *matCellDef="let schedule">
               <button mat-raised-button color="warn" (click)="onSelectSchedule(schedule)">เลือก</button>
             </td>
           </ng-container>
-
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-        
         <ng-template #noResults>
-            <p class="no-results-message">ไม่พบเที่ยวรถในวันที่คุณเลือก</p>
+          <p class="no-results-message">ไม่พบเที่ยวรถในวันที่คุณเลือก</p>
         </ng-template>
-
       </div>
     </ng-container>
 
+    <!-- ส่วนแสดงหน้าเลือกที่นั่ง -->
     <ng-container *ngIf="selectedSchedule">
-      <h2>เลือกที่นั่งสำหรับรอบ {{ selectedSchedule.departureTime | date:'HH:mm' }} น.</h2>
-      <!-- <app-seat-selection 
-        [seatLayout]="selectedSchedule.seatLayout"
-        (selectionChanged)="onBookingConfirmed($event)">
-      </app-seat-selection> -->
+      <!-- แก้ไขการเรียกใช้ app-seat-selection -->
+      <app-seat-selection
+        [schedule]="selectedSchedule"
+        (bookingSubmit)="onBookingSubmit($any($event))"
+        (goBack)="onGoBack()">
+      </app-seat-selection>
     </ng-container>
   </div>
 </div>

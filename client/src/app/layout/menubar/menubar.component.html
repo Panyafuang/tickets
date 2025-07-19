@@ -8,14 +8,35 @@
     </a>
   </div>
 
-  <span class="toolbar-spacer"></span> <div class="toolbar-right">
+  <span class="toolbar-spacer"></span>
+  <div class="toolbar-right">
     <button mat-button [routerLink]="['/search-tickets']" class="nav-button" fxHide.lt-md>
       <mat-icon class="button-icon">search</mat-icon> Find Tickets
     </button>
     <button mat-button [routerLink]="['/tickets']" class="nav-button" fxHide.lt-md>
       <mat-icon class="button-icon">attach_money</mat-icon> Sell Tickets
     </button>
+    <button mat-button [routerLink]="['/schedules']"  class="nav-button" fxHide.lt-md>
+       <mat-icon class="button-icon">search</mat-icon> Find Schedules
+    </button>
 
+    <!-- ADMIN -->
+    <ng-container *ngIf="currUser && currUser.role === 'admin'">
+      <button mat-button [matMenuTriggerFor]="adminMenu" class="user-menu-button">
+        <span class="user-email" fxHide.lt-sm>Manage</span>
+        <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #adminMenu="matMenu">
+        <button mat-menu-item [routerLink]="['admin', 'routes']">
+          Routes
+        </button>
+        <button mat-menu-item [routerLink]="['admin', 'schedule']">
+          Schedule
+        </button>
+      </mat-menu>
+    </ng-container>
+
+    <!-- GUEST -->
     <ng-container *ngIf="currUser; else guestActions">
       <button mat-button [matMenuTriggerFor]="userMenu" class="user-menu-button">
         <mat-icon>account_circle</mat-icon>

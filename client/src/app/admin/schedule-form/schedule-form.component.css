@@ -1,0 +1,34 @@
+/* Container หลักเพื่อให้ฟอร์มอยู่กึ่งกลาง */
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* จัดให้อยู่ด้านบน */
+  padding: 40px;
+}
+
+/* Card ที่เป็นกรอบของฟอร์ม */
+.schedule-card {
+  max-width: 600px;
+  width: 100%;
+}
+
+/* ตัวฟอร์ม */
+.schedule-form {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+/* Input field แต่ละอัน */
+mat-form-field {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+/* ส่วนของปุ่ม (Actions) */
+.form-actions {
+  display: flex;
+  justify-content: flex-end; /* จัดปุ่มไปทางขวา */
+  gap: 10px; /* เพิ่มช่องว่างระหว่างปุ่ม */
+  padding-top: 16px;
+}
