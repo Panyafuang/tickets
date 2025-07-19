@@ -9,11 +9,12 @@ import { deleteRouteRouter } from './routes/route/delete';
 import { newRouteRouter } from './routes/route/new';
 import { showRouteRouter } from './routes/route/show';
 import { updateRouteRouter } from './routes/route/update';
-import { listBusSchedulesRouter } from './routes/schedule';
+import { listBusSchedulesRouterByCriteria } from './routes/schedule/index';
 import { createBusScheduleRouter } from './routes/schedule/new';
 import { showBusScheduleRouter } from './routes/schedule/show';
 import { updateBusScheduleRouter } from './routes/schedule/update';
 import { cancelBusScheduleRouter } from './routes/schedule/delete';
+import { listBusSchedulesRouter } from './routes/schedule/list';
 
 const app = express();
 app.set('trust proxy', true);
@@ -58,11 +59,12 @@ app.use(updateRouteRouter);
 app.use(deleteRouteRouter);
 
 // -- ใช้  Routers สำหรับ Schedule --
-app.use(showBusScheduleRouter);
 app.use(createBusScheduleRouter);
 app.use(updateBusScheduleRouter);
-app.use(listBusSchedulesRouter);
 app.use(cancelBusScheduleRouter);
+app.use(listBusSchedulesRouter);
+app.use(listBusSchedulesRouterByCriteria);
+app.use(showBusScheduleRouter);
 
 // path: /api/users/?(.*)
 app.all('*', async (req, res) => {

@@ -30,15 +30,22 @@ router.get(
         destination: destination
     });
 
+    console.log('route -> ', route);
+
     if (!route) {
         // ถ้าไม่พบเส้นทาง ก็คืนค่าว่างไป
         return res.send([]);
     }
 
+
+
     // 2. คำนวณช่วงเวลาของวันที่ต้องการค้นหา
     const searchDate = new Date(date as string);
     const startOfDay = new Date(searchDate.setHours(0, 0, 0, 0));
     const endOfDay = new Date(searchDate.setHours(23, 59, 59, 999));
+
+    console.log('startOfDay -> ', startOfDay)
+    console.log('endOfDay -> ', endOfDay)
 
     // 3. ค้นหา BusSchedules ที่ตรงกับ Route ID และอยู่ในช่วงเวลาของวันนั้น
     const schedules = await BusSchedule.find({
@@ -50,9 +57,11 @@ router.get(
         isCancelled: false
     });
 
+    console.log('schedules: ', schedules);
+
     res.send(schedules);
   }
 );
 
 
-export { router as listBusSchedulesRouter };
+export { router as listBusSchedulesRouterByCriteria };

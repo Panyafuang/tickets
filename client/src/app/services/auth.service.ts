@@ -66,6 +66,7 @@ export class AuthService {
     this.http.post(`${this.apiUrl}/signout`, {}).subscribe({
       next: () => {
         this.currentUserSource.next(null); // เมื่อ signout สำเร็จ ให้ส่ง null ไปยัง BehaviorSubject
+        window.location.reload();
       },
       error: (err) => {
         console.error('Signout failed:', err);

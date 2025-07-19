@@ -16,7 +16,7 @@ export class ScheduleService {
    * ดึงข้อมูลเที่ยวรถทั้งหมด
    */
   getSchedules(): Observable<IBusSchedule[]> {
-    return this.http.get<IBusSchedule[]>(this.apiUrl);
+    return this.http.get<IBusSchedule[]>(`${this.apiUrl}/list`);
   }
 
   /**
