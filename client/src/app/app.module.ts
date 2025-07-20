@@ -29,6 +29,7 @@ import { PaymentStatusComponent } from './payment/payment-status/payment-status.
 import { provideToastr } from 'ngx-toastr';
 import { BusComponent } from './bus/bus.component';
 import { SeatSelectionComponent } from './bus/seat-selection/seat-selection.component';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { SeatSelectionComponent } from './bus/seat-selection/seat-selection.comp
       useClass: LoggingInterceptor,
       multi: true
     },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     importProvidersFrom(HttpClientModule),
     provideAnimationsAsync()// fixed progressbar loading],
   ],

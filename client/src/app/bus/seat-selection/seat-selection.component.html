@@ -1,1 +1,214 @@
-<p>seat-selection works!</p>
+<div class="page-container" *ngIf="schedule">
+  <div class="stepper-container">
+    <div class="step-item completed">
+      <div class="step-icon">
+        <mat-icon>search</mat-icon>
+      </div>
+      <div class="step-label">1. เลือกเที่ยวเดินทาง</div>
+    </div>
+
+    <div class="step-item active">
+      <div class="step-icon">
+        <mat-icon>airline_seat_recline_normal</mat-icon>
+      </div>
+      <div class="step-label">2. เลือกที่นั่ง</div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-icon">
+        <mat-icon>payment</mat-icon>
+      </div>
+      <div class="step-label">3. ชำระเงิน</div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-icon">
+        <mat-icon>receipt_long</mat-icon>
+      </div>
+      <div class="step-label">4. รับตั๋วโดยสาร</div>
+    </div>
+  </div>
+
+  <div class="main-layout">
+    <mat-card class="seat-map-card">
+      <mat-card-header>
+        <mat-card-title>กรุณาเลือกที่นั่ง</mat-card-title>
+        <mat-card-subtitle *ngIf="route">
+          <strong
+            >เส้นทาง: {{ route.origin }} - {{ route.destination }} | เวลารถออก:
+            {{ schedule.departureTime | date : "dd/MM/yyyy HH:mm" : "UTC" }}
+            น.</strong
+          ><br />
+          <strong>ทะเบียนรถ: {{ schedule.busId }}</strong>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="bus-layout">
+          <div class="bus-front">
+            <div class="icon-item stairs">
+              <mat-icon>show_chart</mat-icon>
+              <span>บันได</span>
+            </div>
+            <div class="icon-item driver-seat">
+              <mat-icon>airline_seat_recline_normal</mat-icon>
+              <span>คนขับ</span>
+            </div>
+          </div>
+          <div class="passenger-seat-grid">
+            <div
+              *ngFor="let seat of schedule.seatLayout"
+              class="seat"
+              [ngClass]="{
+                available: seat.status === 'available',
+                booked: seat.status !== 'available',
+                selected: isSelected(seat)
+              }"
+              [ngStyle]="getSeatStyle(seat.seatNumber)"
+              (click)="toggleSeat(seat)"
+            >
+              <mat-icon>event_seat</mat-icon>
+              <span>{{ seat.seatNumber }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="legend">
+          <div class="legend-item">
+            <mat-icon class="available">event_seat</mat-icon> ว่าง
+          </div>
+          <div class="legend-item">
+            <mat-icon class="selected">event_seat</mat-icon>
+            ที่นั่งที่คุณเลือก
+          </div>
+          <div class="legend-item">
+            <mat-icon class="booked">person</mat-icon> จองแล้ว
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="info-card">
+      <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+        <mat-card-content>
+          <section class="form-section" formGroupName="contactDetails">
+            <h3>ข้อมูลผู้ติดต่อ</h3>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>ชื่อ-นามสกุล</mat-label>
+              <input matInput formControlName="fullName" required />
+              <mat-error
+                *ngIf="
+                  bookingForm
+                    .get('contactDetails.fullName')
+                    ?.hasError('required')
+                "
+              >
+                กรุณากรอกชื่อ-นามสกุล
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>เบอร์โทรศัพท์</mat-label>
+              <input
+                matInput
+                type="tel"
+                formControlName="phoneNumber"
+                required
+              />
+              <mat-error
+                *ngIf="
+                  bookingForm
+                    .get('contactDetails.phoneNumber')
+                    ?.hasError('required')
+                "
+              >
+                กรุณากรอกเบอร์โทรศัพท์
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  bookingForm
+                    .get('contactDetails.phoneNumber')
+                    ?.hasError('pattern')
+                "
+              >
+                รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>อีเมล</mat-label>
+              <input matInput type="email" formControlName="email" required />
+              <mat-error
+                *ngIf="
+                  bookingForm.get('contactDetails.email')?.hasError('required')
+                "
+              >
+                กรุณากรอกอีเมล
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  bookingForm.get('contactDetails.email')?.hasError('email')
+                "
+              >
+                รูปแบบอีเมลไม่ถูกต้อง
+              </mat-error>
+            </mat-form-field>
+          </section>
+
+          <mat-divider *ngIf="passengers.controls.length > 0"></mat-divider>
+
+          <section
+            class="form-section"
+            formArrayName="passengers"
+            *ngIf="passengers.controls.length > 0"
+          >
+            <h3>ข้อมูลผู้โดยสาร</h3>
+            <div
+              *ngFor="let passengerCtrl of passengers.controls; let i = index"
+              [formGroupName]="i"
+              class="passenger-form-group"
+            >
+              <h4>ที่นั่ง: {{ selectedSeats[i].seatNumber }}</h4>
+              <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>ชื่อ-นามสกุล ผู้โดยสาร</mat-label>
+                <input matInput formControlName="passengerName" required />
+                <mat-error>กรุณากรอกชื่อผู้โดยสาร</mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>ประเภท</mat-label>
+                <mat-select formControlName="passengerType">
+                  <mat-option value="ผู้ใหญ่">ผู้ใหญ่</mat-option>
+                  <mat-option value="เด็ก">เด็ก</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </section>
+
+          <mat-divider></mat-divider>
+
+          <section class="summary-section">
+            <h3>สรุปการเดินทาง</h3>
+            <div class="summary-item">
+              <span>ที่นั่งที่เลือก:</span>
+              <strong>{{ selectedSeatNumbers }}</strong>
+            </div>
+            <div class="summary-item">
+              <span>จำนวน:</span>
+              <strong>{{ selectedSeats.length }} ที่นั่ง</strong>
+            </div>
+            <div class="summary-item total-price">
+              <span>ราคารวม:</span>
+              <strong>{{ totalPrice | currency : "THB" : "symbol" }}</strong>
+            </div>
+          </section>
+        </mat-card-content>
+
+        <mat-card-actions class="form-actions">
+          <button mat-stroked-button type="button" (click)="goBack.emit()">
+            ย้อนกลับ
+          </button>
+          <button mat-raised-button color="primary" type="submit">
+            ดำเนินการต่อ
+          </button>
+        </mat-card-actions>
+      </form>
+    </mat-card>
+  </div>
+</div>

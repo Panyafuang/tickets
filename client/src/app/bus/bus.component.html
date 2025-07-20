@@ -2,7 +2,7 @@
   <mat-card>
     <mat-card-content>
       <form class="search-form" [formGroup]="searchForm" (ngSubmit)="onSearch()">
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
           <mat-label>จังหวัดต้นทาง</mat-label>
           <mat-select formControlName="origin">
             <mat-option *ngFor="let origin of uniqueOrigins" [value]="origin">
@@ -11,7 +11,7 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
           <mat-label>จุดหมายปลายทาง</mat-label>
           <!-- แก้ไขให้ใช้ filteredDestinations -->
           <mat-select formControlName="destination">
@@ -21,7 +21,7 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
           <mat-label>เลือก วัน / เดือน / ปี</mat-label>
           <input matInput [matDatepicker]="picker" formControlName="travelDate">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -41,7 +41,7 @@
           <!-- ... (ส่วนของ table เหมือนเดิมทั้งหมด) ... -->
           <ng-container matColumnDef="time">
             <th mat-header-cell *matHeaderCellDef> รอบเวลาเดินทาง </th>
-            <td mat-cell *matCellDef="let schedule"> {{ schedule.departureTime | date:'HH:mm' }} </td>
+            <td mat-cell *matCellDef="let schedule"> {{ schedule.departureTime | date:'HH:mm':'UTC' }} </td>
           </ng-container>
           <ng-container matColumnDef="busType">
             <th mat-header-cell *matHeaderCellDef> ประเภทรถ </th>
