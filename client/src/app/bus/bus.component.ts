@@ -14,26 +14,36 @@ export class BusComponent implements OnInit {
   constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    // ติดตามการเปลี่ยนแปลงของ Router
+    // 1. ตรวจสอบ Route ทันทีเมื่อ Component โหลดเสร็จ เพื่อตั้งค่า Stepper เริ่มต้นให้ถูกต้อง
+    this.updateStepFromRoute();
+
+    // 2. ดักฟังการเปลี่ยน Route ในอนาคต (เมื่อผู้ใช้คลิกเปลี่ยนหน้า)
     this.router.events.pipe(
-      // กรองเอาเฉพาะ event ตอนที่เปลี่ยนหน้าเสร็จแล้ว
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
-      // เข้าถึง child route ที่กำลังแสดงผลอยู่
-      let child = this.activatedRoute.firstChild;
-
-      // วนลูปเผื่อมี child route ซ้อนกันหลายชั้น
-      while (child) {
-        if (child.firstChild) {
-          child = child.firstChild;
-        } else if (child.snapshot.data && child.snapshot.data['step']) {
-          // ถ้าเจอข้อมูล 'step' ใน route ให้เอาค่ามาใส่ในตัวแปร currentStep
-          this.currentStep = child.snapshot.data['step'];
-          return;
-        } else {
-          return;
-        }
-      }
+      this.updateStepFromRoute();
     });
+  }
+
+  /**
+   * ฟังก์ชันสำหรับอ่านค่า step จากข้อมูลของ Route ที่กำลัง active
+   */
+  private updateStepFromRoute(): void {
+    let child = this.activatedRoute.firstChild;
+    console.log('child: ', child);
+    while(child) {
+      if (child.firstChild) {
+        child = child.firstChild;
+      } else if (child.snapshot.data && child.snapshot.data['step']) {
+        this.currentStep = child.snapshot.data['step'];
+        return;
+      } else {
+        // ถ้าไม่เจอ step data ใน route ให้ใช้ค่า default
+        this.currentStep = 1; 
+        return;
+      }
+    }
+    // ถ้าไม่มี child route เลย
+    this.currentStep = 1;
   }
 }
