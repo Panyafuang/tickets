@@ -1,0 +1,210 @@
+.search-container {
+  padding: 20px;
+}
+
+.search-form {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.search-form mat-form-field {
+  flex-grow: 1;
+  background-color: white;
+  border-radius: 4px;
+}
+
+::ng-deep .search-form .mat-form-field-label {
+    color: rgba(0,0,0,0.87) !important;
+}
+
+.results-container {
+  margin-top: 20px;
+}
+
+.results-header {
+  margin-bottom: 16px;
+}
+
+.results-header h3 {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #333;
+}
+
+.schedule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.schedule-card {
+  padding: 16px 24px;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.schedule-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.schedule-main-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.bus-info, .timing-info, .seats-info, .price-info, .action-info {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Bus Info */
+.bus-info {
+  flex: 1.5;
+  min-width: 150px;
+}
+.bus-info h4 {
+  margin: 0 0 4px 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+.bus-info p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Timing Info */
+.timing-info {
+  flex: 3;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.time-point {
+  text-align: center;
+}
+.time-point .time {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 0;
+}
+.time-point .location {
+  font-size: 0.8rem;
+  color: #777;
+  margin: 0;
+}
+.duration-line {
+  flex-grow: 1;
+  text-align: center;
+  padding: 0 15px;
+  color: #888;
+  font-size: 0.9rem;
+}
+.duration-line .line {
+  width: 100%;
+  height: 1px;
+  background-color: #ddd;
+  margin-top: 4px;
+}
+
+/* Seats Info */
+.seats-info {
+  flex: 1;
+  text-align: center;
+  color: #d32f2f;
+}
+.seats-info p {
+  margin: 0;
+}
+.seats-info .total-seats {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+/* Price Info */
+.price-info {
+  flex: 1;
+  text-align: right;
+}
+.price-info .price-label {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #666;
+}
+.price-info .price-value {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+/* Action Info */
+.action-info {
+  flex: 1;
+  align-items: flex-end;
+}
+.action-info button {
+  min-width: 130px;
+}
+
+
+/* No Results Message */
+.no-results-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: #999;
+  border: 2px dashed #e0e0e0;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+.no-results-container mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+}
+.no-results-message {
+    padding: 20px;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 960px) {
+  .schedule-main-content {
+    flex-wrap: wrap;
+  }
+  .timing-info {
+    order: 1;
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  .bus-info, .seats-info, .price-info, .action-info {
+    flex-basis: 45%; /* Two items per row */
+    text-align: left;
+    margin-bottom: 12px;
+  }
+  .price-info, .action-info {
+    text-align: right;
+  }
+}
+
+@media (max-width: 600px) {
+    .search-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .bus-info, .seats-info, .price-info, .action-info {
+        flex-basis: 100%; /* Full width on small screens */
+        text-align: center;
+    }
+    .price-info, .action-info {
+        text-align: center;
+    }
+}

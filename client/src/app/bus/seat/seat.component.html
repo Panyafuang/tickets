@@ -1,47 +1,17 @@
 <div class="page-container" *ngIf="schedule">
-  <div class="stepper-container">
-    <div class="step-item completed">
-      <div class="step-icon">
-        <mat-icon>search</mat-icon>
-      </div>
-      <div class="step-label">1. เลือกเที่ยวเดินทาง</div>
-    </div>
-
-    <div class="step-item active">
-      <div class="step-icon">
-        <mat-icon>airline_seat_recline_normal</mat-icon>
-      </div>
-      <div class="step-label">2. เลือกที่นั่ง</div>
-    </div>
-
-    <div class="step-item">
-      <div class="step-icon">
-        <mat-icon>payment</mat-icon>
-      </div>
-      <div class="step-label">3. ชำระเงิน</div>
-    </div>
-
-    <div class="step-item">
-      <div class="step-icon">
-        <mat-icon>receipt_long</mat-icon>
-      </div>
-      <div class="step-label">4. รับตั๋วโดยสาร</div>
-    </div>
-  </div>
-
   <div class="main-layout">
     <mat-card class="seat-map-card">
       <mat-card-header>
         <mat-card-title>กรุณาเลือกที่นั่ง</mat-card-title>
-        <mat-card-subtitle *ngIf="route">
-          <strong
-            >เส้นทาง: {{ route.origin }} - {{ route.destination }} | เวลารถออก:
-            {{ schedule.departureTime | date : "dd/MM/yyyy HH:mm" : "UTC" }}
-            น.</strong
-          ><br />
+        <mat-card-subtitle *ngIf="schedule">
+          <strong>
+            เส้นทาง: {{ schedule.origin }} - {{ schedule.destination }} | เวลารถออก:
+            {{ schedule.departureTime | date : "dd/MM/yyyy HH:mm" : "UTC" }} น.
+          </strong>
+          <br />
           <strong>ทะเบียนรถ: {{ schedule.busId }}</strong>
         </mat-card-subtitle>
-      </mat-card-header>
+        </mat-card-header>
       <mat-card-content>
         <div class="bus-layout">
           <div class="bus-front">
@@ -54,6 +24,7 @@
               <span>คนขับ</span>
             </div>
           </div>
+
           <div class="passenger-seat-grid">
             <div
               *ngFor="let seat of schedule.seatLayout"
@@ -201,7 +172,7 @@
         </mat-card-content>
 
         <mat-card-actions class="form-actions">
-          <button mat-stroked-button type="button" (click)="goBack.emit()">
+          <button mat-stroked-button type="button" (click)="onGoBack()">
             ย้อนกลับ
           </button>
           <button mat-raised-button color="primary" type="submit">

@@ -28,8 +28,12 @@ import { SecondsToMmssPipe } from './pipe/seconds-to-mmss.pipe';
 import { PaymentStatusComponent } from './payment/payment-status/payment-status.component';
 import { provideToastr } from 'ngx-toastr';
 import { BusComponent } from './bus/bus.component';
-import { SeatSelectionComponent } from './bus/seat-selection/seat-selection.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { SeatComponent } from './bus/seat/seat.component';
+import { BookingStepperComponent } from './bus/booking-stepper/booking-stepper.component';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ScheduleComponent } from './bus/schedule/schedule.component';
 
 @NgModule({
   declarations: [
@@ -52,10 +56,14 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     SecondsToMmssPipe,
     PaymentStatusComponent,
     BusComponent,
-    SeatSelectionComponent
+    SeatComponent,
+    BookingStepperComponent,
+    ScheduleComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
+    RouterModule,
     HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,

@@ -21,6 +21,8 @@ import { OrderListComponent } from './order/order-list/order-list.component';
 import { PaymentStatusComponent } from './payment/payment-status/payment-status.component';
 import { AdminGuard } from './guards/admin.guard';
 import { BusComponent } from './bus/bus.component';
+import { ScheduleComponent } from './bus/schedule/schedule.component';
+import { SeatComponent } from './bus/seat/seat.component';
 
 const getCurrUserResolver: ResolveFn<any> = (
   route: ActivatedRouteSnapshot,
@@ -64,7 +66,32 @@ const routes: Routes = [
     ],
   },
   { path: 'payment-status/:clientSecret', component: PaymentStatusComponent },
-  { path: 'schedules', component: BusComponent },
+  {
+    path: 'bus',
+    component: BusComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'schedules',
+        pathMatch: 'full'
+      },
+      {
+        path: 'schedules',
+        component: ScheduleComponent,
+        data: { step: 1 } // <-- กำหนดว่าหน้านี้คือขั้นตอนที่ 1
+      },
+      {
+        path: 'seats/:scheduleId',
+        component: SeatComponent,
+        data: { step: 2 } // <-- กำหนดว่าหน้านี้คือขั้นตอนที่ 2
+      },
+      // {
+      //   path: 'payment', //  URL: /bus/payment (สำหรับอนาคต)
+      //   component: PaymentComponent, 
+      //   data: { step: 3 }
+      // }
+    ]
+  },
   {
     path: 'start',
     component: StartComponent,
@@ -85,4 +112,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

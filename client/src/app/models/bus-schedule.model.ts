@@ -24,4 +24,6 @@ export interface IBusSchedule {
   totalSeats: number;
   availableSeats: number;
   seatLayout: ISeatLayoutItem[];
+  origin?: string;
+  destination?: string;
 }

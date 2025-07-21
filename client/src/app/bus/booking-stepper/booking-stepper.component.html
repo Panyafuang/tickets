@@ -1,0 +1,29 @@
+<div class="stepper-container">
+  <div class="step-item" [ngClass]="{'active': currentStep === 1, 'completed': currentStep > 1}">
+    <div class="step-icon">
+      <mat-icon>search</mat-icon>
+    </div>
+    <div class="step-label">1. เลือกเที่ยวเดินทาง</div>
+  </div>
+
+  <div class="step-item" [ngClass]="{'active': currentStep === 2, 'completed': currentStep > 2}">
+    <div class="step-icon">
+      <mat-icon>airline_seat_recline_normal</mat-icon>
+    </div>
+    <div class="step-label">2. เลือกที่นั่ง</div>
+  </div>
+
+  <div class="step-item" [ngClass]="{'active': currentStep === 3, 'completed': currentStep > 3}">
+    <div class="step-icon">
+      <mat-icon>payment</mat-icon>
+    </div>
+    <div class="step-label">3. ชำระเงิน</div>
+  </div>
+
+  <div class="step-item" [ngClass]="{'active': currentStep === 4, 'completed': currentStep > 4}">
+    <div class="step-icon">
+      <mat-icon>receipt_long</mat-icon>
+    </div>
+    <div class="step-label">4. รับตั๋วโดยสาร</div>
+  </div>
+</div>

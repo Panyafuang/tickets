@@ -1,0 +1,125 @@
+<div class="search-container">
+  <mat-card>
+    <mat-card-content>
+      <form
+        class="search-form"
+        [formGroup]="searchForm"
+        (ngSubmit)="onSearch()"
+      >
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>จังหวัดต้นทาง</mat-label>
+          <mat-select formControlName="origin">
+            <mat-option *ngFor="let origin of uniqueOrigins" [value]="origin">
+              {{ origin }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>จุดหมายปลายทาง</mat-label>
+          <mat-select formControlName="destination">
+            <mat-option
+              *ngFor="let destination of filteredDestinations"
+              [value]="destination"
+            >
+              {{ destination }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>เลือก วัน / เดือน / ปี</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            formControlName="travelDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" type="submit">ค้นหา</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="results-container">
+    <div *ngIf="schedules$ | async as schedules">
+      <div class="results-header" *ngIf="schedules.length > 0">
+        <h3>
+          พบ {{ schedules.length }} เที่ยวรถสำหรับ
+          <strong>{{ searchedOrigin }}</strong> ไป
+          <strong>{{ searchedDestination }}</strong>
+        </h3>
+      </div>
+
+      <div class="schedule-list" *ngIf="schedules.length > 0; else noResults">
+        <mat-card class="schedule-card" *ngFor="let schedule of schedules">
+          <div class="schedule-main-content">
+            <div class="bus-info">
+              <h4 class="bus-name">{{ schedule.busId }}</h4>
+              <p class="bus-type">A/C Seater / Sleeper (2+1)</p>
+            </div>
+            <div class="timing-info">
+              <div class="time-point">
+                <p class="time">
+                  {{ schedule.departureTime | date : "HH:mm" : "UTC" }}
+                </p>
+                <p class="location">{{ searchedOrigin }}</p>
+              </div>
+              <div class="duration-line">
+                <p>
+                  {{
+                    calculateDuration(
+                      schedule.departureTime,
+                      schedule.arrivalTime
+                    )
+                  }}
+                </p>
+                <div class="line"></div>
+              </div>
+              <div class="time-point">
+                <p class="time">
+                  {{ schedule.arrivalTime | date : "HH:mm" : "UTC" }}
+                </p>
+                <p class="location">
+                  {{ searchedDestination }}
+                </p>
+              </div>
+            </div>
+            <div class="seats-info">
+              <p>
+                <strong>{{ schedule.availableSeats }}</strong> seats available
+              </p>
+              <p class="total-seats">of {{ schedule.totalSeats }}</p>
+            </div>
+            <div class="price-info">
+              <p class="price-label">Price</p>
+              <h3 class="price-value">
+                {{ schedule.price | currency : "THB" : "฿" : "1.0-0" }}
+              </h3>
+            </div>
+            <div class="action-info">
+              <button
+                mat-raised-button
+                color="warn"
+                (click)="onSelectSchedule(schedule)"
+              >
+                Select Seats
+              </button>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <ng-template #noResults>
+        <div class="no-results-container">
+          <mat-icon>sentiment_dissatisfied</mat-icon>
+          <p class="no-results-message">ไม่พบเที่ยวรถในวันที่คุณเลือก</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
