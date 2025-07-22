@@ -23,6 +23,7 @@ import { AdminGuard } from './guards/admin.guard';
 import { BusComponent } from './bus/bus.component';
 import { ScheduleComponent } from './bus/schedule/schedule.component';
 import { SeatComponent } from './bus/seat/seat.component';
+import { PaymentFormComponent } from './payment/payment-form/payment-form.component';
 
 const getCurrUserResolver: ResolveFn<any> = (
   route: ActivatedRouteSnapshot,
@@ -85,11 +86,11 @@ const routes: Routes = [
         component: SeatComponent,
         data: { step: 2 } // <-- กำหนดว่าหน้านี้คือขั้นตอนที่ 2
       },
-      // {
-      //   path: 'payment', //  URL: /bus/payment (สำหรับอนาคต)
-      //   component: PaymentComponent, 
-      //   data: { step: 3 }
-      // }
+      {
+        path: 'payment',
+        component: PaymentFormComponent, 
+        data: { step: 3 }
+      }
     ]
   },
   {

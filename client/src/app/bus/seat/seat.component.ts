@@ -17,6 +17,8 @@ export class SeatComponent implements OnInit {
   bookingForm!: FormGroup; // FormGroup หลักสำหรับจัดการฟอร์มทั้งหมด
   selectedSeats: ISeatLayoutItem[] = []; // Array สำหรับเก็บที่นั่งที่ผู้ใช้เลือก
 
+  isLoading: boolean = false; // เพิ่ม state สำหรับแสดง loading spinner
+
   // --- Getters สำหรับใช้ใน Template (HTML) ---
   // Getter สำหรับดึง FormArray ของผู้โดยสารออกมาจาก bookingForm ได้ง่ายขึ้น
   get passengers(): FormArray {
@@ -124,6 +126,7 @@ export class SeatComponent implements OnInit {
 
 
   onSubmit(): void {
+    // 1. ตรวจสอบความถูกต้องของฟอร์ม
     if (this.selectedSeats.length === 0) {
       this.snackBar.open('กรุณาเลือกที่นั่งอย่างน้อย 1 ที่', 'ปิด', { duration: 3000 });
       return;
@@ -135,9 +138,24 @@ export class SeatComponent implements OnInit {
       });
       return;
     }
+
+    this.isLoading = true; // เริ่มแสดง loading
+    
+    // 2. เตรียมข้อมูลที่จะส่งไปสร้าง Order
     console.log('Booking Form Value:', this.bookingForm.value);
+    const bookingData = {
+      scheduleId: this.schedule.id,
+      tickets: this.passengers.value.map((p: any) => ({
+        seatNumber: p.seatNumber,
+        passengerName: p.passengerName
+      }))
+    }
+
+
+
+
     // หลังจากนี้อาจจะส่งข้อมูลไปที่ Backend และ navigate ไปหน้าชำระเงิน
-    // this.router.navigate(['/bus/payment']);
+    this.router.navigate(['/bus/payment']);
   }
 
   // คำนวณตำแหน่งของที่นั่งบน Grid CSS (สำหรับใช้กับ [ngStyle])

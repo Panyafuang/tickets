@@ -34,6 +34,7 @@ import { BookingStepperComponent } from './bus/booking-stepper/booking-stepper.c
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ScheduleComponent } from './bus/schedule/schedule.component';
+import { PaymentPageComponent } from './bus/payment-page/payment-page.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { ScheduleComponent } from './bus/schedule/schedule.component';
     BusComponent,
     SeatComponent,
     BookingStepperComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    PaymentPageComponent
   ],
   imports: [
     CommonModule,

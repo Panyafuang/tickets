@@ -30,7 +30,6 @@ export class BusComponent implements OnInit {
    */
   private updateStepFromRoute(): void {
     let child = this.activatedRoute.firstChild;
-    console.log('child: ', child);
     while(child) {
       if (child.firstChild) {
         child = child.firstChild;

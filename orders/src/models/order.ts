@@ -4,24 +4,72 @@ import { ITicketDoc } from "./ticket";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 export { OrderStatus }
 
-interface IOrderAttrs {
-  userId: string;
-  status: OrderStatus;
-  expiresAt: Date;
-  ticket: ITicketDoc;
+// Interface สำหรับข้อมูลของตั๋วแต่ละใบใน Order
+interface ITicketInfo {
+    scheduleId: string;
+    busId: string;
+    origin: string;
+    destination: string;
+    departureTime: Date;
+    seatNumber: string;
+    passengerName: string;
+    price: number;
 }
 
+// Interface สำหรับข้อมูลตอนสร้าง Order
+interface IOrderAttrs {
+    userId: string;
+    status: OrderStatus;
+    expiresAt: Date;
+    ticket: ITicketInfo[]; // รับตั๋วเป็น Array
+    totalAmount: number; // เพิ่มราคารวมของ Order
+}
+
+// Interface สำหรับ Order Document ใน DB
 interface IOrderDoc extends mongoose.Document {
-  userId: string;
-  status: OrderStatus;
-  expiresAt: Date;
-  ticket: ITicketDoc;
-  version: number;
+    userId: string;
+    status: OrderStatus;
+    expiresAt: Date;
+    ticket: ITicketInfo[]; // เก็บตั๋วเป็น Array;
+    version: number;
 }
 
 interface IOrderModel extends mongoose.Model<IOrderDoc> {
-  build(attrs: IOrderAttrs): IOrderDoc;
+    build(attrs: IOrderAttrs): IOrderDoc;
 }
+
+// Schema สำหรับข้อมูลตั๋วแต่ละใบ (Sub-document)
+const ticketInfoSchema = new mongoose.Schema({
+    scheduleId: {
+        type: String,
+        required: true
+    },
+    busId: {
+        type: String,
+        required: true
+    },
+    origin: {
+        type: String,
+        required: true
+    },
+    destination: {
+        type: String,
+        required: true
+    },
+    departureTime: {
+        type: mongoose.Schema.Types.Date,
+        required: true
+    },
+    passengerName: {
+        type: String,
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    }
+}, { _id: false });
+
 
 const orderSchema = new mongoose.Schema({
     userId: {
@@ -37,9 +85,10 @@ const orderSchema = new mongoose.Schema({
     expiresAt: {
         type: mongoose.Schema.Types.Date
     },
-    ticket: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Ticket'
+    ticket: [ticketInfoSchema],
+    totalAmont: {
+        type: Number,
+        required: true
     }
 }, {
     toJSON: {
@@ -58,4 +107,4 @@ orderSchema.statics.build = (attrs: IOrderAttrs) => {
 }
 
 const Order = mongoose.model<IOrderDoc, IOrderModel>('Order', orderSchema);
-export { Order };
+export { Order, ITicketInfo };
