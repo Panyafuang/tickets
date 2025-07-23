@@ -39,6 +39,16 @@ router.post(
     // 2. สร้างผังที่นั่งเริ่มต้น
     const seatLayout = BusSchedule.initializeSeats(totalSeats);
 
+    // const schedule = BusSchedule.build({
+    //   routeId: routeId,
+    //   busId: busId,
+    //   departureTime: departureTime,
+    //   arrivalTime: arrivalTime,
+    //   price: price,
+    //   totalSeats: totalSeats,
+    //   availableSeats: totalSeats,
+    //   seatLayout: seatLayout
+    // });
     const schedule = BusSchedule.build({
       routeId: routeId,
       busId: busId,
@@ -51,14 +61,14 @@ router.post(
     });
     await schedule.save();
 
-    // Publish event
-    await new BusScheduleCreatedPublisher(natsWrapper.client).publish({
-      id: schedule.id,
-      routeId: schedule.routeId.toString(),
-      departureTime: schedule.departureTime.toISOString(),
-      price: schedule.price,
-      version: schedule.version
-    });
+    // Publish event แจ้งว่ามีเที่ยวรถใหม่ถูกสร้างขึ้น (ถ้าต้องการ)
+    // await new BusScheduleCreatedPublisher(natsWrapper.client).publish({
+    //   id: schedule.id,
+    //   routeId: schedule.routeId.toString(),
+    //   departureTime: schedule.departureTime.toISOString(),
+    //   price: schedule.price,
+    //   version: schedule.version
+    // });
 
     res.status(201).send(schedule);
   });

@@ -41,7 +41,7 @@ export class TicketDetailComponent implements OnInit {
   }
 
   onPurchase(ticketId: string) {
-    this._orderService.orderByTicketId(ticketId).subscribe({
+    this._orderService.orderByTicketId_bk(ticketId).subscribe({
       next: (order) => {
         // this.snackBar.open('Your order has been placed successfully. Please complete the payment within 1 minute.', 'Close', {
         //   duration: 3000,

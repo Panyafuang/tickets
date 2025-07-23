@@ -5,6 +5,7 @@ import { BusService } from '../../services/bus.service';
 import { IBusSchedule, ISeatLayoutItem } from '../../models/bus-schedule.model';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { switchMap } from 'rxjs';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-seat',
@@ -29,7 +30,7 @@ export class SeatComponent implements OnInit {
   get selectedSeatNumbers(): string {
     return this.selectedSeats.length > 0 ? this.selectedSeats.map((s) => s.seatNumber).join(', ') : 'ยังไม่ได้เลือกที่นั่ง';
   }
-  
+
   // Getter สำหรับคำนวณราคารวม
   get totalPrice(): number {
     if (!this.schedule) return 0;
@@ -40,7 +41,8 @@ export class SeatComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar,
-    private _busService: BusService
+    private _busService: BusService,
+    private _orderService: OrderService
   ) { }
 
   ngOnInit(): void {
@@ -140,7 +142,7 @@ export class SeatComponent implements OnInit {
     }
 
     this.isLoading = true; // เริ่มแสดง loading
-    
+
     // 2. เตรียมข้อมูลที่จะส่งไปสร้าง Order
     console.log('Booking Form Value:', this.bookingForm.value);
     const bookingData = {
@@ -151,7 +153,24 @@ export class SeatComponent implements OnInit {
       }))
     }
 
+    // 3. เรียกใช้ Order Service เพื่อส่งข้อมูลไปยัง Backend
+    this._orderService.orderByScheduleId(bookingData).subscribe({
+      next: (newOrder) => {
+        this.isLoading = false;
+        this.snackBar.open('สร้างรายการจองสำเร็จ!', 'ปิด', { duration: 3000 });
 
+        // 4. เมื่อสำเร็จ, นำทางไปยังหน้าชำระเงินพร้อม Order ID
+        this.router.navigate(['/bus/payment', newOrder.id]);
+      },
+      error: (err) => {
+        this.isLoading = false; // หยุด loading
+        console.error('Failed to create order', err);
+
+        // 5. หากล้มเหลว, แสดงข้อความ error ที่ได้จาก Backend
+        const errorMessage = err?.error?.errors[0]?.message || 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง';
+        this.snackBar.open(errorMessage, 'ปิด');
+      }
+    })
 
 
     // หลังจากนี้อาจจะส่งข้อมูลไปที่ Backend และ navigate ไปหน้าชำระเงิน

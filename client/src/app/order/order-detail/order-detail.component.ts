@@ -41,7 +41,7 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
     this.route.params.subscribe((params: Params) => {
       this.orderId = params['id'];
 
-      this._orderService.getOrderDetailById(this.orderId).subscribe({
+      this._orderService.getOrderDetailById_bk(this.orderId).subscribe({
         next: (order) => {
           this.order = order;
 
@@ -106,7 +106,7 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
           });
           // อาจจะต้องการโหลด order ใหม่ หรือ redirect ไปยังหน้าสรุป
           this._orderService
-            .getOrderDetailById(this.orderId)
+            .getOrderDetailById_bk(this.orderId)
             .subscribe((updatedOrder) => {
               this.order = updatedOrder; // อัปเดตสถานะ Order
               // ตรวจสอบว่า order.status เปลี่ยนเป็น 'complete' หรือไม่
@@ -154,7 +154,7 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
       });
       // โหลด Order ใหม่เพื่ออัปเดตสถานะ
       this._orderService
-        .getOrderDetailById(this.orderId)
+        .getOrderDetailById_bk(this.orderId)
         .subscribe((updatedOrder) => {
           this.order = updatedOrder;
         });
