@@ -5,6 +5,7 @@ import { TicketCreatedListener } from "./events/listeners/ticket-created-listene
 import { TicketUpdatedListener } from "./events/listeners/ticket-updated-listern";
 import { ExpirationCompleteListener } from "./events/listeners/expiration-complete-listener";
 import { PaymentCreatedLister } from "./events/listeners/payment-created-listener";
+import { BusReservationCompleteListener } from "./events/listeners/bus-reservation-complete-listener";
 
 const start = async () => {
   /** Check env JWT_KEY */

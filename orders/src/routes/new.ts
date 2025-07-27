@@ -85,14 +85,15 @@
 
 
 
-import { BadRequestError, OrderStatus, requireAuth, validateRequest } from "@g-tickets/common";
+import { BadRequestError, OrderStatus, requireAuth, validateRequest } from "@xtptickets/common";
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import { Order } from "../models/order";
 import { natsWrapper } from "../nats-wrapper";
-import { BusReservationRequestPublisher } from '../events/publishers/bus-reservation-request-publisher';
-import { BusReservationCompleteListener } from '../events/listeners/bus-reservation-complete-listener';
 import { Stan } from "node-nats-streaming";
+import { IBusReservationCompleteEvent } from "@xtptickets/common";
+import { BusReservationRequestPublisher } from "../events/publishers/bus-reservation-request-publisher";
+import { BusReservationCompleteListener } from "../events/listeners/bus-reservation-complete-listener";
 
 const router = express.Router();
 const EXPIRATION_WINDOW_SECONDS = 1 * 60; // 1 นาที
@@ -122,7 +123,8 @@ router.post('/api/orders', requireAuth,
     // 2. สร้าง Promise ที่จะรอ "คำตอบ" จาก Bus Service
     const reservationPromise = new Promise((resolve, reject) => {
       // สร้าง Listener ชั่วคราวขึ้นมาเพื่อรอฟังคำตอบโดยเฉพาะ
-      const listener = new BusReservationCompleteListener(natsWrapper.client, result => {
+      const listener = new BusReservationCompleteListener(natsWrapper.client, (result: IBusReservationCompleteEvent['data']) => {
+        // สนใจเฉพาะ Event ที่มี orderId ตรงกับที่เราสร้าง เพราะ NATS จะ publish EVENTS ออกมาหลายๆ events
         if (result.orderId === order.id) {
           listener.close(); // ปิดการดักฟังเมื่อได้รับคำตอบที่ถูกต้อง
           if (result.success) {
@@ -143,7 +145,7 @@ router.post('/api/orders', requireAuth,
     // 3. ส่ง Event "ร้องขอ" การจองที่นั่งไปยัง Bus Service
     await new BusReservationRequestPublisher(natsWrapper.client).publish({
       scheduleId,
-      seats: ticketInputs.map((t: any) => t.seatNumber),
+      seat: ticketInputs.map((t: any) => t.seatNumber),
       orderId: order.id,
       version: order.version
     });
@@ -167,7 +169,7 @@ router.post('/api/orders', requireAuth,
       order.set({
         status: OrderStatus.Created,
         tickets: ticketsData,
-        totalAmount: ticketsData.reduce((sum, t) => sum + t.price, 0)
+        totalAmount: ticketsData.reduce((sum: any, t: { price: any; }) => sum + t.price, 0)
       });
       await order.save();
 

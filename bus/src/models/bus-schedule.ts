@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
+import { IRouteDoc } from "./route";
 
 /**
  * Interface สำหรับข้อมูลของที่นั่งแต่ละที่
@@ -43,7 +44,7 @@ interface IBusScheduleAttrs {
  * Interface สำหรับ BusSchedule Document ที่ได้จาก MongoDB
  */
 interface IBusScheduleDoc extends mongoose.Document {
-  routeId: mongoose.Types.ObjectId; // อ้างอิงไปยัง Route Model
+  routeId: IRouteDoc; // อ้างอิงไปยัง Route Model
   busId: string; // ID ของรถบัส (อาจจะอ้างอิง Bus Model จริงๆ ในอนาคต) อาจจะเป็นหมายเลขทะเบียนรถ, รหัสภายในของบริษัท, หรืออะไรก็ได้ที่เราตกลงกันไว้
   departureTime: Date; // เวลาออกเดินทาง
   arrivalTime: Date; // เวลาถึงที่หมาย
@@ -81,7 +82,7 @@ const seatLayoutSchema = new mongoose.Schema({
 
 const busScheduleSchema = new mongoose.Schema({
   routeId: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "Route",
   },

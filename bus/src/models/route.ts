@@ -10,7 +10,7 @@ interface IRouteAttr {
 }
 
 // Interface สำหรับ Document ที่จะได้จาก MongoDB (รวมถึง _id, createdAt, updatedAt)
-interface IRouteDoc extends mongoose.Document {
+export interface IRouteDoc extends mongoose.Document {
   origin: string;
   destination: string;
   distanceKm?: number;

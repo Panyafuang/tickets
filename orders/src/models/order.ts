@@ -4,7 +4,8 @@ import { ITicketDoc } from "./ticket";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 export { OrderStatus }
 
-// Interface สำหรับข้อมูลของตั๋วแต่ละใบใน Order
+// Interface สำหรับข้อมูลของตั๋วแต่ละใบที่เราคัดลอก (Replicate) มาเก็บไว้
+// นี่คือ "Snapshot" ของข้อมูล ณ เวลาที่ทำการจอง
 interface ITicketInfo {
     scheduleId: string;
     busId: string;
@@ -21,7 +22,7 @@ interface IOrderAttrs {
     userId: string;
     status: OrderStatus;
     expiresAt: Date;
-    ticket: ITicketInfo[]; // รับตั๋วเป็น Array
+    tickets: ITicketInfo[]; // รับตั๋วเป็น Array
     totalAmount: number; // เพิ่มราคารวมของ Order
 }
 
@@ -30,7 +31,7 @@ interface IOrderDoc extends mongoose.Document {
     userId: string;
     status: OrderStatus;
     expiresAt: Date;
-    ticket: ITicketInfo[]; // เก็บตั๋วเป็น Array;
+    tickets: ITicketInfo[]; // เก็บตั๋วเป็น Array;
     version: number;
 }
 

@@ -65,7 +65,8 @@ router.put(
         routeId: schedule.routeId.toString(),
         departureTime: schedule.departureTime.toISOString(),
         price: schedule.price,
-        isCancelled: schedule.isCancelled
+        isCancelled: schedule.isCancelled,
+        availableSeats: schedule.availableSeats
     });
     res.send(schedule);
   }
