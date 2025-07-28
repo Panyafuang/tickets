@@ -12,7 +12,7 @@ export class OrderCreatedLister extends Listener<IOrderCreatedEvent>{
     async onMessage(data: IOrderCreatedEvent['data'], msg: Message) {
         const order = Order.build({
             id: data.id, // orderId
-            price: data.ticket.price,
+            totalAmount: data.totalAmount,
             status: data.status,
             userId: data.userId,
             version: data.version

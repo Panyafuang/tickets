@@ -6,14 +6,14 @@ interface IOrderAttrs {
     id: string;
     version: number;
     userId: string;
-    price: number;
+    totalAmount: number;
     status: OrderStatus;
 }
 
 interface IOrderDoc extends mongoose.Document {
     version: number;
     userId: string;
-    price: number;
+    totalAmount: number;
     status: OrderStatus;
 }
 
@@ -30,7 +30,7 @@ const orderSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        price: {
+        totalAmount: {
             type: Number,
             required: true
         },
@@ -56,7 +56,7 @@ orderSchema.statics.build = (attrs: IOrderAttrs) => {
     return new Order({
         _id: attrs.id,
         version: attrs.version,
-        price: attrs.price,
+        price: attrs.totalAmount,
         userId: attrs.userId,
         status: attrs.status
     });

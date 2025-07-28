@@ -8,7 +8,8 @@ const router = express.Router();
 
 /** Cancell order */
 router.delete("/api/orders/:orderId", async (req: Request, res: Response) => {
-  const order = await Order.findById(req.params.orderId).populate('ticket');
+  // const order = await Order.findById(req.params.orderId).populate('ticket');
+  const order = await Order.findById(req.params.orderId);
 
   if (!order) {
     throw new NotFoundError();
