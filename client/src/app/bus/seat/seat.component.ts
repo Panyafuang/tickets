@@ -156,6 +156,8 @@ export class SeatComponent implements OnInit {
     // 3. เรียกใช้ Order Service เพื่อส่งข้อมูลไปยัง Backend
     this._orderService.orderByScheduleId(bookingData).subscribe({
       next: (newOrder) => {
+        console.log('newOrder -> ', newOrder);
+
         this.isLoading = false;
         this.snackBar.open('สร้างรายการจองสำเร็จ!', 'ปิด', { duration: 3000 });
 
@@ -163,6 +165,8 @@ export class SeatComponent implements OnInit {
         this.router.navigate(['/bus/payment', newOrder.id]);
       },
       error: (err) => {
+        console.log("🚀 ~ SeatComponent ~ onSubmit ~ err:", err)
+
         this.isLoading = false; // หยุด loading
         console.error('Failed to create order', err);
 

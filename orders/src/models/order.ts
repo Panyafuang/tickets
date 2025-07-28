@@ -86,8 +86,8 @@ const orderSchema = new mongoose.Schema({
     expiresAt: {
         type: mongoose.Schema.Types.Date
     },
-    ticket: [ticketInfoSchema],
-    totalAmont: {
+    tickets: [ticketInfoSchema],
+    totalAmount: {
         type: Number,
         required: true
     }

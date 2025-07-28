@@ -1,5 +1,5 @@
 import { Listener, IBusReservationCompleteEvent, Subjects } from "@xtptickets/common";
-import { Message, Stan } from "node-nats-streaming";
+import { Message, Stan, SubscriptionOptions } from "node-nats-streaming";
 
 // กำหนด Type ของ Callback function ที่จะรับผลลัพธ์
 type Callback = (result: IBusReservationCompleteEvent['data']) => void;
@@ -14,11 +14,29 @@ export class BusReservationCompleteListener extends Listener<IBusReservationComp
     // ใช้ Queue Group ที่ไม่ซ้ำกัน เพื่อให้ Listener ชั่วคราวนี้ได้รับข้อความแน่นอน
     queueGroupName: string = `orders-service-complete-${new Date().getTime()}`;
     private callback: Callback;
-    subscription: any;
+
+    // --- 1. เพิ่ม Property นี้เข้ามา ---
+    // สร้างตัวแปร isClosed เพื่อติดตามสถานะ
+    private isClosed = false;
 
     constructor(client: Stan, callback: Callback) {
         super(client);
         this.callback = callback;
+    }
+
+    /**
+     * Override subscriptionOptions จาก Base Listener
+     * สำหรับ Listener ชั่วคราว เราไม่ต้องการ Durable Subscription
+     * เราต้องการให้มันเริ่มรับ Event ใหม่ทั้งหมดที่เข้ามาหลังจากที่มันเริ่มฟัง
+     */
+    subscriptionOptions(): SubscriptionOptions {
+        return this.client
+            .subscriptionOptions()
+            .setManualAckMode(true)
+            .setAckWait(this.ackWait)
+            // การกำหนด Durable Name เป็นค่าว่าง คือหัวใจสำคัญ
+            // ที่จะทำให้ Subscription นี้เป็นแบบชั่วคราวและรับเฉพาะ Event ใหม่เท่านั้น
+            .setDurableName('');
     }
 
     async onMessage(data: IBusReservationCompleteEvent['data'], msg: Message) {
@@ -29,7 +47,12 @@ export class BusReservationCompleteListener extends Listener<IBusReservationComp
 
     // Method สำหรับปิดการ Subscribe เมื่อทำงานเสร็จ (สำคัญมาก!)
     close() {
-        this.subscription.close();
-        console.log(`Subscription closed for ${this.queueGroupName}`);
+        // --- 2. แก้ไข Logic ในการปิด ---
+        // ตรวจสอบก่อนว่ายังไม่เคยถูกปิด และ subscription มีอยู่จริง
+        if (!this.isClosed && this.subscription) {
+            this.isClosed = true; // ตั้งค่าสถานะเป็น "ปิดแล้ว" ทันที
+            this.subscription.close();
+            console.log(`Subscription closed for ${this.queueGroupName}`);
+        }
     }
 }

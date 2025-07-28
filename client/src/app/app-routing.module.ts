@@ -87,7 +87,7 @@ const routes: Routes = [
         data: { step: 2 } // <-- กำหนดว่าหน้านี้คือขั้นตอนที่ 2
       },
       {
-        path: 'payment',
+        path: 'payment/:orderId',
         component: PaymentFormComponent, 
         data: { step: 3 }
       }

@@ -35,7 +35,8 @@ import { natsWrapper } from '../../nats-wrapper';
         price: schedule.price,
         routeId: schedule.routeId.toString(),
         departureTime: schedule.departureTime.toISOString(),
-        isCancelled: schedule.isCancelled // ส่งสถานะใหม่ไปด้วย
+        isCancelled: schedule.isCancelled, // ส่งสถานะใหม่ไปด้วย
+        availableSeats: schedule.availableSeats
     });
 
 

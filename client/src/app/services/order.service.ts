@@ -19,6 +19,8 @@ export class OrderService {
   orderByScheduleId(data: { scheduleId: string; tickets: any[]}): Observable<IOrder> {
     // การยิง POST request นี้จะไปกระตุ้น newOrderRouter ใน orders-service
     // ซึ่งจะเริ่มกระบวนการ "ถาม-ตอบ" ผ่าน NATS Events
+    console.log('sendding data -> ', data);
+
     return this.http.post<IOrder>(`/api/orders`, data);
   }
 

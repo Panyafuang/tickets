@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { natsWrapper } from "./nats-wrapper"; // ที่ใช้ natsWrapper แบบ lowerCase เพราะว่าเรา import instance ไม่ใช่ class
 import { app } from "./app";
+import { BusReservationRequestListener } from "./events/listeners/bus-reservation-request-listener";
 
 const start = async () => {
   /** Check env JWT_KEY */
@@ -43,7 +44,9 @@ const start = async () => {
     /**
      * Listening for incomming Events
      */
-
+    // --- 2. สั่งให้ Listener ที่สำคัญเริ่มทำงาน ---
+    // เพิ่มบรรทัดนี้เพื่อให้ Bus Service เริ่ม "ดักฟัง" คำร้องขอจอง
+    new BusReservationRequestListener(natsWrapper.client).listen();
 
     /**
      * Connecting to MongoDB

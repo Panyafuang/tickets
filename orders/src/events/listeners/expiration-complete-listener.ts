@@ -32,13 +32,13 @@ export class ExpirationCompleteListener extends Listener<IExpirationCompleteEven
         /**
          * await just to make sure we wait fot this thing to be published before finally acting or acknowledging the overall message.
          */
-        await new OrderCancelledPublisher(natsWrapper.client).publish({
-            id: order.id,
-                version: order.version,
-                ticket: {
-                    id: order.ticket.id
-                }
-        });
+        // await new OrderCancelledPublisher(natsWrapper.client).publish({
+        //     id: order.id,
+        //         version: order.version,
+        //         ticket: {
+        //             id: order.ticket.id
+        //         }
+        // });
 
         msg.ack();
     }

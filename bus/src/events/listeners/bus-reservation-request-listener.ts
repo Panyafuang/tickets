@@ -25,6 +25,10 @@ export class BusReservationRequestListener extends Listener<IBusReservationReque
                 success: false,
                 errorMessage: 'Not found schedule'
             }
+
+        } else if (!route?.origin || !route?.destination) {
+            console.error('Schedule is missing origin or destination data', schedule);
+            reply = { orderId, success: false, errorMessage: 'ข้อมูลเที่ยวรถไม่สมบูรณ์' };
         } else {
             /** กรณีพบเที่ยวรถ */
             // 1. ตรวจสอบว่าที่นั่งที่ต้องการจองยังว่างอยู่หรือไม่
@@ -50,36 +54,45 @@ export class BusReservationRequestListener extends Listener<IBusReservationReque
                 });
                 // calculate number of availableSeats AND save
                 schedule.availableSeats = schedule.seatLayout.filter(s => s.status === 'available').length;
-                await schedule.save();
+
+                try {
+                    await schedule.save();
+                    console.log("🚀 ~ BusReservationRequestListener ~ onMessage ~ schedule:", schedule)
+                    console.log("route bus-srv findById schedule.routeId: ", route);
+
+                    // 4. สร้าง Snapshot ของ Schedule เพื่อส่งข้อมูลที่ถูกต้องกลับไป
+                    const scheduleSnapshot = {
+                        id: schedule.id,
+                        busId: schedule.busId,
+                        origin: route?.origin,
+                        destination: route?.destination,
+                        price: schedule.price,
+                        departureTime: schedule.departureTime,
+                        version: schedule.version
+                    }
+                    console.log("🚀 ~ BusReservationRequestListener ~ onMessage ~ scheduleSnapshot:", scheduleSnapshot)
+                    reply = {
+                        orderId: orderId,
+                        success: true,
+                        schedule: scheduleSnapshot
+                    }
+
+                    // 5. Publish event แจ้งว่าข้อมูล schedule มีการอัปเดต (ที่นั่งว่างลดลง)
+                    await new BusScheduleUpatedPublisher(natsWrapper.client).publish({
+                        id: schedule.id,
+                        availableSeats: schedule.availableSeats,
+                        version: schedule.version,
+                        departureTime: schedule.departureTime.toISOString(),
+                        routeId: route?.id,
+                        price: schedule.price,
+                        isCancelled: schedule.isCancelled
+                    });
+                } catch (err) {
+                    // ถ้าเกิด VersionError (มีคนจองตัดหน้า) ให้ถือว่าการจองนี้ล้มเหลว
+                    console.error('Concurrency error (VersionError) while saving schedule:', err);
+                    reply = { orderId, success: false, errorMessage: 'ที่นั่งที่ท่านเลือกถูกจองไปแล้ว กรุณาลองใหม่อีกครั้ง' };
+                }
             }
-
-
-            // 4. สร้าง Snapshot ของ Schedule เพื่อส่งข้อมูลที่ถูกต้องกลับไป
-            const scheduleSnapshot = {
-                id: schedule.id,
-                busId: schedule.busId,
-                origin: schedule.origin,
-                destination: schedule.destination,
-                price: schedule.price,
-                departureTime: schedule.departureTime,
-                version: schedule.version
-            }
-            reply = {
-                orderId: orderId,
-                success: true,
-                schedule: scheduleSnapshot
-            }
-
-
-            // 5. Publish event แจ้งว่าข้อมูล schedule มีการอัปเดต (ที่นั่งว่างลดลง)
-            await new BusScheduleUpatedPublisher(natsWrapper.client).publish({
-                id: schedule.id,
-                availableSeats: schedule.availableSeats,
-                version: schedule.version,
-                departureTime: schedule.departureTime.toISOString(),
-                routeId: route?.id,
-                price: schedule.price
-            });
         }
 
 

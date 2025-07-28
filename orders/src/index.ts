@@ -53,7 +53,7 @@ const start = async () => {
     new TicketUpdatedListener(natsWrapper.client).listen();
     new ExpirationCompleteListener(natsWrapper.client).listen();
     new PaymentCreatedLister(natsWrapper.client).listen();
-
+    
     /**
      * Connecting to MongoDB
      * Mongoose internally keeps track of this connection and everything related to it.
