@@ -1,0 +1,7 @@
+.payment-page-container, .loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* จัดให้อยู่บนสุด */
+    padding: 40px 20px;
+    min-height: 80vh;
+}

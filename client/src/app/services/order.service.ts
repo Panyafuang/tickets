@@ -39,9 +39,9 @@ export class OrderService {
   //  * @param orderId ID ของ Order ที่ต้องการดึงข้อมูล
   //  * @returns Observable ที่จะส่งข้อมูล Order ฉบับเต็มกลับมา
   //  */
-  // getOrderDetailById(orderId: string): Observable<IOrder> {
-  //   return this.http.get<IOrder>(`/api/orders/${orderId}`);
-  // }
+  getOrderDetailById(orderId: string): Observable<IOrder> {
+    return this.http.get<IOrder>(`/api/orders/${orderId}`);
+  }
 
 
 
