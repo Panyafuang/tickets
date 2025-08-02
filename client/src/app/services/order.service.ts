@@ -29,9 +29,9 @@ export class OrderService {
    * ใช้สำหรับหน้า "ตั๋วของฉัน" (My Tickets)
    * @returns Observable ที่จะส่ง Array ของ Order ทั้งหมดของผู้ใช้กลับมา
    */
-  // getOrders(): Observable<IOrder[]> {
-  //   return this.http.get<IOrder[]>(`/api/orders/list`);
-  // }
+  getOrders(): Observable<IOrder[]> {
+    return this.http.get<IOrder[]>(`/api/orders`);
+  }
 
   // /**
   //  * ดึงข้อมูลรายละเอียดของ Order เพียงใบเดียวตาม ID

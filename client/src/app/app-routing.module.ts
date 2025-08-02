@@ -88,7 +88,7 @@ const routes: Routes = [
       },
       {
         path: 'payment/:orderId',
-        component: PaymentFormComponent, 
+        component: OrderDetailComponent, 
         data: { step: 3 }
       }
     ]

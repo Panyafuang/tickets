@@ -99,6 +99,23 @@ mat-card-subtitle {
   font-weight: 600;
 }
 
+.ticket-list {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  .status-created {
+    color: #f59e0b; /* amber-500 */
+    font-weight: bold;
+  }
+  .status-complete {
+    color: #10b981; /* emerald-500 */
+    font-weight: bold;
+  }
+  .status-cancelled {
+    color: #ef4444; /* red-500 */
+    font-weight: bold;
+  }
+
 /* Snackbar styles (should be global or in root component CSS) */
 .success-snackbar { background-color: #4CAF50; color: white; }
 .error-snackbar { background-color: #f44336; color: white; }
