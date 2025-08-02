@@ -25,14 +25,46 @@
         </mat-form-field>
 
         <!-- Departure & Arrival Time -->
-        <mat-form-field appearance="outline">
+        <!-- <mat-form-field appearance="outline">
           <mat-label>Departure Time</mat-label>
           <input matInput type="datetime-local" formControlName="departureTime" required>
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Arrival Time</mat-label>
           <input matInput type="datetime-local" formControlName="arrivalTime" required>
+        </mat-form-field> -->
+        <!-- Departure Date -->
+        <mat-form-field appearance="outline">
+          <mat-label>Departure Date</mat-label>
+          <input matInput [matDatepicker]="departurePicker" formControlName="departureDate" required>
+          <mat-datepicker-toggle matSuffix [for]="departurePicker"></mat-datepicker-toggle>
+          <mat-datepicker #departurePicker></mat-datepicker>
         </mat-form-field>
+
+        <!-- Departure Time -->
+        <mat-form-field appearance="outline">
+          <mat-label>Departure Time</mat-label>
+          <input matInput type="time" formControlName="departureTime" required>
+        </mat-form-field>
+
+        <!-- <input [ngxMatTimepicker]="picker">
+        <ngx-mat-timepicker #picker></ngx-mat-timepicker> -->
+
+
+        <!-- Arrival Date -->
+        <mat-form-field appearance="outline">
+          <mat-label>Arrival Date</mat-label>
+          <input matInput [matDatepicker]="arrivalPicker" formControlName="arrivalDate" required>
+          <mat-datepicker-toggle matSuffix [for]="arrivalPicker"></mat-datepicker-toggle>
+          <mat-datepicker #arrivalPicker></mat-datepicker>
+        </mat-form-field>
+
+        <!-- Arrival Time -->
+        <mat-form-field appearance="outline">
+          <mat-label>Arrival Time</mat-label>
+          <input matInput type="time" formControlName="arrivalTime" required>
+        </mat-form-field>
+
 
         <!-- Price -->
         <mat-form-field appearance="outline">

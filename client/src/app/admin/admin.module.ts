@@ -16,13 +16,13 @@ import { ScheduleFormComponent } from './schedule-form/schedule-form.component';
     RouteListComponent,
     RouteFormComponent,
     ScheduleListComponent,
-    ScheduleFormComponent
+    ScheduleFormComponent,
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     MaterialModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+  ],
 })
-export class AdminModule { }
+export class AdminModule {}

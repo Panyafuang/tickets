@@ -162,7 +162,9 @@ export class SeatComponent implements OnInit {
         this.snackBar.open('สร้างรายการจองสำเร็จ!', 'ปิด', { duration: 3000 });
 
         // 4. เมื่อสำเร็จ, นำทางไปยังหน้าชำระเงินพร้อม Order ID
-        this.router.navigate(['/bus/payment', newOrder.id]);
+        // this.router.navigate(['/bus/payment', newOrder.id]);
+        // Redirect to orderDetail
+        this.router.navigate([`/orders/${newOrder.id}`]);
       },
       error: (err) => {
         console.log("🚀 ~ SeatComponent ~ onSubmit ~ err:", err)

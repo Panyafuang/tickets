@@ -18,8 +18,8 @@ export interface IBusSchedule {
   id: string; // Mongoose's _id is transformed to id
   routeId: string;
   busId: string; // ทะเบียนรถ
-  departureTime: Date; // เวลาเดินทาง
-  arrivalTime: Date; // เวลาถึงปลายทาง
+  departureTime: string; // เวลาเดินทาง
+  arrivalTime: string; // เวลาถึงปลายทาง
   price: number;
   totalSeats: number;
   availableSeats: number;

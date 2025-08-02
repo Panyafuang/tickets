@@ -1,11 +1,11 @@
 <!-- แสดง container หลักเมื่อมีข้อมูล order แล้ว, มิฉะนั้นให้แสดง loading spinner -->
 <div class="payment-page-container" *ngIf="order; else loading">
   <!-- เรียกใช้ PaymentFormComponent -->
-  <app-payment-form
+  <!-- <app-payment-form
     [orderId]="order.id"
     [orderPrice]="order.price"
     (paymentCompleted)="onPaymentSuccess($event)"
-  ></app-payment-form>
+  ></app-payment-form> -->
 </div>
 
 <ng-template #loading>

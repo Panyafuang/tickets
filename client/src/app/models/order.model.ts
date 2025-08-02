@@ -7,4 +7,5 @@ export interface IOrder {
     ticket: ITicket;
     version: number;
     id: string;
+    price?: number;
 }

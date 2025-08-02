@@ -87,7 +87,7 @@ router.post('/api/orders/',
         passengerName: t.passengerName,
         price: scheduleSnapshot.price
       }));
-      console.log("🚀 ~ ticketsData:", ticketsData)
+      console.log("🚀 ~ ticketsData:", ticketsData);
 
       order.set({
         status: OrderStatus.Created,

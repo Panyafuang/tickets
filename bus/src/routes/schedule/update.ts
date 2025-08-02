@@ -1,4 +1,5 @@
 import {
+  BadRequestError,
   NotFoundError,
   requireAdmin,
   requireAuth,
@@ -17,8 +18,6 @@ router.put(
   requireAuth,
   requireAdmin,
   [
-    body("routeId").not().isEmpty().withMessage("Route ID is required"),
-    body("busId").not().isEmpty().withMessage("Bus ID is required"),
     body("price")
       .isFloat({ gt: 0 })
       .withMessage("Price must be greater than 0"),
@@ -28,14 +27,10 @@ router.put(
     body("arrivalTime")
       .isISO8601()
       .withMessage("Arrival time must be a valid date"),
-    body("totalSeats")
-      .isInt({ gt: 0 })
-      .withMessage("Total seats must be an integer greater than 0"),
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const { routeId, busId, departureTime, arrivalTime, price, totalSeats } =
-      req.body;
+    const { departureTime, arrivalTime, price, totalSeats } = req.body;
 
     const schedule = await BusSchedule.findById(req.params.id);
 
@@ -43,19 +38,22 @@ router.put(
       throw new NotFoundError();
     }
 
-    const seatLayout = BusSchedule.initializeSeats(totalSeats);
+    // --- ตรวจสอบที่สำคัญ ---
+    // ป้องกันการแก้ไขเที่ยวรถ ในขณะที่กำลังมีคนพยายามจองอยู่
+    const isLocked = schedule.seatLayout.some(seat => seat.status === 'locked');
+    if (isLocked) {
+      throw new BadRequestError('Cannot edit schedule while it has a pending reservation');
+    }
+
 
     // อัปเดตเฉพาะ field ที่อนุญาตให้แก้ได้ เช่น ราคา หรือ เวลา
     schedule.set({
-      routeId: routeId,
-      busId: busId,
       departureTime: departureTime,
       arrivalTime: arrivalTime,
-      price: price,
-      totalSeats: totalSeats,
-      availableSeats: totalSeats,
-      seatLayout: seatLayout,
+      price: price
     });
+    // บันทึกการเปลี่ยนแปลงลงฐานข้อมูล
+    // Mongoose-update-if-current จะจัดการเรื่อง version ให้โดยอัตโนมัติ
     await schedule.save();
 
     // Publish event

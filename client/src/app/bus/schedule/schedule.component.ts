@@ -84,7 +84,7 @@ export class ScheduleComponent implements OnInit {
     this.router.navigate(['/bus/seats', schedule.id]); 
   }
   
-  calculateDuration(start: Date, end: Date): string {
+  calculateDuration(start: string, end: string): string {
     const startDate = new Date(start);
     const endDate = new Date(end);
     const diffMs = endDate.getTime() - startDate.getTime();

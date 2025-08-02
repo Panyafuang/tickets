@@ -34,10 +34,7 @@ export class ScheduleService {
    * @param id ID ของเที่ยวรถที่จะอัปเดต
    * @param scheduleData ข้อมูลที่จะอัปเดต
    */
-  updateSchedule(
-    id: string,
-    scheduleData: Partial<IBusSchedule>
-  ): Observable<IBusSchedule> {
+  updateSchedule(id: string, scheduleData: Partial<IBusSchedule>): Observable<IBusSchedule> {
     return this.http.put<IBusSchedule>(`${this.apiUrl}/${id}`, scheduleData);
   }
 
